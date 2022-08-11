@@ -53,7 +53,7 @@
         <table width="100%" class="mb40">
             <tr>
                 <td width="30%">
-                   <img src="https://api.fqesas.com/storage/images/fqesas/logo.jpg" alt="">              
+                   <img src="https://api.fqesas.com/storage/images/logo.jpg" alt="">              
                 </td>
               
                 <td width="40%" class="taC">
