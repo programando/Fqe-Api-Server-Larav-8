@@ -37,11 +37,11 @@ class DcmntosSprteController extends Controller {
          
         foreach ($Documentos as $Documento ) {
             $this->reportingInformation ( $Documento );
-            return $this->jsonObject;
-            /*$response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
+            //return $this->jsonObject;
+            $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
             $this->traitUpdateJsonObject ( $Documento );
             $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
-            $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );*/
+            $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
             return  $response ;
         }
     }
@@ -57,12 +57,12 @@ class DcmntosSprteController extends Controller {
 
     private function errorResponse ( $response, $IdFactElctrnca) {
         if ( $response['is_valid'] == false ) {
-            $Erors   = $response['errors_messages'] ;
-            foreach ($erors as $Error) {
+            $Errors   = $response['errors_messages'] ;
+            foreach ($Errors as $Error) {
                  $NewError                   = new ErrorResponse ;
                  $NewError->id_fact_elctrnca = $IdFactElctrnca;
                  $NewError->error_message    = $Error;
-                 $NewError->fecha            = $Carbon::now();
+                 $NewError->fecha            = Carbon::now();
                  $NewError->save();
             }
         }
@@ -80,7 +80,7 @@ class DcmntosSprteController extends Controller {
 
    private function jsonObjectCreate ( $DocSoporte, $otherData ) {
         $this->DocSoporteHeaderTrait                ( $DocSoporte                               ,  $this->jsonObject    , $DocSoporte['fcha_dcmnto'] )   ;  
-        $this->DocSoporteResolutionTrait            ( $this->jsonObject                                                                              )   ;  
+        //$this->DocSoporteResolutionTrait            ( $this->jsonObject                                                                              )   ;  
         $this->DocSoporteEnvironmentTrait           ( $this->jsonObject                                                                         )   ;
         $this->traitCustomer                        ( $otherData[0]['customer']                 , $this->jsonObject                             )   ;   
         $this->DocSoporteLegalMonetaryTotalsTrait   ( $otherData[0]['total']                    , $this->jsonObject, 'legal_monetary_totals'    )   ;

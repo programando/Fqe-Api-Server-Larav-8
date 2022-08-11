@@ -25,7 +25,7 @@ trait DocsSoporteTrait {
             'number'            => $Document["number"],
             'type_document_id'  => $Document["type_document_id"],
             'type_operation_id' => $Document["type_operation_id"],
-            // 'resolution_id'    => 11,
+             'resolution_id'    => 4,
             'sync'              => true,
             'date'              => Fecha::YMD( $FechaTransacion) 
             ] ;
@@ -33,21 +33,21 @@ trait DocsSoporteTrait {
 
     protected function DocSoporteEnvironmentTrait ( &$jsonObject ) {
         $jsonObject['environment']=[
-                'type_environment_id' => '2',                                      // 1 producction,   2 habilitacion o pruebas
+                'type_environment_id' => '1',                                      // 1 producction,   2 habilitacion o pruebas
         ]; 
     }
 
     protected function DocSoporteResolutionTrait ( &$jsonObject ) {
          
         $jsonObject['resolution']=[
-                'prefix'          => 'SETP',                                   
+                'prefix'          => 'SEDS',                                   
                 'resolution'      => '18760000001',                            
-                'resolution_date' => '0001-01-01',                               
+                'resolution_date' => '2022-01-01',                               
                 'technical_key'   => 'fc8eac422eba16e22ffd8c6f94b3f40a6e38162c',   
-                'from'            => '990000000',                              
-                'to'              => '995000000',                              
-                'date_from'       => '2019-01-19',                               
-                'date_to'         => '2030-01-19',                               
+                'from'            => '984000000',                              
+                'to'              => '985000000',                              
+                'date_from'       => '2022-01-01',                               
+                'date_to'         => '2022-12-31',                               
         ]; 
     }
 
