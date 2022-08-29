@@ -83,7 +83,7 @@ class DcmntosSprteController extends Controller {
         //$this->DocSoporteResolutionTrait            ( $this->jsonObject                                                                                            )   ;  
         $this->DocSoporteEnvironmentTrait           ( $this->jsonObject                                                                                              )   ;
         $this->traitCustomer                        ( $otherData[0]['customer']                 , $this->jsonObject                                                  )   ;  
-        $this->DocSoporteWithHoldingTaxTotalsTrait  ( $otherData[0]['docsSoporteRetenciones']   , $this->jsonObject , 'withholding_tax_totals'                       )   ;  
+        //$this->DocSoporteWithHoldingTaxTotalsTrait  ( $otherData[0]['docsSoporteRetenciones']   , $this->jsonObject , 'withholding_tax_totals'                       )   ;  
         $this->DocSoporteLegalMonetaryTotalsTrait   ( $otherData[0]['total']                    , $this->jsonObject, 'legal_monetary_totals'                         )   ;
         $this->DocSoporteInvoiceLinesTrait          ( $otherData[0]['products']                 , $this->jsonObject, 'invoice_lines' , $DocSoporte['fcha_dcmnto']    )   ; 
    }
