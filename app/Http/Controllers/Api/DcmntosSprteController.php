@@ -42,7 +42,6 @@ class DcmntosSprteController extends Controller {
             $this->traitUpdateJsonObject ( $Documento );
             $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
             $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
-            return  $response ;
         }
     }
 
