@@ -19,7 +19,12 @@ class FctrasElctrncasEventsController extends Controller
     private $jsonObject = [] , $jsonResponse = []; 
 
     public function getFacturasProveedores() {
-        return FctrasElctrncasPrvdre::orderBy('fecha')->get();
+        return FctrasElctrncasPrvdre::orderBy('fecha')
+        ->where('acuse_030','0')
+        ->where('rechazo_031','0')
+        ->orWhere('recibo_032','0')
+        ->orWhere('aceptacion_033','0')
+        ->get();
     }
 
 
