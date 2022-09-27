@@ -48,6 +48,7 @@ class NominaElctrncaController extends Controller
                   //return $this->jsonObject;
                   $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject, $requestNomina ) ;  
                   $this->documentsProcessReponse( $Empleado['id_nomina_elctrnca'], $response ) ;
+                  //return $response;
               }
              // Informa a empresa repote de nómina 
              if ( $Empleados ) {
@@ -59,13 +60,13 @@ class NominaElctrncaController extends Controller
               $this->jsonObject['sync'] = true;
               $this->traitEnvironment            ( $this->jsonObject                                             ) ;
               $payroll_reference =[
-                            "number"     => "NOM314",
-                            "uuid"       => "c3b4ea68246f416fa0deb9683f30901c038192a3ac5cbd9dab686608ceb869e607500d5806232c5d186144a9fdad9d87",
+                            "number"     => "NOM427",
+                            "uuid"       => "74381d002b6475bf65d518f3889c025c863c8dcbf5ea2f305666b0a5d56d7dbeb75359de3a00731a9b382a3738473af4",
                             "issue_date" => "2021-10-14"
               ];
               $xml_sequence_number =[
                             "prefix"=> "NOM",
-                            "number"=>45
+                            "number"=>455
               ];
               $general_information =["payroll_period_id"=> "5",  ];    
                      
@@ -74,7 +75,7 @@ class NominaElctrncaController extends Controller
               $this->jsonObject['xml_sequence_number']  = $xml_sequence_number;
               $this->jsonObject['general_information']  = $general_information;
               $this->traitEmployer               ( $this->jsonObject                                             ) ;
-              $URL                 = 'payroll/103/845ee3d1-c109-45b5-8cc1-96968c97d7a4'  ;
+              $URL                 = 'payroll/103'  ;
               $requestNomina       = true ;
               $response            = $this->ApiSoenac->postRequest( $URL, $this->jsonObject, $requestNomina ) ; 
               return  $response  ;

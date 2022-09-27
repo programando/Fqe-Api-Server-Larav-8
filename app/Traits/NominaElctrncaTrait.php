@@ -25,11 +25,11 @@ trait NominaElctrncaTrait {
     protected function traitEnvironment ( &$jsonObject ) {
        $jsonObject['environment']=[
          'type_environment_id' => '1',                                      // 1 producction,   2 habilitacion o pruebas
-         'id'                  => 'a21164d4-4ebb-45f6-a1fc-2562c51f5e8a',   // identitication
-         'pin'                 => '55214',                                  // pin
+         'id'                  => '194dbae6-6786-4ffc-8e0b-9679d9ae4697',   // identitication
+         'pin'                 => '31885',                                  // pin
        ]; 
     }
-// 56a385de-6d08-4a67-98d7-d0c9d265c3ca
+ 
     protected function traitXmlProvider ( &$jsonObject ) {
        $jsonObject['xml_provider']=[
          'name' => 'F.Q.E. S.A.S.',                                     
@@ -44,7 +44,7 @@ trait NominaElctrncaTrait {
     }
    protected function traitEmployer(  &$jsonObject ) {
        $jsonObject['employer']=[
-                  'identification_number' => '900755214',
+                  'identification_number' => '901615644',
                   'municipality_id'       => '1006',              //CALI
                   'address'               => 'CALLE 35 4 31',
        ];
