@@ -2,15 +2,16 @@
 
 namespace App\Traits;
  
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\FctrasElctrnca;
-use App\Models\FctrasElctrncasDataResponse;
-use App\Models\FctrasElctrncasSoportDocumentResponse as DocSoporteResponse;
-
 use Illuminate\Support\Facades\Hash;
+
 use App\Helpers\DatesHelper as Fecha;
 use App\Helpers\NumbersHelper as Numbers;
 use App\Helpers\StringsHelper as Strings;
+use App\Models\FctrasElctrncasDataResponse;
+use App\Models\FctrasElctrncasSoportDocumentResponse as DocSoporteResponse;
 
 
 
@@ -30,6 +31,29 @@ trait DocsSoporteTrait {
             'date'              => Fecha::YMD( $FechaTransacion) 
             ] ;
         }
+
+    protected function DocNotaSoporteHeaderTrait($Document , &$jsonObject, $Anulados  ) {
+        $discrepancy_response = array('discrepancy_response' => 2);
+        $number = array (
+            'number'            => $Document["number"],
+            'type_document_id'  => $Document["type_document_id"],
+            'sync'              => true,    
+            'discrepancy_response' => $discrepancy_response 
+        );
+
+            $jsonObject = $number;
+    }
+
+    protected function DocNotaSoporteDiscrepancyTrait($Document , &$jsonObject, $FechaTransacion, $Anulados  ) {      
+ 
+         $jsonObject['billing_reference']= [
+            'number'            => trim($Anulados["prfjo_dcmnto"]).trim($Anulados["nro_dcmnto"] ),
+            'uuid'              => $Anulados["uuid"],
+            'issue_date'        => Fecha::YMD( Carbon::now()) 
+            ] ;
+
+        }
+
 
     protected function DocSoporteEnvironmentTrait ( &$jsonObject ) {
         $jsonObject['environment']=[

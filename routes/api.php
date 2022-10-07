@@ -12,7 +12,8 @@ use Illuminate\Http\Request;
 // DOCUMENTO SOPORTE
 Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {
     $localController = 'DcmntosSprteController@';
-    Route:: get('/reporte/dian'          , $localController.'documentosSoporte');
+    Route::get('/reporte/dian'          , $localController.'documentosSoporte');
+    Route::post('/notas/credito'          , $localController.'documentosSoporteNotaCredito');
 });
 
  

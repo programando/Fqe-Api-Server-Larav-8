@@ -112,11 +112,11 @@ class FctrasElctrnca extends Model
 			return $this->hasMany(FctrasElctrncasSoportDocumentResponse::class, 'id_fact_elctrnca');
 		}
 
+		public function dcmntos_sprte_anulados() {
+			return $this->hasOne(DcmntosSprteAnulado::class, 'id_fact_elctrnca');
+		}
 
-
-/* 			public function charges() {
-			return $this->hasOne(FctrasElctrncasAllowanceCharges::class, 'id_fact_elctrnca');
-		} */
+ 
 
 
  
@@ -136,9 +136,16 @@ class FctrasElctrnca extends Model
 			}
 
 			public function scopeDocumentosSoporteToSend ( $query ){
-				return $query->Where('rspnse_dian','0')->where('type_document_id',  array('12','13'))->get(); // Documentos soporte
+				return $query->Where('rspnse_dian','0')->where('type_document_id',  array('12'))->get(); // Documentos soporte
 			}
-			
+
+			public function scopeDocumentosSoporteNotasToSend ( $query ){
+				return $query->Where('rspnse_dian','0')->where('type_document_id',  array('13'))->get(); // Documentos soporte
+			}
+
+
+ 
+
 		// ACCESORS
 		//=========
 			public function getDocumentNumberAttribute( $value ){
