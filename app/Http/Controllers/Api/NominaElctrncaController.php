@@ -45,7 +45,6 @@ class NominaElctrncaController extends Controller
               
               foreach ($Empleados as $Empleado ) {
                   $this->reportingInformation ( $Empleado );
-                  //return $this->jsonObject;
                   $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject, $requestNomina ) ;  
                   $this->documentsProcessReponse( $Empleado['id_nomina_elctrnca'], $response ) ;
                   //return $response;
