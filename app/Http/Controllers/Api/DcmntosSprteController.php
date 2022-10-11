@@ -107,7 +107,11 @@ class DcmntosSprteController extends Controller {
         $this->DocSoporteEnvironmentTrait           ( $this->jsonObject                                                                                              )   ;
         $this->traitCustomer                        ( $otherData[0]['customer']                 , $this->jsonObject                                                  )   ;  
         $this->DocSoporteLegalMonetaryTotalsTrait   ( $otherData[0]['total']                    , $this->jsonObject, 'legal_monetary_totals'                         )   ;
-        $this->DocSoporteInvoiceLinesTrait          ( $otherData[0]['products']                 , $this->jsonObject, 'invoice_lines' , $DocSoporte['fcha_dcmnto']    )   ; 
+        if ( $isCreditNote === false ) {
+            $this->DocSoporteInvoiceLinesTrait          ( $otherData[0]['products']                 , $this->jsonObject, 'invoice_lines' , $DocSoporte['fcha_dcmnto']    )   ; 
+        }else{      
+            $this->DocSoporteInvoiceLinesTrait          ( $otherData[0]['products']                 , $this->jsonObject, 'credit_note_lines' , $DocSoporte['fcha_dcmnto']    )   ; 
+        }
    }
 
 
