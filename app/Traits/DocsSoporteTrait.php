@@ -26,19 +26,20 @@ trait DocsSoporteTrait {
             'number'            => $Document["number"],
             'type_document_id'  => $Document["type_document_id"],
             'type_operation_id' => $Document["type_operation_id"],
-             'resolution_id'    => 4,
+            'resolution_id'     => 4,
             'sync'              => true,
-            'date'              => Fecha::YMD( $FechaTransacion) 
+            'date'              => Fecha::YMD( $FechaTransacion)
             ] ;
         }
 
     protected function DocNotaSoporteHeaderTrait($Document , &$jsonObject, $Anulados  ) {
         $discrepancy_response = array('discrepancy_response' => 2);
         $number = array (
-            'number'            => $Document["number"],
-            'type_document_id'  => $Document["type_document_id"],
-            'sync'              => true,    
-            'discrepancy_response' => $discrepancy_response 
+            'number'               => $Document["number"],
+            'type_document_id'     => $Document["type_document_id"],
+            'sync'                 => true,
+            'resolution_id'        => 4,
+            'discrepancy_response' => $discrepancy_response
         );
 
             $jsonObject = $number;
