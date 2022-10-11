@@ -35,11 +35,12 @@ class DcmntosSprteController extends Controller {
     public function documentosSoporteNotaCredito ( ) {
         $isCreditNote = true;
         $URL        = 'note-document-support' ;
-        $Documentos = FctrasElctrnca::DocumentosSoporteNotasToSend();  /// Notas c´redito o documentos de anulación
+        $Documentos = FctrasElctrnca::DocumentosSoporteNotasToSend();  /// Notas crédito o documentos de anulación
         
 
         foreach ($Documentos as $Documento ) {
             $this->reportingInformation ( $Documento, $isCreditNote  );
+            return $this->jsonObject;
             $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
             $this->traitUpdateJsonObject ( $Documento );
             $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
@@ -60,6 +61,7 @@ class DcmntosSprteController extends Controller {
             $this->traitUpdateJsonObject ( $Documento );
             $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
             $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
+
         }
     }
 
