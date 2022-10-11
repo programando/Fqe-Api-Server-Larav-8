@@ -33,14 +33,14 @@ trait DocsSoporteTrait {
         }
 
     protected function DocNotaSoporteHeaderTrait($Document , &$jsonObject, $Anulados  ) {
-        $discrepancy_response = array('discrepancy_response' => 2);
+        $discrepancy_response = array('correction_concept_id' => 2);
         $number = array (
             'number'               => $Document["number"],
             'type_operation_id'    => $Document["type_operation_id"],
             'type_document_id'     => $Document["type_document_id"],
             'sync'                 => true,
             'resolution_id'        => 7,
-            'correction_concept_id' => $discrepancy_response
+            'discrepancy_response' => $discrepancy_response
         );
 
             $jsonObject = $number;
