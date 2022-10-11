@@ -36,6 +36,7 @@ trait DocsSoporteTrait {
         $discrepancy_response = array('discrepancy_response' => 2);
         $number = array (
             'number'               => $Document["number"],
+            'type_operation_id'    => $Document["type_operation_id"],
             'type_document_id'     => $Document["type_document_id"],
             'sync'                 => true,
             'resolution_id'        => 4,
