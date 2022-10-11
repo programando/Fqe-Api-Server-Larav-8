@@ -39,10 +39,8 @@ class DcmntosSprteController extends Controller {
         
 
         foreach ($Documentos as $Documento ) {
-            $this->reportingInformation ( $Documento, $isCreditNote  );
-             
-            $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
-           
+            $this->reportingInformation ( $Documento, $isCreditNote  );       
+            $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;            
             $this->traitUpdateJsonObject ( $Documento );
             $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
             $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );

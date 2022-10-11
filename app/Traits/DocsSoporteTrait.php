@@ -39,7 +39,7 @@ trait DocsSoporteTrait {
             'type_operation_id'    => $Document["type_operation_id"],
             'type_document_id'     => $Document["type_document_id"],
             'sync'                 => true,
-            'resolution_id'        => 4,
+            'resolution_id'        => 7,
             'discrepancy_response' => $discrepancy_response
         );
 
