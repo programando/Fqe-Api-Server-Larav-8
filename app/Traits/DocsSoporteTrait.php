@@ -40,7 +40,7 @@ trait DocsSoporteTrait {
             'type_document_id'     => $Document["type_document_id"],
             'sync'                 => true,
             'resolution_id'        => 7,
-            'discrepancy_response' => $discrepancy_response
+            'correction_concept_id' => $discrepancy_response
         );
 
             $jsonObject = $number;
