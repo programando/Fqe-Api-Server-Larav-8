@@ -2,23 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Traits\ApiSoenac;
+use App\Http\Controllers\ApiController;
 
-use App\Traits\PdfsTrait;
-use App\Traits\QrCodeTrait;
+
+use App\Events\InvoiceEventAcptcionTctaCstmerSndEmaiEvent;
+use App\Events\InvoiceEventsReportEvent;
+use App\Events\InvoiceWasCreatedEvent;
+use App\Events\InvoiceWasCreatedEventEmailCopy;
+
 use App\Helpers\DatesHelper;
-use Illuminate\Http\Request;
-
 use App\Helpers\GeneralHelper  ;
+
+
+use App\Http\Controllers\Api\FctrasElctrncasEventsController;
 use App\Models\FctrasElctrnca   ;
 use App\Models\FctrasElctrncasDataResponse as DataResponse ;   ;
-
-use App\Traits\FctrasElctrncasTrait;
 use App\Models\FctrasElctrncasMcipio;
- 
-use App\Events\InvoiceWasCreatedEvent;
-use App\Http\Controllers\ApiController;
-use App\Events\InvoiceWasCreatedEventEmailCopy;
+
+use App\Traits\ApiSoenac;
+use App\Traits\FctrasElctrncasEventsTrait;
+use App\Traits\FctrasElctrncasTrait;
+use App\Traits\PdfsTrait;
+use App\Traits\QrCodeTrait;
+use Illuminate\Http\Request;
 
 Use Storage;
 Use Carbon;
@@ -26,10 +32,106 @@ use config;
 
 class FctrasElctrncasInvoicesController  
 {
-   use FctrasElctrncasTrait, ApiSoenac, QrCodeTrait, PdfsTrait;
+   use FctrasElctrncasTrait, ApiSoenac, QrCodeTrait, PdfsTrait, FctrasElctrncasEventsTrait;
 
    private $jsonObject = [] , $jsonResponse = [];
   
+
+       public function  InvoicesGestionEventos ( ) {
+          
+        $Facturas = $this->InvoicesEventosConsultaGetData () ;
+            //$this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+            //InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
+            // $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+
+            // VERFICAR            
+                // ACEPTACION TÁCITA 
+                        //  INFORMAR AL USUARIO Y A CONTABILIDAD
+                // EVENTOS COMPLETOS, RECHAZADA O TACITA
+                        // MARCAR FACTURA COMO INFORMADA 
+           
+           
+        }
+
+        private function InvoicesGestionEventosSetAceptactionTacita ($Facturas) {
+                foreach( $Facturas as $Factura ) {
+                    if ( $Factura['acptcion_tcta'] === 'SI' ) {
+                        $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
+                        $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']              ) ;    // GENERAR EVENTO Trait       
+                        $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar                  ) ;    //  MARCAR FACURA
+                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar  ) ;    //  ENVIAR CORREO
+                    }
+                }
+        }
+
+ 
+        private function facturaSetAceptacionTacita ( $Factura ) {
+            $Factura->dcment_acptcion      = 1;
+            $Factura->note_dcment_acptcion = 'EXPR';
+            $Factura->fcha_dcment_acptcion = Carbon::now();
+            $Factura->save();
+        }
+
+        private function InvoiceGestionEventosCodificacion ( &$Facturas) {       
+                $PosI = 0;
+                foreach ($Facturas as $Evento  ) { 
+                    foreach ($Evento['events'] as $ResponsesCodes ) {
+                        $CodEvento = trim($ResponsesCodes['response_code']);
+                        if ($CodEvento ==='030' ) $Facturas[$PosI]['response_code_030'] = 'Ok';
+                        if ($CodEvento ==='031' ) $Facturas[$PosI]['response_code_031'] = 'RECHAZADA';
+                        if ($CodEvento ==='032' ) $Facturas[$PosI]['response_code_032'] = 'Ok';
+                        if ($CodEvento ==='033' ) $Facturas[$PosI]['response_code_033'] = 'Ok';
+                        if ($CodEvento ==='034' ) $Facturas[$PosI]['response_code_034'] = 'Ok';
+                    }
+                    $PosI++;
+                };
+                return $Facturas;
+            }
+
+        
+
+        private function InvoicesEventosConsultaGetData () {
+            $ResponseEvents = [];
+            $Hoy = Carbon::now()->format('Y-m-d h:m:s'); 
+
+            $Documentos = FctrasElctrnca::InvoicesPendientesAceptacionExpresa(); 
+
+            $this->traitPendientesAceptacionExpresaSetEnvironment ($this->jsonResponse);
+             
+            foreach($Documentos as $Factura )  {
+                $URL          = 'status/events/'.$Factura['uuid'] ;
+                $response     = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ; 
+                $data=[
+                    "id_fact_elctrnca"     => $Factura['id_fact_elctrnca'],
+                    "prfjo_dcmnto"         => $Factura['prfjo_dcmnto'],
+                    "nro_dcmnto"           => $Factura['nro_dcmnto'],
+                    "fcha_dcmnto"          => $Factura['fcha_dcmnto'],
+                    "fcha_acptcion_exprsa" => $Factura['fcha_acptcion_exprsa'],
+                    "acptcion_tcta"        => $Hoy > $Factura['fcha_acptcion_exprsa'] ? "SI" : "NO",
+                    "rechazada"            => "NO",
+                    "uuid"                 => $Factura['uuid'],
+                    "name"                 => $Factura['customer']['name'],
+                    "is_valid"             => $response['is_valid'],
+                    "status_code"          => $response['status_code'],
+                    "error_messages"       => $response['error_messages'],
+                    "status_message"       => $response['status_message'],
+                    "status_description"   => $response['status_description'],
+                    "response_code_030"    => '',                                             //acuse de recibo de factura electrónica de venta.
+                    "response_code_031"    => '',                                             //reclamo de la factura electrónica de venta
+                    "response_code_032"    => '',                                             //recibo del bien y/o prestación del servicio.
+                    "response_code_033"    => '',                                             //aceptación expresa
+                    "response_code_034"    => '',                                             //aceptación tácita.
+                    "events"               => $response['events'],
+                    
+                ];
+               array_push ( $ResponseEvents,$data);               
+            }
+            return $ResponseEvents;
+        }
+
+
+
+
         public function sentInvoicesLogs (Request $FormData) {
             $prfjo_dcmnto = trim( $FormData->prfjo_dcmnto);
             $nro_dcmnto   = $FormData->nro_dcmnto;

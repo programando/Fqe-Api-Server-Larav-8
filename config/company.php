@@ -8,11 +8,12 @@
       'EMPRESA'                 => 'F.Q.E. S.A.S.',
       'NIT'                     => '901.615.644-1',
       'DIRECCION'               => 'CALLE 35 # 4 - 31',
-      'EMAIL_SISTEMAS'          => env('EMAIL_SISTEMAS'),
       'APP_URL_CLIENT'          => env('APP_URL_CLIENT'),
-      'URL_USER_PASSWORD_RESET' => env('URL_USER_PASSWORD_RESET'),
+      'EMAIL_AUXCONTABLE'      => env('EMAIL_AUXCONTABLE'),
+      'EMAIL_CONTABILIDAD'      => env('EMAIL_CONTABILIDAD'),
       'EMAIL_DOCS_ELECTRONICOS' => env('MAIL_USERNAME'),
-      'EMAIL_CONTABILIDAD'      => env('EMAIL_CONTABILIDAD')
+      'EMAIL_SISTEMAS'          => env('EMAIL_SISTEMAS'),
+      'URL_USER_PASSWORD_RESET' => env('URL_USER_PASSWORD_RESET'),
       
     ];
 ?>

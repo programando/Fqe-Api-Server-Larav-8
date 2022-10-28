@@ -140,9 +140,16 @@ class FctrasElctrnca extends Model
 			}
 
 			public function scopeDocumentosSoporteNotasToSend ( $query ){
-				return $query->Where('rspnse_dian','0')->where('type_document_id',  array('13'))->get(); // Documentos soporte
+				return $query->Where('rspnse_dian','0')->where('type_document_id',  array('13'))->get(); // Documentos soporte - notas crédito
 			}
 
+			public function scopeInvoicesPendientesAceptacionExpresa ( $query ){
+				return $query->with('customer')
+							->Where('dcment_acptcion','0')
+							->where('type_document_id', '1')
+							->whereNotNull('uuid')
+							->take(2)->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto', 'fcha_acptcion','fcha_acptcion_exprsa']); // Facturas
+			}
 
  
 

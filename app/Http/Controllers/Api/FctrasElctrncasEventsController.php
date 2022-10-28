@@ -16,7 +16,7 @@ use Carbon;
 class FctrasElctrncasEventsController extends Controller
 {
     use FctrasElctrncasTrait, ApiSoenac ;
-    private $jsonObject = [] , $jsonResponse = []; 
+    private $jsonObject = []  ; 
 
     public function getFacturasProveedores() {
         return FctrasElctrncasPrvdre::orderBy('fecha')
@@ -89,6 +89,20 @@ class FctrasElctrncasEventsController extends Controller
         return   $response ;
     }
 
+    public function aceptacionTacitaFacturaVenta( $UUID) {
+        /*$response = '';
+        $partUrl  = 'event/034';
+        $Number   = FctrasElctrncasEvent::maxId();
+        $this->getJsonAcuse ( $FormData->uuid, $Number  ) ;
+        $response        = $this->ApiSoenac->postRequest( $partUrl, $this->jsonObject ) ;
+        $isValidResponse = $this->processEventResponse ( $response, $FormData->uuid, '034'  );
+
+        $this->eventUpdate('034',$FormData->uuid  );
+        return   $response ;*/
+        return '034 ' . $UUID;
+    }
+
+
     public function allEvents( request $FormData) {
         $this->acuseRecibo        ( $FormData );
         $this->reciboBienServicio ( $FormData );
@@ -109,7 +123,7 @@ class FctrasElctrncasEventsController extends Controller
        if ( array_key_exists('is_valid',$response) && $response['is_valid'] == true) {
             $this->saveNewResponse   ( $response, $UUID,$CodeEvent );
         } else {
-            return "eeror";
+            return "error";
         }
     }
 

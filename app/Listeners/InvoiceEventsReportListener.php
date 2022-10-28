@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Listeners;
+
+use App\Mail\InvoiceEventsReport;
+use Illuminate\Support\Facades\Mail;
+use App\Events\InvoiceEventsReportEvent;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class InvoiceEventsReportListener
+{
+     
+   
+    public function handle(InvoiceEventsReportEvent $event)
+    {
+         Mail::to( config('company.EMAIL_CONTABILIDAD'))
+        ->cc( config('company.EMAIL_AUXCONTABLE') )
+        ->queue(   new InvoiceEventsReportMail ($event->Factura ));      
+    }
+
+}
+

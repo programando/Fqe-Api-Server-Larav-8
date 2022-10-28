@@ -15,11 +15,7 @@ class InvoiceWasCreatedEventEmailCopy
 {
     use Dispatchable,  SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
+ 
     public $Factura, $FileXml, $FilePdf, $PathPdf, $PathXml, $ZipPathFile, $ZipFile ;
  
     public function __construct( $Factura )  {

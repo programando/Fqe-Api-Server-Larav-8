@@ -96,6 +96,7 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: get('accepted/{id}'              , $localController.'invoiceAccepted');
         Route:: get('rejected/{id}'              , $localController.'invoiceRejected');
         Route:: post('logs'                      , $localController.'sentInvoicesLogs');
+        Route:: post('eventos/gestion'          , $localController.'InvoicesGestionEventos');
     });
  
 

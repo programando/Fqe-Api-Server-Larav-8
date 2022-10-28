@@ -66,6 +66,14 @@ trait FctrasElctrncasTrait {
                 ] ;
       }
 
+
+      protected function traitPendientesAceptacionExpresaSetEnvironment (&$jsonObject ) {      
+        $Environment = [
+            'type_environment_id' => '1', 
+            ] ;
+        $jsonObject['environment'] = $Environment ;
+  }
+
         protected function traitCustomer( $Customer, &$jsonObject  ) {
             if ( trim( $Customer['identification_number'] ) ==='123') {  
                 unset($jsonObject );
