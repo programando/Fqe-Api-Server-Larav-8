@@ -12,7 +12,7 @@
       td,th,div,p,a,h1,h2,h4,h4,h5,h6 {font-family: "Segoe UI", sans-serif; mso-line-height-rule: exactly;}
     </style>
   <![endif]-->
-    <title>Cripack - Despachos TCC</title>
+    <title>FQE - SAS - Eventos facturas</title>
 </head>
 <body style="font-size: 12px; margin: 0; padding: 0; width: 100%; word-break: break-word; -webkit-font-smoothing: antialiased; background-color: #fff;">
  

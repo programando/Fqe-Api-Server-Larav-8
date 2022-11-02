@@ -2,30 +2,23 @@
 
 namespace App\Listeners;
 
-use App\Events\InvoiceEventAcptcionTctaCstmerSndEmaiEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Mail\InvoiceEventAcptcionTctaCstmerSndEmailMail;
+use App\Events\InvoiceEventAcptcionTctaCstmerSndEmaiEvent;
 
 class InvoiceEventAcptcionTctaCstmerSndEmaiListener
 {
-    /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Handle the event.
-     *
-     * @param  \App\Events\InvoiceEventAcptcionTctaCstmerSndEmaiEvent  $event
-     * @return void
-     */
+ 
     public function handle(InvoiceEventAcptcionTctaCstmerSndEmaiEvent $event)
     {
-        //
+        $Emails         =   $event->FctraAcptdaTctmnte['emails']->unique('email')  ;    
+        $when           = now()->addSeconds(15);
+        Mail::to( $Emails )
+        ->cc( config('company.EMAIL_CONTABILIDAD'))
+        ->cc( config('company.EMAIL_AUXCONTABLE') )
+        ->queue(    new InvoiceEventAcptcionTctaCstmerSndEmailMail ($event->FctraAcptdaTctmnte ));  
+  
     }
 }

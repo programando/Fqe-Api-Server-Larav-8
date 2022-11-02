@@ -14,23 +14,11 @@ class InvoiceEventAcptcionTctaCstmerSndEmaiEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $FctraAcptdaTctmnte;
+    public function __construct( $Factura )
     {
-        //
+        $this->FctraAcptdaTctmnte = $Factura ;
     }
 
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
-    }
+
 }

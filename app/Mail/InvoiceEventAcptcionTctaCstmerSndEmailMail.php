@@ -10,24 +10,19 @@ use Illuminate\Queue\SerializesModels;
 class InvoiceEventAcptcionTctaCstmerSndEmailMail extends Mailable
 {
     use Queueable, SerializesModels;
-
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public $NumeroFactura, $Prefijo, $UrlConsultaEvento;
+    public function __construct( $Factura)
     {
-        //
+        $this->NumeroFactura     = $Factura['number'];
+        $this->Prefijo           = $Factura['prfjo_dcmnto'];
+        $this->UrlConsultaEvento = config('company.DOCUMENTO_URL_CONSULTA_CUFE') .$Factura['uuid'];
+             
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
-        return $this->view('view.name');
+        return $this->view('mails.invoices.InvoicesEventsAceptacionTacita')
+        ->from( config('company.EMAIL_SISTEMAS') )
+        ->subject('FQE-SAS - Aceptación tácita factura de venta') ; 
     }
 }

@@ -42,7 +42,7 @@ class FctrasElctrncasInvoicesController
         $Facturas = $this->InvoicesEventosConsultaGetData () ;
             //$this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
             //InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-            // $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+             $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
 
             // VERFICAR            
                 // ACEPTACION TÁCITA 
@@ -57,8 +57,8 @@ class FctrasElctrncasInvoicesController
                 foreach( $Facturas as $Factura ) {
                     if ( $Factura['acptcion_tcta'] === 'SI' ) {
                         $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
-                        $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']              ) ;    // GENERAR EVENTO Trait       
-                        $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar                  ) ;    //  MARCAR FACURA
+                       //  $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']              ) ;    // GENERAR EVENTO Trait       
+                        // $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar                  ) ;    //  MARCAR FACURA
                         InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar  ) ;    //  ENVIAR CORREO
                     }
                 }
