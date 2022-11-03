@@ -18,6 +18,7 @@ class InvoiceEventAcptcionTctaCstmerSndEmaiListener
         Mail::to( $Emails )
         ->cc( config('company.EMAIL_CONTABILIDAD'))
         ->cc( config('company.EMAIL_AUXCONTABLE') )
+        ->cc( config('company.EMAIL_SISTEMAS') )
         ->queue(    new InvoiceEventAcptcionTctaCstmerSndEmailMail ($event->FctraAcptdaTctmnte ));  
   
     }
