@@ -2,8 +2,9 @@
 
 namespace App\Listeners;
 
-use App\Mail\InvoiceEventsReport;
+
 use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceEventsReportMail;
 use App\Events\InvoiceEventsReportEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
