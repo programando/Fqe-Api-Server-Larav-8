@@ -2,24 +2,30 @@
 
 namespace App\Traits;
 
-use App\Traits\ApiSoenac;
-use App\Models\FctrasElctrncasEvent   ;
 use Carbon;
+use App\Traits\ApiSoenac;
+use App\Models\FctrasElctrnca   ;
+
+use App\Models\FctrasElctrncasPrvdre;
+use App\Models\FctrasElctrncasEvent   ;
+
 trait FctrasElctrncasEventsTrait {
       use ApiSoenac;
       private $jsonObject = [] ;
 
-  public function FacturaEnviarEventoDian( $CodEven='', $UUID='') {
+  public function FacturaEnviarEventoDian( $CodEven='', $UUID='', $EsFacturaCliente = true ) {
       $response = '';
       $partUrl  = 'event/'.$CodEven;
       $Number   = FctrasElctrncasEvent::maxId();
       $this->getJsonAcuse ( $UUID, $Number  ) ;
- 
+      return $this->jsonObject ;
       $response        = $this->ApiSoenac->postRequest( $partUrl, $this->jsonObject ) ;
-      $isValidResponse = $this->processEventResponse ( $response, $UUID, $CodEven  );
 
-      $this->eventUpdate($CodEven,$UUID );
-      return   $response ; 
+      if ( $EsFacturaCliente  === false ) {                               //TODO -> SOLO PARA FACTURAS DE PROVEEDOR
+        $this->processEventResponse ( $response, $UUID, $CodEven  );
+        $this->eventUpdate($CodEven,$UUID, $EsFacturaCliente  );
+      }
+     return  $response ; 
  
     }
 
@@ -35,7 +41,7 @@ trait FctrasElctrncasEventsTrait {
 
    private function saveNewResponse ( $response, $UUIDDoc, $CodeEvent) {    
       $FctrasElctrncasEvent                        = new FctrasElctrncasEvent;
-      $FctrasElctrncasEvent->fcha_rgstro           = Carbon::now(); ;
+      $FctrasElctrncasEvent->fcha_rgstro           = Carbon::now();  
       $FctrasElctrncasEvent->event_code            = $CodeEvent;
       $FctrasElctrncasEvent->event_expedition_date = $response['expedition_date'] ;
       $FctrasElctrncasEvent->event_status_message  = $response['status_message'] ;
@@ -45,7 +51,7 @@ trait FctrasElctrncasEventsTrait {
    }
 
     private function getJsonAcuse( $UUID, $Number ) {
-      $notes[] = ['text'=> 'notas']  ;
+      $notes[] = ['text'=> 'Aceptación tácita CUFE : ' . $UUID]  ;
       $jsonData= [
           'number'      => $Number,
           'uuid'        => $UUID,
@@ -55,6 +61,7 @@ trait FctrasElctrncasEventsTrait {
         ] ;
       $this->jsonObject           = $jsonData;
       $this->jsonObject['notes']  = $notes;
+      return  $this->jsonObject ;
   }
 
   private function getPersonObject() {
@@ -68,5 +75,19 @@ trait FctrasElctrncasEventsTrait {
       ];
 
   }
+
+
+  private function eventUpdate ( $Event, $UUID, $EsFacturaCliente = false)  {
+    if ($EsFacturaCliente === false) {
+          $Factura                                       = FctrasElctrncasPrvdre::where('cufe',"$UUID")->first();
+          if ( $Event ==='030') $Factura->acuse_030      = true;
+          if ( $Event ==='032') $Factura->recibo_032     = true;
+          if ( $Event ==='033') $Factura->aceptacion_033 = true;
+          $Factura->update();
+    }
+
+
+   
+}
 
 }

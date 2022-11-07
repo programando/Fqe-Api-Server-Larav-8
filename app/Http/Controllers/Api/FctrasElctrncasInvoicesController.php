@@ -38,42 +38,65 @@ class FctrasElctrncasInvoicesController
   
 
        public function  InvoicesGestionEventos ( ) {
-          
+        return ;
         $Facturas = $this->InvoicesEventosConsultaGetData () ;
-            $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
-            InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-             $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+        $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+        InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
+        return $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+        $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
+
+        return $Facturas ;
         }
 
+        private function InvoicesGestionEventosSetAceptactionExpresa ($Facturas) {
+            $TipoAceptacion='CLIEN';
+            foreach( $Facturas as $Factura ) {
+                if ( $Factura['response_code_033'] === 'Ok' ) { 
+                    $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
+                    $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion                                            ) ;    //  MARCAR FACURA  
+                }
+            }
+    }
+
+
         private function InvoicesGestionEventosSetAceptactionTacita ($Facturas) {
+                $TipoAceptacion='TACIT';
                 foreach( $Facturas as $Factura ) {
-                    if ( $Factura['acptcion_tcta'] === 'SI' ) {
+                    if ( $Factura['acptcion_tcta'] === 'SI' ) { 
                         $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
-                         $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']              ) ;    // GENERAR EVENTO Trait       
-                         $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar                  ) ;    //  MARCAR FACURA
-                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar  ) ;    //  ENVIAR CORREO
+                         return $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']                                       ) ;    // GENERAR EVENTO Trait       
+                         $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion                                            ) ;    //  MARCAR FACURA
+                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar                            ) ;    //  ENVIAR CORREO
                     }
                 }
         }
 
  
-        private function facturaSetAceptacionTacita ( $Factura ) {
+        private function facturaSetAceptacionTacita ( $Factura, $TipoAceptacion  ) {
             $Factura->dcment_acptcion      = 1;
-            $Factura->note_dcment_acptcion = 'EXPR';
+            $Factura->note_dcment_acptcion = $TipoAceptacion ;
             $Factura->fcha_dcment_acptcion = Carbon::now();
             $Factura->save();
         }
 
         private function InvoiceGestionEventosCodificacion ( &$Facturas) {       
                 $PosI = 0;
+                $Hoy = Carbon::now()->format('Y-m-d h:m:s'); 
+                $AceptacionExpresa = false;
                 foreach ($Facturas as $Evento  ) { 
                     foreach ($Evento['events'] as $ResponsesCodes ) {
                         $CodEvento = trim($ResponsesCodes['response_code']);
                         if ($CodEvento ==='030' ) $Facturas[$PosI]['response_code_030'] = 'Ok';
                         if ($CodEvento ==='031' ) $Facturas[$PosI]['response_code_031'] = 'RECHAZADA';
                         if ($CodEvento ==='032' ) $Facturas[$PosI]['response_code_032'] = 'Ok';
-                        if ($CodEvento ==='033' ) $Facturas[$PosI]['response_code_033'] = 'Ok';
                         if ($CodEvento ==='034' ) $Facturas[$PosI]['response_code_034'] = 'Ok';
+                        if ($CodEvento ==='033' ) {
+                            $Facturas[$PosI]['response_code_033'] = 'Ok';
+                            $AceptacionExpresa = true;
+                        } 
+                        if ( $Hoy > $Facturas[$PosI]['fcha_acptcion_exprsa'] AND $AceptacionExpresa === false ) {
+                            $Facturas[$PosI]['acptcion_tcta'] = 'SI';
+                        }
                     }
                     $PosI++;
                 };
@@ -99,7 +122,7 @@ class FctrasElctrncasInvoicesController
                     "nro_dcmnto"           => $Factura['nro_dcmnto'],
                     "fcha_dcmnto"          => $Factura['fcha_dcmnto'],
                     "fcha_acptcion_exprsa" => $Factura['fcha_acptcion_exprsa'],
-                    "acptcion_tcta"        => $Hoy > $Factura['fcha_acptcion_exprsa'] ? "SI" : "NO",
+                    "acptcion_tcta"        => 'NO' ,    //$Hoy > $Factura['fcha_acptcion_exprsa'] ? "SI" : "NO",
                     "rechazada"            => "NO",
                     "uuid"                 => $Factura['uuid'],
                     "name"                 => $Factura['customer']['name'],
