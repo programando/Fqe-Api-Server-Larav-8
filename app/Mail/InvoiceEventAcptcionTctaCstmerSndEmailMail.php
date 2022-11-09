@@ -22,7 +22,7 @@ class InvoiceEventAcptcionTctaCstmerSndEmailMail extends Mailable
     public function build()
     {
         return $this->view('mails.invoices.InvoicesEventsAceptacionTacita')
-        ->from( config('company.EMAIL_SISTEMAS') )
+        ->from( config('company.EMAILS_CONTACTOS') )
         ->subject('FQE-SAS - Aceptación tácita factura de venta') ; 
     }
 }
