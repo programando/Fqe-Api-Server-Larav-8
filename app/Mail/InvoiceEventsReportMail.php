@@ -25,7 +25,7 @@ class InvoiceEventsReportMail extends Mailable
     {
     
         return $this->view('mails.invoices.InvoicesEventsReport')
-                    ->from( 'sistemas@fqe.sas' )
+                    ->from( config('company.EMAIL_SISTEMAS') )
                     ->subject('Reporte eventos facturas de venta') ;             
     }
 
