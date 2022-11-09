@@ -13,7 +13,7 @@ class InvoiceEventAcptcionTctaCstmerSndEmaiListener
  
     public function handle(InvoiceEventAcptcionTctaCstmerSndEmaiEvent $event)
     {
-       dd (  $event->FctraAcptdaTctmnte['emails']->unique('email')  ) ;
+      
         $Emails         =   $event->FctraAcptdaTctmnte['emails']->unique('email')  ; 
          
         Mail::to( $Emails )
