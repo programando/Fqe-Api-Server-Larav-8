@@ -15,7 +15,8 @@ class InvoiceEventsReportListener
    
     public function handle(InvoiceEventsReportEvent $event)
     {
-         Mail::to( config('company.EMAIL_CONTABILIDAD'))
+        dd('InvoiceEventsReportListener') ;
+        Mail::to( config('company.EMAIL_CONTABILIDAD'))
         ->cc( config('company.EMAIL_AUXCONTABLE') )
         ->cc( config('company.EMAIL_SISTEMAS') )
         ->queue(   new InvoiceEventsReportMail ($event->Factura ));      
