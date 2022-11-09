@@ -40,8 +40,9 @@ class FctrasElctrncasInvoicesController
        public function  InvoicesGestionEventos ( ) {
             $Facturas = $this->InvoicesEventosConsultaGetData () ;
             $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+            dd('ok');
             InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-            $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+            $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
             //return $Facturas ;
         }

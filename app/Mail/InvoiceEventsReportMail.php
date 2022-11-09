@@ -22,7 +22,6 @@ class InvoiceEventsReportMail extends Mailable
   
     public function build()
     {
-       dd( $this->BodyTable );
         return $this->view('mails.invoices.InvoicesEventsReport')
                     ->from( config('company.EMAILS_CONTACTOS') )
                     ->subject('Reporte eventos facturas de venta') ;             
