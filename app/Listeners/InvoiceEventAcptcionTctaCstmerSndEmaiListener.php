@@ -13,8 +13,9 @@ class InvoiceEventAcptcionTctaCstmerSndEmaiListener
  
     public function handle(InvoiceEventAcptcionTctaCstmerSndEmaiEvent $event)
     {
+       dd (  $event->FctraAcptdaTctmnte['emails']->unique('email')  ) ;
         $Emails         =   $event->FctraAcptdaTctmnte['emails']->unique('email')  ; 
-        dd($Emails  );
+         
         Mail::to( $Emails )
         ->cc( config('company.EMAIL_CONTABILIDAD'))
         ->cc( config('company.EMAIL_AUXCONTABLE') )
