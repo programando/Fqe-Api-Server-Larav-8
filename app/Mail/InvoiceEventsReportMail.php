@@ -15,9 +15,10 @@ class InvoiceEventsReportMail extends Mailable
 
     public function __construct( $Factura)
     {
-        dd('InvoiceEventsReportMail') ;
+        
         //$this->from      = ['address'=> config('company.EMAIL_SISTEMAS'), 'name' => config('company.EMPRESA' )];
-        $this->BodyTable =  $this->getTableHTML ($Factura );       
+        $this->BodyTable =  $this->getTableHTML ($Factura );     
+        dd('InvoiceEventsReportMail') ;  
     }
 
   
