@@ -28,8 +28,8 @@
     </header> 
     <aside style="width: 40% ; margin: 0 40px; margin-top: 50px;">
       <div>
-        <h3 style="font-weight: 500;">Nos permitimos informar que se ha emitido evento: <br><strong> 034 - ACEPTACIÓN TÁCITA</strong> a 
-        la factura de venta número: <strong> {{$Prefijo.$NumeroFactura }} </strong> por cuanto ha cumplido el tiempo establecido por la DIAN sin que hayamos recibo confirmación de ningún otro evento.
+        <h3 style="font-weight: 500;">Nos permitimos informar que se ha emitido evento: <br> <br><strong> 034 - ACEPTACIÓN TÁCITA</strong> a 
+        la factura de venta número: <strong> {{$Prefijo.$NumeroFactura }} </strong> por cuanto ha cumplido el tiempo establecido por la DIAN sin que hayamos recibido confirmación de aceptación expresa.
         <br><br>
         Puede consultar detalles de la factura en el siguiente enlace :
            <a href="{{ $UrlConsultaEvento }}"  target="_blank"  >    

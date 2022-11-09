@@ -38,14 +38,12 @@ class FctrasElctrncasInvoicesController
   
 
        public function  InvoicesGestionEventos ( ) {
-        return ;
-        $Facturas = $this->InvoicesEventosConsultaGetData () ;
-        $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
-        InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-        return $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
-        $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
-
-        return $Facturas ;
+            $Facturas = $this->InvoicesEventosConsultaGetData () ;
+            $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+            InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
+            $this->InvoicesGestionEventosSetAceptactionTacita    ( $Facturas );
+            $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
+            //return $Facturas ;
         }
 
         private function InvoicesGestionEventosSetAceptactionExpresa ($Facturas) {
@@ -63,10 +61,10 @@ class FctrasElctrncasInvoicesController
                 $TipoAceptacion='TACIT';
                 foreach( $Facturas as $Factura ) {
                     if ( $Factura['acptcion_tcta'] === 'SI' ) { 
-                        $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
-                         return $this->FacturaEnviarEventoDian      ('034', $Factura['uuid']                                       ) ;    // GENERAR EVENTO Trait       
-                         $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion                                            ) ;    //  MARCAR FACURA
-                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar                            ) ;    //  ENVIAR CORREO
+                        $FacturaPorAceptar = FctrasElctrnca::with( 'emails', 'customer')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
+                         $this->FacturaEnviarEventoDian      ('034',  $FacturaPorAceptar                 ) ;    // GENERAR EVENTO Trait       
+                         $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion      ) ;    //  MARCAR FACURA
+                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar         ) ;    //  ENVIAR CORREO
                     }
                 }
         }

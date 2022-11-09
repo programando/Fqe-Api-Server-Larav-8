@@ -13,20 +13,23 @@ trait FctrasElctrncasEventsTrait {
       use ApiSoenac;
       private $jsonObject = [] ;
 
-  public function FacturaEnviarEventoDian( $CodEven='', $UUID='', $EsFacturaCliente = true ) {
-      $response = '';
-      $partUrl  = 'event/'.$CodEven;
-      $Number   = FctrasElctrncasEvent::maxId();
-      $this->getJsonAcuse ( $UUID, $Number  ) ;
-      return $this->jsonObject ;
+  public function FacturaEnviarEventoDian( $CodEven='', $FacturaCliente, $EsFacturaCliente = true ) {
+      $UUID        = $FacturaCliente['uuid'];
+      $InvoceNumer = $FacturaCliente['prfjo_dcmnto'].$FacturaCliente['number'];
+      $response    = '';
+      $partUrl     = 'event/'.$CodEven;
+      $Number      = FctrasElctrncasEvent::maxId();
+       
+      $this->getJsonAcuse ( $UUID, $Number, $CodEven, $FacturaCliente['customer'] , $InvoceNumer ) ;
       $response        = $this->ApiSoenac->postRequest( $partUrl, $this->jsonObject ) ;
-
-      if ( $EsFacturaCliente  === false ) {                               //TODO -> SOLO PARA FACTURAS DE PROVEEDOR
-        $this->processEventResponse ( $response, $UUID, $CodEven  );
+      
+      if ( $EsFacturaCliente  === false ) {                               
+        $this->processEventResponse ( $response, $UUID, $CodEven  );    //TODO -> SOLO PARA FACTURAS DE PROVEEDOR
         $this->eventUpdate($CodEven,$UUID, $EsFacturaCliente  );
+        return  $response ; 
       }
-     return  $response ; 
- 
+      $this->saveNewResponse   ( $response, $UUID,$CodEven );
+      return  $response ; 
     }
 
 
@@ -50,8 +53,8 @@ trait FctrasElctrncasEventsTrait {
       $FctrasElctrncasEvent->save();
    }
 
-    private function getJsonAcuse( $UUID, $Number ) {
-      $notes[] = ['text'=> 'Aceptación tácita CUFE : ' . $UUID]  ;
+    private function getJsonAcuse( $UUID, $Number, $CodEven,  $FacturaCliente , $InvoceNumer) {
+      $notes[] = []  ;
       $jsonData= [
           'number'      => $Number,
           'uuid'        => $UUID,
@@ -60,8 +63,18 @@ trait FctrasElctrncasEventsTrait {
           'person'      => $this->getPersonObject ()
         ] ;
       $this->jsonObject           = $jsonData;
-      $this->jsonObject['notes']  = $notes;
+      $this->setNotes ($CodEven,$UUID,  $FacturaCliente, $InvoceNumer  );
+      
       return  $this->jsonObject ;
+  }
+
+  private function setNotes ($CodEven,$UUID, $FacturaCliente, $InvoceNumer ){
+    
+    $CustomerName = $FacturaCliente['name'];
+    $CustomerNit  = $FacturaCliente['identification_number'];
+
+    $notes[] = ['text'=> 'Manifiesto bajo la gravedad de juramento que transcurridos 3 días hábiles contados desde la creación del Recibo de bienes y servicios ' . $InvoceNumer. ' con CUDE '."$UUID".', el adquirente ' . $CustomerName . ' identificado con NIT ' . $CustomerNit .' no manifestó expresamente la aceptación o rechazo de la referida factura, ni reclamó en contra de su contenido.']  ;
+    $this->jsonObject['notes']  = $notes;
   }
 
   private function getPersonObject() {
