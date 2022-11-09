@@ -42,7 +42,7 @@ class FctrasElctrncasInvoicesController
             $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
             
             InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-            
+            dd('FctrasElctrncasInvoicesController') ;
             $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
             //return $Facturas ;
