@@ -42,8 +42,9 @@ class FctrasElctrncasInvoicesController
             $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
             
             InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;  
-            dd('FctrasElctrncasInvoicesController') ;
+            
             $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
+            
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
             //return $Facturas ;
         }
@@ -66,7 +67,8 @@ class FctrasElctrncasInvoicesController
                         $FacturaPorAceptar = FctrasElctrnca::with( 'emails', 'customer')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
                          $this->FacturaEnviarEventoDian      ('034',  $FacturaPorAceptar                 ) ;    // GENERAR EVENTO Trait       
                          $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion      ) ;    //  MARCAR FACURA
-                        InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar         ) ;    //  ENVIAR CORREO
+                         dd('InvoicesGestionEventosSetAceptactionTacita') ;
+                         InvoiceEventAcptcionTctaCstmerSndEmaiEvent::dispatch ($FacturaPorAceptar         ) ;    //  ENVIAR CORREO
                     }
                 }
         }
