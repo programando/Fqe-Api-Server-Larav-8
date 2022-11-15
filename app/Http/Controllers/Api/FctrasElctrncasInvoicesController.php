@@ -36,11 +36,18 @@ class FctrasElctrncasInvoicesController
 
    private $jsonObject = [] , $jsonResponse = [];
   
+    public function InvoicesGetEventsStatus () {
+        $Facturas = $this->InvoicesEventosConsultaGetData () ;
+        $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+        return   $Facturas ;
+    }
+
+
 
        public function  InvoicesGestionEventos ( ) {
             $Facturas = $this->InvoicesEventosConsultaGetData () ;
             $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
-            InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;            
+            //InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;            
             $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
             //return $Facturas ;
@@ -124,6 +131,8 @@ class FctrasElctrncasInvoicesController
                     "rechazada"            => "NO",
                     "uuid"                 => $Factura['uuid'],
                     "name"                 => $Factura['customer']['name'],
+                    "phone"                 => $Factura['customer']['phone'],
+                    "email"                 => $Factura['customer']['email'],    
                     "is_valid"             => $response['is_valid'],
                     "status_code"          => $response['status_code'],
                     "error_messages"       => $response['error_messages'],
