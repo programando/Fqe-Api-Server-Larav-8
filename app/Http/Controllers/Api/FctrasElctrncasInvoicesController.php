@@ -50,7 +50,7 @@ class FctrasElctrncasInvoicesController
             //InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;            
             $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
-            return $Facturas ;
+            //return $Facturas ;
         }
 
         private function InvoicesGestionEventosSetAceptactionExpresa ($Facturas) {
