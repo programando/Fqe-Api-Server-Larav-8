@@ -50,19 +50,27 @@ class FctrasElctrncasInvoicesController
             //InvoiceEventsReportEvent::dispatch                    ( $Facturas ) ;            
             $this->InvoicesGestionEventosSetAceptactionTacita     ( $Facturas );
             $this->InvoicesGestionEventosSetAceptactionExpresa    ( $Facturas );
-            //return $Facturas ;
+            return $Facturas ;
         }
 
         private function InvoicesGestionEventosSetAceptactionExpresa ($Facturas) {
             $TipoAceptacion='CLIEN';
             foreach( $Facturas as $Factura ) {
+                $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
                 if ( $Factura['response_code_033'] === 'Ok' ) { 
-                    $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
                     $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion                                            ) ;    //  MARCAR FACURA  
                 }
+                $this->facturasSetEstadoEventos ($FacturaPorAceptar,$Factura  );
             }
     }
 
+    private function facturasSetEstadoEventos ( $FacturaPorAceptar,  $Eventos) {
+        $FacturaPorAceptar->response_code_030 = $Eventos['response_code_030'];
+        $FacturaPorAceptar->response_code_031 = $Eventos['response_code_031'];
+        $FacturaPorAceptar->response_code_032 = $Eventos['response_code_032'];
+        $FacturaPorAceptar->response_code_033 = $Eventos['response_code_033'];
+        $FacturaPorAceptar->save();
+    }
 
         private function InvoicesGestionEventosSetAceptactionTacita ($Facturas) {
                 $TipoAceptacion='TACIT';

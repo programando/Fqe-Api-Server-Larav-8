@@ -148,7 +148,7 @@ class FctrasElctrnca extends Model
 							->Where('dcment_acptcion','0')
 							->where('type_document_id', '1')
 							->whereNotNull('uuid')
-							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa']); // Facturas ->take(10)->
+							->take(5)->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa']); // Facturas ->take(10)->
 			}
 
  
