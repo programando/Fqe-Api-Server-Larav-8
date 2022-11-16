@@ -36,9 +36,17 @@ class FctrasElctrncasInvoicesController
 
    private $jsonObject = [] , $jsonResponse = [];
   
-    public function InvoicesGetEventsStatus () {
+
+    public function InvoicesGetEventsStatusServerLocal () {
+        return  FctrasElctrnca::InvoicesGetStatusEventos () ;
+    }
+
+    public function InvoicesGetEventsStatusServerDian () {
         $Facturas = $this->InvoicesEventosConsultaGetData () ;
         $this->InvoiceGestionEventosCodificacion              ( $Facturas ) ;
+        foreach( $Facturas as $Factura ) {
+            $this->facturasSetEstadoEventos ( $Factura );
+        }
         return   $Facturas ;
     }
 
@@ -59,17 +67,27 @@ class FctrasElctrncasInvoicesController
                 $FacturaPorAceptar = FctrasElctrnca::with( 'emails')->where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
                 if ( $Factura['response_code_033'] === 'Ok' ) { 
                     $this->facturaSetAceptacionTacita   ( $FacturaPorAceptar,  $TipoAceptacion                                            ) ;    //  MARCAR FACURA  
-                }
-                $this->facturasSetEstadoEventos ($FacturaPorAceptar,$Factura  );
+                }  
             }
     }
 
-    private function facturasSetEstadoEventos ( $FacturaPorAceptar,  $Eventos) {
-        $FacturaPorAceptar->response_code_030 = $Eventos['response_code_030'];
-        $FacturaPorAceptar->response_code_031 = $Eventos['response_code_031'];
-        $FacturaPorAceptar->response_code_032 = $Eventos['response_code_032'];
-        $FacturaPorAceptar->response_code_033 = $Eventos['response_code_033'];
-        $FacturaPorAceptar->save();
+    private function facturasSetEstadoEventos ( $Factura) {
+        $FacturaLocal = FctrasElctrnca::where('id_fact_elctrnca','=', $Factura['id_fact_elctrnca'])->first();
+        $FacturaLocal->response_code_030 = $Factura['response_code_030'];
+        $FacturaLocal->response_code_031 = $Factura['response_code_031'];
+        $FacturaLocal->response_code_032 = $Factura['response_code_032'];
+        $FacturaLocal->response_code_033 = $Factura['response_code_033'];
+        if ( $Factura['response_code_033'] ==='Ok'   ) {
+            $FacturaLocal->dcment_acptcion      = 1;
+            $FacturaLocal->note_dcment_acptcion = 'CLIEN';
+            $FacturaLocal->fcha_dcment_acptcion = Carbon::now();           
+        }
+        if ( $Factura['response_code_031'] === 'RECHAZADA'){
+            $FacturaLocal->dcment_acptcion      = 1;
+            $FacturaLocal->note_dcment_acptcion = 'RECHZ';
+            $FacturaLocal->fcha_dcment_acptcion = Carbon::now();  
+        }
+        $FacturaLocal->save();
     }
 
         private function InvoicesGestionEventosSetAceptactionTacita ($Facturas) {
@@ -119,6 +137,7 @@ class FctrasElctrncasInvoicesController
         
 
         private function InvoicesEventosConsultaGetData () {
+            ini_set('max_execution_time', 240);
             $ResponseEvents = [];
             $Hoy = Carbon::now()->format('Y-m-d h:m:s'); 
 
@@ -156,6 +175,7 @@ class FctrasElctrncasInvoicesController
                 ];
                array_push ( $ResponseEvents,$data);               
             }
+            ini_set('max_execution_time', 60);
             return $ResponseEvents;
         }
 

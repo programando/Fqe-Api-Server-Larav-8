@@ -151,7 +151,15 @@ class FctrasElctrnca extends Model
 							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa']); // Facturas ->take(10)->
 			}
 
- 
+			public function scopeInvoicesGetStatusEventos ( $query ){
+				return $query->with('customer')
+							->Where('dcment_acptcion','0')
+							->Where('id_fact_elctrnca','>', '5645')
+							->where('type_document_id', '1')
+							->whereNotNull('uuid')
+							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa','response_code_030','response_code_031','response_code_032','response_code_033']); // Facturas ->take(10)->
+			}
+
 
 		// ACCESORS
 		//=========
