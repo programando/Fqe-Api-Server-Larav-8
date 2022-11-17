@@ -90,15 +90,16 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
 // INVOICES
     Route::group(['prefix'=>'invoices', 'namespace'=>'Api'], function() {
         $localController = 'FctrasElctrncasInvoicesController@';
-        Route:: get('/'                          , $localController.'invoices')->name('invoices');
-        Route:: get('pdf/{id}'                   , $localController.'invoiceSendToCustomer');
-        Route:: get('/download/{filetype}/{id}'  , $localController.'invoiceFileDownload');
-        Route:: get('accepted/{id}'              , $localController.'invoiceAccepted');
-        Route:: get('rejected/{id}'              , $localController.'invoiceRejected');
-        Route:: post('logs'                      , $localController.'sentInvoicesLogs');
-        Route:: post('eventos/gestion'          , $localController.'InvoicesGestionEventos');
+        Route:: get('/'                             , $localController.'invoices')->name('invoices');
+        Route:: get('pdf/{id}'                      , $localController.'invoiceSendToCustomer');
+        Route:: get('/download/{filetype}/{id}'     , $localController.'invoiceFileDownload');
+        Route:: get('accepted/{id}'                 , $localController.'invoiceAccepted');
+        Route:: get('rejected/{id}'                 , $localController.'invoiceRejected');
+        Route:: post('logs'                         , $localController.'sentInvoicesLogs');
+        Route:: post('eventos/gestion'              , $localController.'InvoicesGestionEventos');
         Route:: post('eventos/status/dian'          , $localController.'InvoicesGetEventsStatusServerDian');
-        Route:: post('eventos/status/local'          , $localController.'InvoicesGetEventsStatusServerLocal');
+        Route:: post('eventos/status/local'         , $localController.'InvoicesGetEventsStatusServerLocal');
+        Route:: get('generadas'                     , $localController.'ultimas100FacturasGeneradas');
     });
  
 

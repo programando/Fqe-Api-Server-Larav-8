@@ -160,6 +160,13 @@ class FctrasElctrnca extends Model
 							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa','response_code_030','response_code_031','response_code_032','response_code_033']); // Facturas ->take(10)->
 			}
 
+			public function scopeInvoicesUltimas100Generadas ( $query ){
+				return $query->with('customer')
+							->where('type_document_id', '1')
+							->whereNotNull('uuid')
+							->orderBy('id_fact_elctrnca','DESC')
+							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto', 'is_valid', 'number']); // Facturas ->take(10)->
+			}
 
 		// ACCESORS
 		//=========

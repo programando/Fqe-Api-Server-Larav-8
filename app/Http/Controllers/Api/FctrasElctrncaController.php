@@ -15,7 +15,7 @@ class FctrasElctrncaController extends ApiController
  
     public function index()
     {
-        $FctrasElctrnca = FctrasElctrnca::with('customer','emails')->applySorts()->jsonPaginate();
+        $FctrasElctrnca = FctrasElctrnca::with('customer','emails')->applySorts()->get() ;
         //$FctrasElctrnca = FctrasElctrnca::with('customer','emails')->get();
         // return $FctrasElctrnca ;
         return ShowRecordCollection::make( $FctrasElctrnca );

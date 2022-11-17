@@ -37,6 +37,10 @@ class FctrasElctrncasInvoicesController
    private $jsonObject = [] , $jsonResponse = [];
   
 
+   public function  ultimas100FacturasGeneradas () {
+        return FctrasElctrnca::InvoicesUltimas100Generadas() ;
+   }
+
     public function InvoicesGetEventsStatusServerLocal () {
         return  FctrasElctrnca::InvoicesGetStatusEventos () ;
     }
