@@ -36,13 +36,13 @@ Route::group(['prefix'=>'lineas', 'namespace'=>'Api' ], function() {
 //PRODUCTOS
 Route::group(['prefix'=>'productos', 'namespace'=>'Api' ], function() {
         //Route::get('/precios'                 , 'PrdctoController@listaPrecios')->name('lista-precios');
-        Route::get('/por-clase'                 , 'PrdctoController@getProductosPorClase');
-        Route::get('/por-linea'                 , 'PrdctoController@getProductosPorLinea');
+        Route::get('/por-clase'                 , 'ProductoController@ListaTodosProductos');
+         
  });
 
 //CLASES DE PRODUCTO
 Route::group(['prefix'=>'clases/productos', 'namespace'=>'Api'], function() {
-        Route::get('/por-linea'                 , 'MstroClasesPrdctoController@getClasesPorLinea');
+        Route::get('/listado'                 , 'MstroClasesPrdctoController@getClasesProductos');
  });
 
 

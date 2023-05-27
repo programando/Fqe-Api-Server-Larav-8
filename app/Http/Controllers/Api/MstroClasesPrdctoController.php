@@ -9,8 +9,10 @@ use App\Models\MstroClasesPrdcto as ProductosClases ;
 class MstroClasesPrdctoController extends Controller
 {
     
-    public function getClasesPorLinea (Request $FormData  ) {
-        return ProductosClases::getClasesPorLinea ($FormData->idlinea ) ;
+    public function getClasesProductos (  ) {
+        return ProductosClases::Where('inactivo','0')
+                ->Where('id_clse_prdcto','>','0')
+                ->orderBy('nom_clse_prdcto')->get() ;
     }
 
 

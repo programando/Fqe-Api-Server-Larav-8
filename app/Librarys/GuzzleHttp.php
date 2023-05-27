@@ -24,6 +24,8 @@ class GuzzleHttp {
                 'http_errors'     => true,
                 'Authorization'   => config('company.FACTURA_ELECT_TOKEN'),
          ];  
+
+         dd(  $this->headers) ;
       }
 
       public  function getRequest ( $URL ) {
@@ -35,12 +37,16 @@ class GuzzleHttp {
 
     public function postRequest ( $URL,$Body , $requestNomina=false ){
          $urlRequest    = $requestNomina == false ? config('company.FACTURA_ELECT_URL_BASE')  : config('company.NOMINA_ELECT_URL_BASE');
+
+ 
+
          $response = $this->Guzzle->request(
             'POST', $URL, [ 
                'headers'  => $this->headers ,
                'json'     => $Body,
                'base_uri' =>  $urlRequest
             ]); 
+             
             return json_decode($response->getBody()->getContents(),true);
     }
  

@@ -1,19 +1,31 @@
 <?php
- 
+
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-use DB;
- 
+/**
+ * Class MstroClasesPrdcto
+ * 
+ * @property int $id_clse_prdcto
+ * @property string $nom_clse_prdcto
+ * @property bool $inactivo
+ *
+ * @package App\Models
+ */
 class MstroClasesPrdcto extends Model
 {
 	protected $table = 'mstro_clases_prdcto';
 	protected $primaryKey = 'id_clse_prdcto';
+	public $incrementing = false;
 	public $timestamps = false;
 
 	protected $casts = [
+		'id_clse_prdcto' => 'int',
 		'inactivo' => 'bool'
 	];
 
@@ -22,18 +34,9 @@ class MstroClasesPrdcto extends Model
 		'inactivo'
 	];
 
- public static function getClasesPorLinea ( $IdLinea ) {
-	 	return     DB::select(' call productos_clases_por_linea ( ?)', array($IdLinea));
- }
 
+ 			public function getNomClsePrdctoAttribute ( $value ){
+				return trim($value);
+			}
 
-public function getNomClsePrdctoAttribute( $value ) {
-	 return trim ( $value );
-}
-
-
-
-	public function prdctos()	{
-		return $this->hasMany(Prdcto::class, 'id_clse_prdcto');
-	}
 }

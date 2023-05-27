@@ -145,39 +145,42 @@ class FctrasElctrncasInvoicesController
             $ResponseEvents = [];
             $Hoy = Carbon::now()->format('Y-m-d h:m:s'); 
 
-            $Documentos = FctrasElctrnca::InvoicesPendientesAceptacionExpresa(); 
+            $Facturas = FctrasElctrnca::InvoicesPendientesAceptacionExpresa(); 
 
             $this->traitPendientesAceptacionExpresaSetEnvironment ($this->jsonResponse);
              
-            foreach($Documentos as $Factura )  {
-                $URL          = 'status/events/'.$Factura['uuid'] ;
-                $response     = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ; 
-                $data=[
-                    "id_fact_elctrnca"     => $Factura['id_fact_elctrnca'],
-                    "prfjo_dcmnto"         => $Factura['prfjo_dcmnto'],
-                    "nro_dcmnto"           => $Factura['nro_dcmnto'],
-                    "fcha_dcmnto"          => $Factura['fcha_dcmnto'],
-                    "fcha_acptcion_exprsa" => $Factura['fcha_acptcion_exprsa'],
-                    "acptcion_tcta"        => 'NO' ,    //$Hoy > $Factura['fcha_acptcion_exprsa'] ? "SI" : "NO",
-                    "rechazada"            => "NO",
-                    "uuid"                 => $Factura['uuid'],
-                    "name"                 => $Factura['customer']['name'],
-                    "phone"                 => $Factura['customer']['phone'],
-                    "email"                 => $Factura['customer']['email'],    
-                    "is_valid"             => $response['is_valid'],
-                    "status_code"          => $response['status_code'],
-                    "error_messages"       => $response['error_messages'],
-                    "status_message"       => $response['status_message'],
-                    "status_description"   => $response['status_description'],
-                    "response_code_030"    => '',                                             //acuse de recibo de factura electrónica de venta.
-                    "response_code_031"    => '',                                             //reclamo de la factura electrónica de venta
-                    "response_code_032"    => '',                                             //recibo del bien y/o prestación del servicio.
-                    "response_code_033"    => '',                                             //aceptación expresa
-                    "response_code_034"    => '',                                             //aceptación tácita.
-                    "events"               => $response['events'],
-                    
-                ];
-               array_push ( $ResponseEvents,$data);               
+                
+                foreach($Facturas->chunk(3) as $Facturacion )  {
+                    foreach($Facturacion as $Factura  ) {
+                    $URL          = 'status/events/'.$Factura['uuid'] ;
+                    $response     = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ; 
+                    $data=[
+                        "id_fact_elctrnca"     => $Factura['id_fact_elctrnca'],
+                        "prfjo_dcmnto"         => $Factura['prfjo_dcmnto'],
+                        "nro_dcmnto"           => $Factura['nro_dcmnto'],
+                        "fcha_dcmnto"          => $Factura['fcha_dcmnto'],
+                        "fcha_acptcion_exprsa" => $Factura['fcha_acptcion_exprsa'],
+                        "acptcion_tcta"        => 'NO' ,    //$Hoy > $Factura['fcha_acptcion_exprsa'] ? "SI" : "NO",
+                        "rechazada"            => "NO",
+                        "uuid"                 => $Factura['uuid'],
+                        "name"                 => $Factura['customer']['name'],
+                        "phone"                 => $Factura['customer']['phone'],
+                        "email"                 => $Factura['customer']['email'],    
+                        "is_valid"             => $response['is_valid'],
+                        "status_code"          => $response['status_code'],
+                        "error_messages"       => $response['error_messages'],
+                        "status_message"       => $response['status_message'],
+                        "status_description"   => $response['status_description'],
+                        "response_code_030"    => '',                                             //acuse de recibo de factura electrónica de venta.
+                        "response_code_031"    => '',                                             //reclamo de la factura electrónica de venta
+                        "response_code_032"    => '',                                             //recibo del bien y/o prestación del servicio.
+                        "response_code_033"    => '',                                             //aceptación expresa
+                        "response_code_034"    => '',                                             //aceptación tácita.
+                        "events"               => $response['events'],
+                        
+                    ];
+                        array_push ( $ResponseEvents,$data);               
+                }
             }
             ini_set('max_execution_time', 60);
             return $ResponseEvents;
