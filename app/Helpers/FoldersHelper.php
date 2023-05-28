@@ -27,4 +27,8 @@ class FoldersHelper {
    public static function LineasImages () {
       return asset('storage/images/lineas') ; 
    }
+  
+    public static function ProductsImagesFolder () {
+      return asset('storage/images/productos') ; // storage_path('app/public/images/productos');
+   }
 }

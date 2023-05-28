@@ -8,19 +8,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Producto
- * 
- * @property int $idregistro
- * @property int $idproducto
- * @property string $id_clse_prdcto
- * @property string $nomproducto
- * @property string $url_imagen
- * @property string $dscrpcion
- * @property bool $inactivo
- *
- * @package App\Models
- */
+
+use Folders;
 class Producto extends Model
 {
 	protected $table = 'productos';
@@ -48,5 +37,9 @@ class Producto extends Model
 	 		public function getDscrpcionAttribute ( $value ){
 				return trim($value);
 			}
+
+	public function getUrlImagenAttribute( $value ) {  
+        return  Folders::ProductsImages() .'/'. $value  ;
+    }
 
 }
