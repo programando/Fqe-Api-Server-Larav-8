@@ -11,3 +11,4 @@ documentacion.txt
 npm-debug.log
 supervisor.config
 yarn-error.log
+/storage
