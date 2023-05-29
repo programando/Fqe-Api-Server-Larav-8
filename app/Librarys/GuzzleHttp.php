@@ -25,7 +25,7 @@ class GuzzleHttp {
                 'Authorization'   => config('company.FACTURA_ELECT_TOKEN'),
          ];  
 
-         dd(  $this->headers) ;
+         
       }
 
       public  function getRequest ( $URL ) {
