@@ -100,7 +100,6 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: post('eventos/status/dian'          , $localController.'InvoicesGetEventsStatusServerDian');
         Route:: post('eventos/status/local'         , $localController.'InvoicesGetEventsStatusServerLocal');
         Route:: get('generadas'                     , $localController.'ultimas100FacturasGeneradas');
-         Route:: get('generadas-pruba-pryebaa'                     , $localController.'ultimas100FacturasGeneradas');
     });
  
 
