@@ -36,7 +36,8 @@ Route::group(['prefix'=>'lineas', 'namespace'=>'Api' ], function() {
 //PRODUCTOS
 Route::group(['prefix'=>'productos', 'namespace'=>'Api' ], function() {
         //Route::get('/precios'                 , 'PrdctoController@listaPrecios')->name('lista-precios');
-        Route::get('/por-clase'                 , 'ProductoController@ListaTodosProductos');
+        Route::get('/todos'                 , 'ProductoController@ListaTodosProductos');
+        Route::get('/por-clase'                 , 'ProductoController@ProductosPorClaseProducto');
          
  });
 
