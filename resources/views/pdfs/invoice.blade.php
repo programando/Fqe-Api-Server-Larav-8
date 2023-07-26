@@ -10,7 +10,7 @@
     table, tr, td   { margin:0; padding:0; border:0; border-spacing:0; }
     .pagion         { padding:55pt 75pt 0 75pt; }
     .colorfff       { color:#fff; }
-    .bAzul          { background-color:#1c3e87; }
+    .bAzul          { background-color:#437355; }
     .h60            { height:60pt;}
     .taC            { text-align:center;}
     .taR            { text-align:right;}
@@ -170,7 +170,8 @@
             <table width="100%" class="bAzul taC colorfff tB">
                 <tr>
                     <td width="15%" class="p8 bRS1">CANT</td>
-                    <td width="55%" class="p8 bRS1">DESCRIPCIÓN</td>
+                    <td width="15%" class="p8 bRS1">PESO NETO <br> Kg.</td>
+                    <td width="40%" class="p8 bRS1">DESCRIPCIÓN</td>
                     <td width="15%" class="p8 bRS1">VR UNIT.</td>
                     <td width="15%" class="p8 bRS1">TOTAL</td>
                 </tr>
@@ -179,7 +180,8 @@
                 @foreach($Products as $Product )
                     <tr>
                         <td width="15%" class="p128 bRS1 taC">  {{ $Product['invoiced_quantity']                             }} </td>
-                        <td width="55%" class="p128 bRS1">      {{ $Product['description']                                   }}</td>
+                        <td width="15%" class="p128 bRS1 taC">  {{ $Product['kilos']                                         }} </td>
+                        <td width="40%" class="p128 bRS1">      {{ $Product['description']                                   }}</td>
                         <td width="15%" class="p128 bRS1 taR">  {{ Numbers::invoiceFormat($Product['price_amount'])          }}</td>
                         <td width="15%" class="p128 taR">       {{ Numbers::invoiceFormat($Product['line_extension_amount']) }}</td>
                     </tr>
@@ -188,7 +190,8 @@
                 @for ($i = 1; $i <= $CantFaltante; $i++)
                      <tr>
                         <td width="15%" class="p128 bRS1"></td>
-                        <td width="55%" class="p128 bRS1"></td>
+                         <td width="15%" class="p128 bRS1"></td>
+                        <td width="40%" class="p128 bRS1"></td>
                         <td width="15%" class="p128 bRS1 taR"></td>
                         <td width="15%" class="p128 taR"></td>
                     </tr>       
