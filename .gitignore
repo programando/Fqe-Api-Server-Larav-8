@@ -13,3 +13,4 @@ supervisor.config
 yarn-error.log
 /storage/app/public/images/productos
 supervisor.conf
+/endpoinds.txt
