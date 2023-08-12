@@ -26,7 +26,7 @@ trait DocsSoporteTrait {
             'number'            => $Document["number"],
             'type_document_id'  => $Document["type_document_id"],
             'type_operation_id' => $Document["type_operation_id"],
-            'resolution_id'     => 4,
+            'resolution_id'     => 10,
             'sync'              => true,
             'date'              => Fecha::YMD( $FechaTransacion)
             ] ;

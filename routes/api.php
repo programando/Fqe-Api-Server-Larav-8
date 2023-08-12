@@ -16,7 +16,8 @@ Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {
     Route::post('/notas/credito'          , $localController.'documentosSoporteNotaCredito');
 });
 
- 
+
+
 Route::post('/login'            , 'TercerosUserController@login')->name('login');
 Route::post('/logout'           , 'TercerosUserController@logout')->name('logout'); 
 Route::post('/reset/password'   , 'TercerosUserController@resetPassword')->name('reset-password'); 
@@ -101,7 +102,7 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: post('eventos/status/dian'          , $localController.'InvoicesGetEventsStatusServerDian');
         Route:: post('eventos/status/local'         , $localController.'InvoicesGetEventsStatusServerLocal');
         Route:: get('generadas'                     , $localController.'ultimas100FacturasGeneradas');
-         Route:: get('generadas-pruba-prdddyebaa'                     , $localController.'ultimas100FacturasGeneradas');
+         
     });
  
 
