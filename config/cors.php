@@ -17,7 +17,7 @@ return [
 
     'paths'                    => ['*','/login','/logout','/reset/password','/update/password','/sanctum/csrf-cookie'],
     'allowed_methods'          => ['*'],
-    'allowed_origins'          => ['http://localhost:3000','http://localhost:3001','http://localhost:3002','http://localhost:3003',    'https://computron.fqesas.com', 'https://api.fqesas.com', 'https://pagos.fqesas.com', 'https://landingpage.fqesas.com','http://localhost:3006', 'https://fqesas.com','https://facturas-dian.fqesas.com'  ],
+    'allowed_origins'          => ['http://localhost:3000','http://localhost:3001','http://localhost:3002','http://localhost:3003',     'https://api.fqesas.com', 'https://pagos.fqesas.com', 'http://localhost:3006', 'https://fqesas.com','https://facturas-dian.fqesas.com'  ],
     'allowed_origins_patterns' => [],
     'allowed_headers'          => ['*'],
     'exposed_headers'          => false,
