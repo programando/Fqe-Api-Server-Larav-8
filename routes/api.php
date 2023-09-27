@@ -9,7 +9,9 @@ echo "<pre>{$query->sql} - {$query->time}</pre>";
 use Illuminate\Http\Request;
 
 
-
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
 
 // DOCUMENTO SOPORTE
 Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {
