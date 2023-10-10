@@ -201,10 +201,12 @@
                 <tr class="vatop">
 
                     <td width="70%" class="p128 bRS1">
+                    
                     <div class="mb15">
                             <strong>SON:</strong>
                             {{ $Additionals['vr_letras'] }}
                         </div>
+
                         <div class="mb15">
                             <strong>CUFE:</strong>
                             {{ $Factura['uuid']}}
@@ -288,7 +290,8 @@
             <div >
             <small>
                 Factura electrónica generada por F.Q.E. S.A.S. Nit: 901.615.644-1  Software: COMPUTRON <br>
-                Envío facturación directa a través de servicio Web dispuesto por la DIAN. ( No aplica proveedor tecnológico)
+                Envío facturación directa a través de servicio Web dispuesto por la DIAN. ( No aplica proveedor tecnológico) <br>
+                Usuario que generó documento: {{ $Additionals['nom_usuario'] }}
                 </small>
             </div>
         </div>
