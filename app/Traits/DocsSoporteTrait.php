@@ -105,23 +105,24 @@ trait DocsSoporteTrait {
         ];      
     }
 
-    protected function DocSoporteInvoiceLinesTrait ( $Products, &$jsonObject, $jsonKey, $FechaTransacion  ) {
+    protected function DocSoporteInvoiceLinesTrait ( $Products, &$jsonObject, $jsonKey, $FechaTransacion, $isCreditNote=false  ) {
         $Productos = [];          
         foreach ($Products as $Product) {
          $ProductToCreate = [
              'invoiced_quantity'           => Numbers::jsonFormat ( $Product['invoiced_quantity'], 6),
              'vendor_code'                 => $Product['code'],
              'line_extension_amount'       => Numbers::jsonFormat ($Product['line_extension_amount'], 2),
-             'invoice_period'              => [
-                'start_date'                        =>  Fecha::YMD( $FechaTransacion) ,
-                'form_generation_transmission_id'   => '1' ,  
-             ],
              'description'                 => $Product['description'],
              'code'                        => $Product['code'],
              'price_amount'                => Numbers::jsonFormat ($Product['price_amount'],2),
              'base_quantity'               => Numbers::jsonFormat ($Product['base_quantity'],2)
            ];  
- 
+            if ( $isCreditNote === false ) {
+                $ProductToCreate['invoice_period'] = [
+                        'start_date' => Fecha::YMD($FechaTransacion),
+                        'form_generation_transmission_id' => '1',
+                    ];   
+            }
             $Productos[] = $ProductToCreate ;
         }
         $jsonObject [$jsonKey] = $Productos;
