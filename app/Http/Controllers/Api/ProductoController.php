@@ -13,6 +13,12 @@ class ProductoController extends Controller
         return Productos::Where('inactivo','0')->orderBy('id_clse_prdcto')->get();
     }
 
+
+    public function ProductosPorLinea(request $FormData ){
+        return Productos::PorLinea($FormData->textoLinea );
+    }
+
+
     public function ProductosPorClaseProducto( request $FormData ){
           
         return Productos::Where('inactivo','0')

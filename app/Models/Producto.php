@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 
 use Folders;
+use DB;
 class Producto extends Model
 {
 	protected $table = 'productos';
@@ -29,6 +30,11 @@ class Producto extends Model
 		'dscrpcion',
 		'inactivo'
 	];
+
+
+ public static function PorLinea ( $textoLineaProducto ) {
+	 	return     DB::select(' call web_productos_por_linea ( ?)', array("$textoLineaProducto"));
+ }
 
 	 		public function getNomproductoAttribute ( $value ){
 				return trim($value);

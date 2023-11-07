@@ -39,6 +39,7 @@ Route::group(['prefix'=>'productos', 'namespace'=>'Api' ], function() {
         //Route::get('/precios'                 , 'PrdctoController@listaPrecios')->name('lista-precios');
         Route::get('/todos'                 , 'ProductoController@ListaTodosProductos');
         Route::post('/por-clase'                 , 'ProductoController@ProductosPorClaseProducto');
+        Route::post('/por-linea'                 , 'ProductoController@ProductosPorLinea');
          
  });
 
