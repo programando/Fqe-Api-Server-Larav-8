@@ -6,9 +6,19 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Tercero as Terceros;
 use App\Models\BtcraVta as BitacoraVentas;
+use App\Events\UserContactEvent;
 
 class TercerosController extends Controller
 {
+    
+    public function ContactosSendEmail (request $FormData ) {
+
+        UserContactEvent::dispatch( $FormData );
+        return response()->json('Ok', 200);
+
+    }
+    
+    
        public function clientesBuscarNomSucNitNomCcial(Request $FormData ){    
           $Clientes = Terceros::clientesActivosPorVendedor( $FormData->idTercVendedor )
                       ->clientesBuscarNomSucNitNomCcial( $FormData->filtroBusqueda)

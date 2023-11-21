@@ -26,6 +26,7 @@ class EventServiceProvider extends ServiceProvider
        'App\Events\TercerosContactosEvent'                     => ['App\Listeners\TercerosContactosListener', ],
        'App\Events\TercerosNominaWasReportedEvent'             => ['App\Listeners\TercerosNominaWasReportedListener', ],
        'App\Events\UserPasswordResetEvent'                     => ['App\Listeners\UserPasswordReset',],
+       'App\Events\UserContactEvent'                           => ['App\Listeners\UserContactListener',],
     ];
 
     /**

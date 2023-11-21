@@ -13,6 +13,8 @@
       'EMAIL_CONTABILIDAD'          => env('EMAIL_CONTABILIDAD'),
       'EMAIL_DOCS_ELECTRONICOS'     => env('MAIL_USERNAME'),
       'EMAIL_SISTEMAS'              => env('EMAIL_SISTEMAS'),
+      'EMAIL_COMERCIAL'              => env('EMAIL_COMERCIAL'),
+      'EMAIL_LOGISTICA'              => env('EMAIL_LOGISTICA'),
       'URL_USER_PASSWORD_RESET'     => env('URL_USER_PASSWORD_RESET'),
       'DOCUMENTO_URL_CONSULTA_CUFE' => env('DOCUMENTO_URL_CONSULTA_CUFE'),
     ];

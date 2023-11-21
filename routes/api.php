@@ -13,6 +13,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+ 
+
+
 // DOCUMENTO SOPORTE
 Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {
     $localController = 'DcmntosSprteController@';
@@ -77,6 +80,7 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
     $localController = 'TercerosController@';
     Route::get('/clientes/busqueda'                             , $localController.'clientesBuscarNomSucNitNomCcial');
     Route::get('/clientes/productos/comprados'                  , $localController.'clientesProductosComprados');
+    Route::post('/clientes/email/contacto'                  , $localController.'ContactosSendEmail');
  });
 
 

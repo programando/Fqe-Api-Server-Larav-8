@@ -36,14 +36,19 @@
                                     <td style="box-sizing:border-box;
                                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
                                          <br>
-
-                                       <p> {{ $comentario }} </p>
-                                       <p>  Interesado(a) en :</p>
-                                       <p> &nbsp;&nbsp;&nbsp; {{ $comentario }} </p>
-                                       <p>  Empresa : </p>
-                                       <p> &nbsp;&nbsp;&nbsp; {{ $comentario   }}    </p>
-                                       <p> Números de contacto : </p>
-                                       <p>  &nbsp;&nbsp;&nbsp; {{ $comentario  }} / {{ $comentario }} </p>
+                                       <p> Desde nuestro sitio web: https://fqesas.com nos ha contactado:</p>
+                                       <p> Nombre : {{ $nombre }} <br>
+                                           Email: {{ $correo }} <br>
+                                           Cargo: {{ $cargo }} <br>
+                                           País: {{ $pais }} <br>
+                                           Número:  {{  $telefono }}
+                                       </p>
+ 
+                                       
+                                       <p> <strong>Interesado(a) en  </strong> :</p>
+                                       <p> &nbsp;&nbsp;&nbsp; {{ $mensaje }} </p>
+                                    
+                                       
                                        
                                     </td>
                                  </tr>
@@ -51,9 +56,7 @@
                            </table>
                         </td>
                      </tr>
-                      <tr>
-                         @include('mails.notes._Footer') 
-                     </tr>
+
             </tbody>
          </table>
          </td>
