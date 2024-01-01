@@ -8,15 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class MstroClasesPrdcto
- * 
- * @property int $id_clse_prdcto
- * @property string $nom_clse_prdcto
- * @property bool $inactivo
- *
- * @package App\Models
- */
+use DB;
 class MstroClasesPrdcto extends Model
 {
 	protected $table = 'mstro_clases_prdcto';
@@ -35,8 +27,13 @@ class MstroClasesPrdcto extends Model
 	];
 
 
- 			public function getNomClsePrdctoAttribute ( $value ){
+ 			public function getnomClsePrdctoAttribute ( $value ){
 				return trim($value);
 			}
+
+
+	public static function ClasesProductosPorLinea ( $IdLinea ) {
+	 	return     DB::select(' call web_productos_clase_producto_linea ( ?)', array($IdLinea));
+ }
 
 }

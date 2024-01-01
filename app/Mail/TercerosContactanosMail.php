@@ -21,6 +21,7 @@ class TercerosContactanosMail extends Mailable
         $this->nombre   = $FormData->nombre ;
         $this->pais     = $FormData->pais ;
         $this->telefono = $FormData->telefono ;      
+        $this->empresa  = $FormData->empresa ;      
     }
 
 

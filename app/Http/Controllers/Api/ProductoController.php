@@ -19,6 +19,10 @@ class ProductoController extends Controller
     }
 
 
+
+ 
+
+
     public function ProductosPorClaseProducto( request $FormData ){
           
         return Productos::Where('inactivo','0')

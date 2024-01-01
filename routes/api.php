@@ -49,6 +49,7 @@ Route::group(['prefix'=>'productos', 'namespace'=>'Api' ], function() {
 //CLASES DE PRODUCTO
 Route::group(['prefix'=>'clases/productos', 'namespace'=>'Api'], function() {
         Route::get('/listado'                 , 'MstroClasesPrdctoController@getClasesProductos');
+        Route::post('/por/linea'                 , 'MstroClasesPrdctoController@ClasesProductosPorLinea');
  });
 
 

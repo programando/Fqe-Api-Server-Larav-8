@@ -36,6 +36,12 @@ class Producto extends Model
 	 	return     DB::select(' call web_productos_por_linea ( ?)', array("$textoLineaProducto"));
  }
 
+
+
+
+ public static function PorClase ( $IdClaseProducto ) {
+	 	return     DB::select(' call web_productos_por_clase ( ?)', array($IdClaseProducto));
+ }
 	 		public function getNomproductoAttribute ( $value ){
 				return trim($value);
 			}

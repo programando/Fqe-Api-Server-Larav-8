@@ -15,5 +15,10 @@ class MstroClasesPrdctoController extends Controller
                 ->orderBy('nom_clse_prdcto')->get() ;
     }
 
+     public function ClasesProductosPorLinea( request $FormData){
+         
+        return ProductosClases::ClasesProductosPorLinea( $FormData->id_linea);
+    }
+
 
 }

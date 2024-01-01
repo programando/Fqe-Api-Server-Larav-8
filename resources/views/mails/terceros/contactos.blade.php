@@ -36,12 +36,13 @@
                                     <td style="box-sizing:border-box;
                                        font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif,'Apple Color Emoji','Segoe UI Emoji','Segoe UI Symbol';max-width:100vw;padding:32px">
                                          <br>
-                                       <p> Desde nuestro sitio web: https://fqesas.com nos ha contactado:</p>
-                                       <p> Nombre : {{ $nombre }} <br>
-                                           Email: {{ $correo }} <br>
-                                           Cargo: {{ $cargo }} <br>
-                                           País: {{ $pais }} <br>
-                                           Número:  {{  $telefono }}
+                                       <p> Desde nuestro sitio web: https: //fqesas.com nos ha contactado:</p>
+                                       <p> Nombre                 : {{ $nombre }} <br>
+                                           Email                  : {{ $correo }} <br>
+                                           Empresa                : {{ $empresa }} <br>
+                                           Cargo                  : {{ $cargo }} <br>
+                                           País                   : {{ $pais }} <br>
+                                           Número                 : {{  $telefono }}
                                        </p>
  
                                        
