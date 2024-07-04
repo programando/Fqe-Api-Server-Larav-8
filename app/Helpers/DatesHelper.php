@@ -15,6 +15,15 @@ class DatesHelper {
         return date_format($value, 'd/mm/Y');
    }
 
+public static function HOUR($value) {
+    // Asegúrate de que $value sea un objeto DateTime o una instancia de Carbon
+    if (!$value instanceof DateTime) {
+        $value = new DateTime($value);
+    }
+
+    // Formatea la hora en el formato deseado
+    return $value->format('H:i:s');
+}
 
     public static function DocumentDate ( $Value ){
       return Carbon::createFromFormat('Y-m-d H:i:s', $Value);  
