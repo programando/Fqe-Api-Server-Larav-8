@@ -165,7 +165,8 @@ class FctrasElctrnca extends Model
 							->where('type_document_id', '1')
 							->whereNotNull('uuid')
 							->orderBy('id_fact_elctrnca','DESC')
-							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto', 'is_valid', 'number']); // Facturas ->take(10)->
+							->take(100)
+							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto', 'is_valid', 'number']);  
 			}
 
 		// ACCESORS
