@@ -58,7 +58,8 @@
               
                 <td width="40%" class="taC">
                     <div class="t38 tB"> F.Q.E. S.A.S </div>
-                    <div class="t24">PBX: (+57-2) 488 1616</div>
+                    <div class="t24">PBX: (+57) 602 488 1616</div>
+                    <div class="t24">(+57) 322 534 3627 - 317 432 2752</div>
                     <div class="t24 mb15">Calle 35 # 4-31 - Cali - Colombia</div>
                     <div >Visita nuestro sitio web:</div>
                     <div class="tB"> www.fqesas.com</a></div>
