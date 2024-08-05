@@ -28,7 +28,6 @@ trait ApiSoenac {
       public function traitSoenacResolutionsInvoice() {
          //$Resolutions =   $this->traitSoenacResolutions();  
          $Resolutions =   $this->ApiSoenac->getRequest('config/resolutions' ) ; 
-         dd( $Resolutions);
          foreach ($Resolutions as $Resolution) {
             if ( $Resolution['id'] == 12 ){
                return $Resolution;

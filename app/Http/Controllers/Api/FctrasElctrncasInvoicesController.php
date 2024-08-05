@@ -205,7 +205,6 @@ class FctrasElctrncasInvoicesController
         public function invoices() {
             $URL = 'invoice'  ;
             $Documentos = FctrasElctrnca::InvoicesToSend()->get(); 
-            dd($Documentos )   ;   
             foreach ($Documentos as $Documento ) {
                 $this->invoicesToSend ( $Documento) ;    
                 $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
@@ -219,7 +218,7 @@ class FctrasElctrncasInvoicesController
             $this->jsonObject = [];
             $id_fact_elctrnca = $Facturas['id_fact_elctrnca'];    
             $otherDataInvoice = FctrasElctrnca::with('customer','total', 'products', 'emails')->where('id_fact_elctrnca','=', $id_fact_elctrnca)->get();
-            $this-> jsonObjectCreate ($Facturas , $otherDataInvoice     );
+            $this->jsonObjectCreate ($Facturas , $otherDataInvoice     );
         }
 
         private function jsonObjectCreate ( $invoce,  $Others ) {
@@ -284,7 +283,7 @@ class FctrasElctrncasInvoicesController
 
         private function invoiceCreateFilesToSend ( $id_fact_elctrnca,  $Factura  ){
             $Resolution   = $this->traitSoenacResolutionsInvoice();  
-            dd($Resolution ) ;             
+            
             $this->saveInvoicePfdFile   ( $Resolution, $Factura );
             $this->saveInvoiceXmlFile   ( $Factura              );
         }
