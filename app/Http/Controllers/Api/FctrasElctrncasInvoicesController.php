@@ -282,7 +282,8 @@ class FctrasElctrncasInvoicesController
         }
 
         private function invoiceCreateFilesToSend ( $id_fact_elctrnca,  $Factura  ){
-            $Resolution   = $this->traitSoenacResolutionsInvoice();                
+            $Resolution   = $this->traitSoenacResolutionsInvoice();  
+            dd($Resolution ) ;             
             $this->saveInvoicePfdFile   ( $Resolution, $Factura );
             $this->saveInvoiceXmlFile   ( $Factura              );
         }
