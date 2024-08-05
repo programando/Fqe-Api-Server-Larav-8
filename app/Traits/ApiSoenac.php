@@ -29,7 +29,7 @@ trait ApiSoenac {
          //$Resolutions =   $this->traitSoenacResolutions();  
          $Resolutions =   $this->ApiSoenac->getRequest('config/resolutions' ) ; 
          foreach ($Resolutions as $Resolution) {
-            if ( $Resolution['id'] == 12 ){
+            if ( $Resolution['id'] === 12 ){
                return $Resolution;
             }
          }
