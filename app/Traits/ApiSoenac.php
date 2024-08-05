@@ -16,12 +16,13 @@ trait ApiSoenac {
       }
 
       public function traitSoenacResolutions() {
-         $Resoluciones = Cache::tags('ResolucAgosto2024')
-                    ->rememberForEver('ResolucAgosto2024', function() {
-                             return $this->ApiSoenac->getRequest('config/resolutions' ) ; 
-                   }
-           );
-         return  $Resoluciones  ;
+         // $Resoluciones = Cache::tags('ResolucAgosto2024')
+         //            ->rememberForEver('ResolucAgosto2024', function() {
+         //                     return $this->ApiSoenac->getRequest('config/resolutions' ) ; 
+         //           }
+         //   );
+         // return  $Resoluciones  ;
+         return $this->ApiSoenac->getRequest('config/resolutions' ) ; 
       }
       //Cambio de resoluciones Ultimos cambio
       public function traitSoenacResolutionsInvoice() {
