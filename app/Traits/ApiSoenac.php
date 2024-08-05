@@ -27,6 +27,7 @@ trait ApiSoenac {
       //Cambio de resoluciones Ultimos cambio
       public function traitSoenacResolutionsInvoice() {
          $Resolutions =   $this->traitSoenacResolutions();  
+         dd( $Resolutions);
          foreach ($Resolutions as $Resolution) {
             if ( $Resolution['id'] == 12 ){
                return $Resolution;
