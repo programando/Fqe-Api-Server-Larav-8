@@ -23,7 +23,7 @@ trait ApiSoenac {
            );
          return  $Resoluciones  ;
       }
-      
+      //Cambio de resoluciones Ultimos cambio
       public function traitSoenacResolutionsInvoice() {
          $Resolutions =   $this->traitSoenacResolutions();  
          foreach ($Resolutions as $Resolution) {
