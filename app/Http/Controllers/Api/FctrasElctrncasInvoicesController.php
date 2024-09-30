@@ -204,15 +204,22 @@ class FctrasElctrncasInvoicesController
 
         public function invoices() {
             $URL = 'invoice'  ;
+           
             $Documentos = FctrasElctrnca::InvoicesToSend()->get(); 
+             
             foreach ($Documentos as $Documento ) {
-                $this->invoicesToSend ( $Documento) ;    
-                $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
+                $this->invoicesToSend ( $Documento) ;   
+                if  ( $Documento->is_export == false) {
+                    $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
+                }else {
+                    $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
+                }
                 $this->traitUpdateJsonObject ( $Documento );
                 $this->documentsProcessReponse( $Documento, $response ) ;
-                 //return $this->jsonObject;
+                // return $this->jsonObject;
             }  
         }
+
 
         private function invoicesToSend ($Facturas)  {
             $this->jsonObject = [];
@@ -220,6 +227,7 @@ class FctrasElctrncasInvoicesController
             $otherDataInvoice = FctrasElctrnca::with('customer','total', 'products', 'emails')->where('id_fact_elctrnca','=', $id_fact_elctrnca)->get();
             $this->jsonObjectCreate ($Facturas , $otherDataInvoice     );
         }
+
 
         private function jsonObjectCreate ( $invoce,  $Others ) {
                 $this->traitDocumentHeader              ( $invoce                , $this->jsonObject   );

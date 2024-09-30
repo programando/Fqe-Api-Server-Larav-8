@@ -8,7 +8,10 @@ class DatesHelper {
 
  
    public static function YMD( $value ) {
-        return date_format($value, 'Y-m-d');
+        $date = Carbon::parse($value);
+        if ($date && $date->isValid()) {
+            return $date->format('Y-m-d');
+        }
    }
 
    public static function DMY( $value ) {

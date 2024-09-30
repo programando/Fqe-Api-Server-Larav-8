@@ -49,7 +49,7 @@ trait FctrasElctrncasTrait {
                }
          }
 
-      protected function traitDocumentHeader($Document , &$jsonObject ) {      
+      protected function traitDocumentHeader($Document , &$jsonObject ) {  
             $jsonObject= [
                 'billing_reference'    => [],
                 'discrepancy_response' => [],
@@ -66,6 +66,18 @@ trait FctrasElctrncasTrait {
                 'type_currency_id'     => $Document["type_currency_id"],
                 'cc'                   => [],
                 ] ;
+                 
+                if ( $Document['is_export'] == true ) {
+                    $payment_exchange_rate  = [
+                        "type_currency_id"          => $Document['type_currency_id_export'],
+                        "source_currency_base_rate" => $Document['source_currency_base_rate'],
+                        "calculation_rate"          => $Document['calculation_rate'],
+                        "date"                      => Fecha::YMD ( $Document["date_calculation_rate"] ),
+                    ];
+                    $jsonObject['payment_exchange_rate'] = $payment_exchange_rate;
+                }
+
+
       }
 
 
@@ -79,7 +91,6 @@ trait FctrasElctrncasTrait {
         protected function traitCustomer( $Customer, &$jsonObject  ) {
             if ( trim( $Customer['identification_number'] ) ==='123') {  
                 unset($jsonObject );
-                dd ($jsonObject  );
             }  ;
             $jsonObject['customer'] =[
                 'identification_number'           => $Customer['identification_number'],
