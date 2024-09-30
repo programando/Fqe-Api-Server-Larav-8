@@ -125,7 +125,9 @@ class FctrasElctrnca extends Model
 		// SCOPES
 		//=========
 			public function scopeInvoicesToSend ( $query ){
-				return $query->Where('rspnse_dian','0')->where('type_document_id', '1'); // Facturas
+				return $query->Where('rspnse_dian','0')
+					->where('type_document_id', '1') 
+					->orWhere('type_document_id', '2'); // Facturas de venta y exportacion
 			}
 			public function scopeCreditNotesToSend ( $query ){
 				return $query->Where('rspnse_dian','0')->whereIn('type_document_id', array('5','6'));	// Notas Crédito/Débito

@@ -50,6 +50,7 @@ trait FctrasElctrncasTrait {
          }
 
       protected function traitDocumentHeader($Document , &$jsonObject ) {  
+
             $jsonObject= [
                 'billing_reference'    => [],
                 'discrepancy_response' => [],
