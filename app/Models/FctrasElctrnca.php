@@ -116,11 +116,6 @@ class FctrasElctrnca extends Model
 			return $this->hasOne(DcmntosSprteAnulado::class, 'id_fact_elctrnca');
 		}
 
- 
-
-
- 
-
 
 		// SCOPES
 		//=========
