@@ -100,7 +100,6 @@ trait FctrasElctrncasTrait {
                 'type_organization_id'            => $Customer['type_organization_id'],
                 'language_id'                     => $Customer['language_id'],
                 'country_id'                      => $Customer['country_id'],
-                'municipality_id'                 => $Customer['municipality_id'],
                 'type_regime_id'                  => $Customer['type_regime_id'],
                 'type_liability_id'               => $Customer['type_liability_id'],
                 'tax_detail_id'                   => $Customer['tax_detail_id'],
@@ -110,11 +109,13 @@ trait FctrasElctrncasTrait {
                 'email'                           => $Customer['email'],
                 'merchant_registration'           => $Customer['merchant_registration']
             ];
-            if (!empty($Customer['country_subentity']))  $jsonObject['customer']['country_subentity'] = trim($Customer['country_subentity']);
-            if (!empty($Customer['city_name']))          $jsonObject['customer']['city_name']         = trim($Customer['city_name']);
+            if (!empty($Customer['country_subentity']))  $jsonObject['customer']['country_subentity']                                         = trim($Customer['country_subentity']);
+            if (!empty($Customer['city_name']))          $jsonObject['customer']['city_name']                                                 = trim($Customer['city_name']);
+            if (empty($Customer['country_subentity']) && empty($Customer['city_name']))            $jsonObject['customer']['municipality_id'] = $Customer['municipality_id'];
+            
         }
 
-
+        
         protected function traitPaymentForms( $Document, &$jsonObject  ) {
             $payment = [
                 'payment_form_id'   => $Document["payment_form_id"],
