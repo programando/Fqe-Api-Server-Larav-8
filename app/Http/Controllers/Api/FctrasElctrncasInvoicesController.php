@@ -216,7 +216,7 @@ class FctrasElctrncasInvoicesController
                 }
                 $this->traitUpdateJsonObject ( $Documento );
                 $this->documentsProcessReponse( $Documento, $response ) ;
-                 return $this->jsonObject;
+                // return $this->jsonObject;
             }  
         }
 
