@@ -110,8 +110,8 @@ trait FctrasElctrncasTrait {
                 'email'                           => $Customer['email'],
                 'merchant_registration'           => $Customer['merchant_registration']
             ];
-            if (!empty($Customer['country_subentity']))  $jsonObject['customer']['country_subentity'] = $Customer['country_subentity'];
-            if (!empty($Customer['city_name']))          $jsonObject['customer']['city_name']         = $Customer['city_name'];
+            if (!empty($Customer['country_subentity']))  $jsonObject['customer']['country_subentity'] = trim($Customer['country_subentity']);
+            if (!empty($Customer['city_name']))          $jsonObject['customer']['city_name']         = trim($Customer['city_name']);
         }
 
 
