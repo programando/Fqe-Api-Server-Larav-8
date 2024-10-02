@@ -209,14 +209,14 @@ class FctrasElctrncasInvoicesController
              
             foreach ($Documentos as $Documento ) {
                 $this->invoicesToSend ( $Documento) ;   
-                if  ( $Documento->is_export == false) {
-                    $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
-                }else {
-                    $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
-                }
+                // if  ( $Documento->is_export == false) {
+                //     $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
+                // }else {
+                //     $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
+                // }
                 $this->traitUpdateJsonObject ( $Documento );
                 $this->documentsProcessReponse( $Documento, $response ) ;
-                // return $this->jsonObject;
+                 return $this->jsonObject;
             }  
         }
 
