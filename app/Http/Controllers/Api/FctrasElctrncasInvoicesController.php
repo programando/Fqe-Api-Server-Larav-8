@@ -214,8 +214,8 @@ class FctrasElctrncasInvoicesController
                 // }else {
                 //     $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
                 // }
-                $this->traitUpdateJsonObject ( $Documento );
-                $this->documentsProcessReponse( $Documento, $response ) ;
+                //$this->traitUpdateJsonObject ( $Documento );
+                //$this->documentsProcessReponse( $Documento, $response ) ;
                  return $this->jsonObject;
             }  
         }
