@@ -93,6 +93,7 @@ trait FctrasElctrncasTrait {
             if ( trim( $Customer['identification_number'] ) ==='123') {  
                 unset($jsonObject );
             }  ;
+
             $jsonObject['customer'] =[
                 'identification_number'           => $Customer['identification_number'],
                 'type_document_identification_id' => $Customer['type_document_identification_id'],
@@ -109,7 +110,10 @@ trait FctrasElctrncasTrait {
                 'email'                           => $Customer['email'],
                 'merchant_registration'           => $Customer['merchant_registration']
             ];
+            if (!empty($Customer['country_subentity']))  $jsonObject['customer']['country_subentity'] = $Customer['country_subentity'];
+            if (!empty($Customer['city_name']))          $jsonObject['customer']['city_name']         = $Customer['city_name'];
         }
+
 
         protected function traitPaymentForms( $Document, &$jsonObject  ) {
             $payment = [

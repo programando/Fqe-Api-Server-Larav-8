@@ -8,30 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class FctrasElctrncasCustomer
- * 
- * @property int $id
- * @property int $id_fact_elctrnca
- * @property int $identification_number
- * @property int $type_document_identification_id
- * @property int $type_organization_id
- * @property int $language_id
- * @property int $country_id
- * @property int $municipality_id
- * @property int $type_regime_id
- * @property int $type_liability_id
- * @property int $tax_detail_id
- * @property string $name
- * @property string $phone
- * @property string $address
- * @property string $email
- * @property string $merchant_registration
- * 
- * @property FctrasElctrnca $fctras_elctrnca
- *
- * @package App\Models
- */
+
 class FctrasElctrncasCustomer extends Model
 {
 	protected $table = 'fctras_elctrncas_customers';
@@ -47,7 +24,9 @@ class FctrasElctrncasCustomer extends Model
 		'municipality_id'                 => 'int',
 		'type_regime_id'                  => 'int',
 		'type_liability_id'               => 'int',
-		'tax_detail_id'                   => 'int'
+		'tax_detail_id'                   => 'int',
+		'country_subentity'                   => '',
+		'city_name'                   => '',
 	];
 
 	protected $fillable = [
@@ -65,7 +44,9 @@ class FctrasElctrncasCustomer extends Model
 		'phone',
 		'address',
 		'email',
-		'merchant_registration'
+		'merchant_registration',
+		'country_subentity',
+		'city_name',
 	];
 	
 /// RELATIONS
