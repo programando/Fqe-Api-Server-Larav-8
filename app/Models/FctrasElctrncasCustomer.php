@@ -24,9 +24,7 @@ class FctrasElctrncasCustomer extends Model
 		'municipality_id'                 => 'int',
 		'type_regime_id'                  => 'int',
 		'type_liability_id'               => 'int',
-		'tax_detail_id'                   => 'int',
-		'country_subentity'                   => '',
-		'city_name'                   => '',
+		'tax_detail_id'                   => 'int'
 	];
 
 	protected $fillable = [
