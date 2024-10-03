@@ -219,7 +219,7 @@
                     <td width="30%">
                         <table width="100%">
                             <tr>
-                                <td width="50%" class="p105 tB bRS1 bBS1">TOTAL BRUTO (USD):</td>
+                                <td width="50%" class="p105 tB bRS1 bBS1">TOTAL BRUTO (USD)</td>
                                 <td width="50%" class="t24 p105 bBS1 taR">{{ Numbers::invoiceFormatExport( $Totals['line_extension_amount']* $Export['trm_factor'] ) }}</td>
                             </tr>
                         </table>
