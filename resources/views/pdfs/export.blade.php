@@ -33,6 +33,7 @@
     .p10            { padding:10pt; }
     .p20            { padding:20pt; }
     .linea          { height:5pt; }
+    .ml15            { margin-left:15pt; }
     .bS1            { border:3pt solid #333; }
     .bRS1           { border-right:3pt solid #333; }
     .bBS1           { border-bottom:3pt solid #333; }
@@ -182,11 +183,11 @@
                         <td width="15%" class="p128 bRS1 taC">  {{ $Product['invoiced_quantity']                             }} </td>
                         <td width="15%" class="p128 bRS1 taC">  {{ $Product['kilos']                                         }} </td>
                         <td width="40%" class="p128 bRS1">      {{ $Product['description']                                   }}</td>
-                        <td width="15%" class="p128 bRS1 taR">  {{ Numbers::invoiceFormat($Product['price_amount'])          }}</td>
-                        <td width="15%" class="p128 taR">       {{ Numbers::invoiceFormat($Product['line_extension_amount']) }}</td>
+                        <td width="15%" class="p128 bRS1 taR">  {{ Numbers::invoiceFormatExport($Product['price_amount']* $Export['trm_factor'])          }}</td>
+                        <td width="15%" class="p128 taR">       {{ Numbers::invoiceFormatExport($Product['line_extension_amount']* $Export['trm_factor']) }}</td>
                     </tr>
                 @endforeach
-                {{ $CantFaltante= 23-$Product['CantProducts'] }}
+                {{ $CantFaltante= 18-$Product['CantProducts'] }}
                 @for ($i = 1; $i <= $CantFaltante; $i++)
                      <tr>
                         <td width="15%" class="p128 bRS1"></td>
@@ -202,10 +203,7 @@
 
                     <td width="70%" class="p128 bRS1">
                     
-                    <div class="mb15">
-                            <strong>SON:</strong>
-                            {{ $Additionals['vr_letras'] }}
-                        </div>
+
 
                         <div class="mb15">
                             <strong>CUFE:</strong>
@@ -221,20 +219,15 @@
                     <td width="30%">
                         <table width="100%">
                             <tr>
-                                <td width="50%" class="p105 tB bRS1 bBS1">SUBTOTAL :</td>
-                                <td width="50%" class="t24 p105 bBS1 taR">{{ Numbers::invoiceFormat($Totals['line_extension_amount']) }}</td>
+                                <td width="50%" class="p105 tB bRS1 bBS1">TOTAL BRUTO :</td>
+                                <td width="50%" class="t24 p105 bBS1 taR">{{ Numbers::invoiceFormatExport( $Totals['line_extension_amount']* $Export['trm_factor'] ) }}</td>
                             </tr>
                         </table>
+
                         <table width="100%">
                             <tr>
-                                <td width="50%" class="p105 tB bRS1 bBS1">IVA</td>
-                                <td width="50%" class="t24 p105 bBS1 taR">{{ Numbers::invoiceFormat($Additionals['vr_iva']) }}</td>
-                            </tr>
-                        </table>
-                        <table width="100%">
-                            <tr>
-                                <td width="50%" class="p105 tB bRS1">TOTAL</td>
-                                <td width="50%" class="t24 p105 taR">{{ Numbers::invoiceFormat($Totals['payable_amount']) }}</td>
+                                <td width="50%" class="p105 tB bRS1">TOTAL A PAGAR USD</td>
+                                <td width="50%" class="t24 p105 taR">{{ Numbers::invoiceFormatExport( $Totals['payable_amount'] * $Export['trm_factor']) }}</td>
                             </tr>
                         </table>
                     </td>
@@ -242,30 +235,21 @@
             </table>
         </div>
 
-        <div class="bS1 bRad p10 mb40">
-            <table width="100%">
+        <div class="bS1 bRad  mb15">
+            <table width="100%" class="mb15">
                 <tr>
-                    <td width="70%" >
-                        <div class="bS1 bRad">
-                            <table class="bBS1 taC" width="100%">
-                                <tr>
-                                    <td width="40%" class="p5 bRS1">TIPO DE IMPUESTO</td>
-                                    <td width="20%" class="p5 bRS1">BASE</td>
-                                    <td width="20%" class="p5 bRS1">TARIFA</td>
-                                    <td width="20%" class="p5">IMPUESTO</td>
-                                </tr>
-                            </table>
-                            
-                            <table width="100%">
-                                <tr>
-                                    <td width="40%" class="p5 bRS1">IVA</td>
-                                    <td width="20%" class="p5 taR bRS1">{{ Numbers::invoiceFormat($Additionals['vr_base']) }}</td>
-                                    <td width="20%" class="p5 taR bRS1">{{ Numbers::invoiceFormat($Additionals['pctje_iva']) .'%'}}</td>
-                                    <td width="20%" class="p5 taR">     {{ Numbers::invoiceFormat($Additionals['vr_iva']) }}</td>
-                                </tr>
-                            </table>
-                        </div>
+
+                    <td width="70%"  >
+                        <div class="mb15 p5"><strong>OBSERVACIONES :</strong> </div>
+                        <div class="mb15 ml15"><strong>TRM :</strong> 4.224,21 &nbsp;&nbsp;&nbsp;<span>Dólar estadounidense (USD)</span> </div> 
+                        <div class="mb15 ml15"><strong>INCOTERMS :</strong> C.I.F.  Haina, Republica Dominicana</div>
+                        <div class="mb15 ml15"><strong>País de origen :</strong> Colombia &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>País destino :</strong> Republica Dominicana</div>
+                        <div class="mb15 ml15"><strong>Peso neto:</strong> 15.077 Kg &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;<strong>Peso bruto:</strong> 16.553 Kg </div>
+                        <div class="mb15 ml15"><strong>Número total tambores:</strong> 80</div>
+
+ 
                     </td>
+
                     <td width="30%" class="taR">
                         <img src="data:image/png;base64,{{ base64_encode($CodigoQR) }}">
                           

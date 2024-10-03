@@ -314,14 +314,15 @@ class FctrasElctrncasInvoicesController
             $Totals          = $Factura['total'];
             $Additionals     = $Factura['additionals'];
             $ServiceResponse = $Factura['serviceResponse'];
-            $Export          = $Factura['export'];
+            $Export          = $Factura['exports'];
             $CantProducts    = $Products->count();         
             $CodigoQR        = $this->QrCodeGenerateTrait( $ServiceResponse['qr_data'] );
-            
-            $FileToCreaate = '';
-            $IsExport == 0 ? $FileToCreaate='pdfs.invoice' : $FileToCreaate='pdfs.export';
+           
+            $FileToCreate = '';
+            $IsExport == 0 ? $FileToCreate='pdfs.invoice' : $FileToCreate='pdfs.export';
             $Data            = compact('Resolution', 'Fechas', 'Factura','Customer', 'Products','CantProducts', 'Totals','CodigoQR', 'Additionals', 'Export' );
-            $PdfContent      = $this->pdfCreateFileTrait( $FileToCreaate  , $Data);
+
+            $PdfContent      = $this->pdfCreateFileTrait( $FileToCreate  , $Data);
             
             Storage::disk('Files')->put( $this->PdfFile, $PdfContent);
         }

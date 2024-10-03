@@ -12,6 +12,9 @@ class NumbersHelper {
    public static function invoiceFormat($value) {
       return number_format( $value, 0, ",", ".");
    }
+   public static function invoiceFormatExport($value) {
+      return number_format( $value, 2, ",", ".");
+   }
 
 }
 ?>

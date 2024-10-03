@@ -14,9 +14,6 @@ class FctrasElctrncasExport extends Model
 		'id_fact_elctrnca' => 'int',
 		'trm_dia' => 'float',
 		'trm_factor' => 'float',
-	 
-
-
 	];
 
 	protected $fillable = [
@@ -39,7 +36,8 @@ class FctrasElctrncasExport extends Model
 		'export_pais_destino',
 		'export_ciudad_destino',
 		'export_peso_bruto',
-		'valor_letras'
+		'valor_letras',
+		'trm_text'
 
 	];
 
@@ -104,6 +102,9 @@ class FctrasElctrncasExport extends Model
 	}
 
 	public function getValorLetrasAttribute($value) {
+		return  strtoupper( trim($value));
+	}
+	public function getTrmTextAttribute($value) {
 		return  strtoupper( trim($value));
 	}
 
