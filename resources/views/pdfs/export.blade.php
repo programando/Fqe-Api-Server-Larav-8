@@ -216,8 +216,8 @@
                         </div>
 
                         
-                              
-                            <div class="mb15 ml15"><strong>VALOR EN LETRAS :</strong> VEINTISIETE MIL SETECIENTOS SESENTA Y SEIS DÓLARES ESTADOUNIDENSES </div> 
+                            <br>  
+                            <div class="mb15 "><strong>VALOR EN LETRAS :</strong> VEINTISIETE MIL SETECIENTOS SESENTA Y SEIS DÓLARES ESTADOUNIDENSES </div> 
                         
 
                     </td>
