@@ -8,23 +8,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class FctrasElctrncasAdditional
- * 
- * @property int $id
- * @property int $id_fact_elctrnca
- * @property string $dpto
- * @property string $frma_pgo
- * @property string $nro_tlfno
- * @property string $vr_letras
- * @property float $vr_base
- * @property float $pctje_iva
- * @property float $vr_iva
- * 
- * @property FctrasElctrnca $fctras_elctrnca
- *
- * @package App\Models
- */
+
 class FctrasElctrncasAdditional extends Model
 {
 	protected $table = 'fctras_elctrncas_additionals';

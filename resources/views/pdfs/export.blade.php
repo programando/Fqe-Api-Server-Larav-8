@@ -119,7 +119,7 @@
                 </td>
                 <td></td>
                 <td width="35%">
-                    <div class="t26 taC mb3"><strong> FACTURA ELECTRÓNICA DE VENTA </strong> </div>
+                    <div class="t26 taC mb3"><strong> FACTURA ELECTRÓNICA DE VENTA EXPORTACIÓN </strong> </div>
                     <div class="p8 bS1 bRad tB taC t32"> {{ $Factura['prfjo_dcmnto']. ' ' . $Factura['nro_dcmnto'] }}</div>
                 </td>
             </tr>

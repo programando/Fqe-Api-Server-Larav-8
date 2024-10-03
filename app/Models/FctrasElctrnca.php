@@ -117,6 +117,10 @@ class FctrasElctrnca extends Model
 		}
 
 
+		public function exports() {
+			return $this->hasOne(FctrasElctrncasExport::class, 'id_fact_elctrnca');
+		}
+
 		// SCOPES
 		//=========
 			public function scopeInvoicesToSend ( $query ){

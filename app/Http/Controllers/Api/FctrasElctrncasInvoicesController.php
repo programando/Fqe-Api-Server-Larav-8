@@ -273,12 +273,23 @@ class FctrasElctrncasInvoicesController
 
 
         private function invoiceSendGetData ( $id_fact_elctrnca ) {
-             $Factura = FctrasElctrnca::with('customer','total', 'products', 'emails','additionals', 'serviceResponse')->where('id_fact_elctrnca','=', $id_fact_elctrnca)->get();
-             $Factura = $Factura[0];
+            $Factura = FctrasElctrnca::with('customer','total', 'products', 'emails','additionals', 'serviceResponse','exports')->where('id_fact_elctrnca','=', $id_fact_elctrnca)->get();
+            $Factura = $Factura[0];
+            $IsExport = $Factura['is_export'];
             $this->getNameFilesTrait($Factura );
-            $this->invoiceCreateFilesToSend  ( $id_fact_elctrnca,  $Factura  );
+            $this->invoiceCreateFilesToSend  ( $id_fact_elctrnca,  $Factura, $IsExport  );
             return $Factura;
         }
+
+        public function DownloadPdf ( $id_fact_elctrnca ) {
+           $Factura = FctrasElctrnca::with('customer','total', 'products', 'emails','additionals', 'serviceResponse','exports')->where('id_fact_elctrnca','=',$id_fact_elctrnca)->get();
+           $Factura = $Factura[0];
+           $IsExport = $Factura['is_export'];
+           $this->getNameFilesTrait($Factura );
+           $this->invoiceCreateFilesToSend  ( $id_fact_elctrnca,  $Factura, $IsExport  );
+           return response()->download( Storage::disk('Files')->path( $this->PdfFile ) )->deleteFileAfterSend();
+       }
+
 
         public function invoiceFileDownload ( $fileType, $id_fact_elctrnca ) {
             $this->invoiceSendGetData ( $id_fact_elctrnca) ;
@@ -289,24 +300,29 @@ class FctrasElctrncasInvoicesController
             }
         }
 
-        private function invoiceCreateFilesToSend ( $id_fact_elctrnca,  $Factura  ){
+        private function invoiceCreateFilesToSend ( $id_fact_elctrnca,  $Factura, $IsExport=0  ){
             $Resolution   = $this->traitSoenacResolutionsInvoice();  
             
-            $this->saveInvoicePfdFile   ( $Resolution, $Factura );
+            $this->saveInvoicePfdFile   ( $Resolution, $Factura, $IsExport );
             $this->saveInvoiceXmlFile   ( $Factura              );
         }
 
-        private function saveInvoicePfdFile  ( $Resolution, $Factura   ){           
+        private function saveInvoicePfdFile  ( $Resolution, $Factura, $IsExport = 0   ){           
             $Fechas          = $this->FechasFactura ( $Factura['fcha_dcmnto'], $Factura['due_date'] );
             $Customer        = $Factura['customer'];
             $Products        = $Factura['products'];
             $Totals          = $Factura['total'];
             $Additionals     = $Factura['additionals'];
             $ServiceResponse = $Factura['serviceResponse'];
+            $Export          = $Factura['export'];
             $CantProducts    = $Products->count();         
             $CodigoQR        = $this->QrCodeGenerateTrait( $ServiceResponse['qr_data'] );
-            $Data            = compact('Resolution', 'Fechas', 'Factura','Customer', 'Products','CantProducts', 'Totals','CodigoQR', 'Additionals' );
-            $PdfContent      = $this->pdfCreateFileTrait('pdfs.invoice', $Data);
+            
+            $FileToCreaate = '';
+            $IsExport == 0 ? $FileToCreaate='pdfs.invoice' : $FileToCreaate='pdfs.export';
+            $Data            = compact('Resolution', 'Fechas', 'Factura','Customer', 'Products','CantProducts', 'Totals','CodigoQR', 'Additionals', 'Export' );
+            $PdfContent      = $this->pdfCreateFileTrait( $FileToCreaate  , $Data);
+            
             Storage::disk('Files')->put( $this->PdfFile, $PdfContent);
         }
 

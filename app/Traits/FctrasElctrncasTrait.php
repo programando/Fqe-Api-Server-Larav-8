@@ -253,11 +253,13 @@ trait FctrasElctrncasTrait {
         }
     
         private function getNameFilesTrait( $Document, $addPrefijo=false ) {  
+               
                 $documentNumber = $Document['document_number'];
                 $documentNumber = $addPrefijo== true ? $Document['prfjo_dcmnto'].$documentNumber : $documentNumber;
                 $this->PdfFile  = $documentNumber.'.pdf';
                 $this->XmlFile  = $documentNumber.'.xml';
                 $this->DocumentNumber = $documentNumber;
+                 
         }
 
 

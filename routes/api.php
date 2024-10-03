@@ -108,8 +108,11 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: post('eventos/status/dian'          , $localController.'InvoicesGetEventsStatusServerDian');
         Route:: post('eventos/status/local'         , $localController.'InvoicesGetEventsStatusServerLocal');
         Route:: get('generadas'                     , $localController.'ultimas100FacturasGeneradas');
+
+        Route:: get('/get/pdf/{id}'     , $localController.'DownloadPdf');
          
     });
+
  
 
 Route::resource('facturas-electronicas', 'Api\FctrasElctrncaController', ['only'=> ['index', 'show', '']] );
