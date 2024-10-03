@@ -219,14 +219,14 @@
                     <td width="30%">
                         <table width="100%">
                             <tr>
-                                <td width="50%" class="p105 tB bRS1 bBS1">TOTAL BRUTO :</td>
+                                <td width="50%" class="p105 tB bRS1 bBS1">TOTAL BRUTO (USD):</td>
                                 <td width="50%" class="t24 p105 bBS1 taR">{{ Numbers::invoiceFormatExport( $Totals['line_extension_amount']* $Export['trm_factor'] ) }}</td>
                             </tr>
                         </table>
 
                         <table width="100%">
                             <tr>
-                                <td width="50%" class="p105 tB bRS1">TOTAL A PAGAR USD</td>
+                                <td width="50%" class="p105 tB bRS1">TOTAL A PAGAR (USD)</td>
                                 <td width="50%" class="t24 p105 taR">{{ Numbers::invoiceFormatExport( $Totals['payable_amount'] * $Export['trm_factor']) }}</td>
                             </tr>
                         </table>
@@ -242,6 +242,7 @@
                     <td width="70%"  >
                         <div class="mb15 p5"><strong>OBSERVACIONES :</strong> </div>
                         <div class="mb15 ml15"><strong>TRM :</strong> 4.224,21 &nbsp;&nbsp;&nbsp;<span>Dólar estadounidense (USD)</span> </div> 
+                        <div class="mb15 ml15"><strong>VALOR EN LETRAS :</strong> VEINTISIETE MIL SETECIENTOS SESENTA Y SEIS DÓLARES ESTADOUNIDENSES </div> 
                         <div class="mb15 ml15"><strong>INCOTERMS :</strong> C.I.F.  Haina, Republica Dominicana</div>
                         <div class="mb15 ml15"><strong>País de origen :</strong> Colombia &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <strong>País destino :</strong> Republica Dominicana</div>
                         <div class="mb15 ml15"><strong>Peso neto:</strong> 15.077 Kg &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;<strong>Peso bruto:</strong> 16.553 Kg </div>
