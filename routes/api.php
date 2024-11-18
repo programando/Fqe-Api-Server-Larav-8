@@ -1,11 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Route;
-
-/*    DB::listen(function($query) {
-echo "<pre>{$query->sql} - {$query->time}</pre>";
-});
-  */
-
 use Illuminate\Http\Request;
 
 
@@ -14,7 +8,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
  
-
 
 // DOCUMENTO SOPORTE
 Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {

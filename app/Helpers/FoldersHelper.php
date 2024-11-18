@@ -31,4 +31,9 @@ class FoldersHelper {
     public static function ProductsImagesFolder () {
       return asset('storage/images/productos') ; // storage_path('app/public/images/productos');
    }
+
+   public static function ProductosVenta ( $file ) {
+      return asset("storage/images/productos_ventas_online/$file") ; // storage_path('app/public/images/productos');
+   }
+
 }
