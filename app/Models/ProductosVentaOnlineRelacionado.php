@@ -24,11 +24,9 @@ class ProductosVentaOnlineRelacionado extends Model
 		'idproducto_rlcndo'
 	];
 
- 
-
 	public function Productos() {
 		return $this->belongsTo(ProductosVentaOnline::class, 'idproducto_rlcndo', 'idproducto')
 			->select('idproducto','idproducto_ppal', 'nomproducto');
 	}
-
+	
 }

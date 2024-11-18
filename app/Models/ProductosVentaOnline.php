@@ -56,8 +56,6 @@ class ProductosVentaOnline extends Model
 			->get();
 	}
 
-	 
-	 
 
 	public function Imagenes()	{
 		return $this->hasMany(ProductosVentaOnlineImagene::class, 'idproducto');
@@ -67,7 +65,6 @@ class ProductosVentaOnline extends Model
 		return $this->hasMany(ProductosVentaOnlineRelacionado::class, 'idproducto');
 	}
  
-	
 
 	public function getNomproductoAttribute ( $value ){
 		return trim( $value) ;
