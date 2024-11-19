@@ -1,99 +1,102 @@
 <?php
-
-/**
- * Created by Reliese Model.
- */
-
+ 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
- 
+ use DB;
+use Strings;
+
 class Tercero extends Model
 {
 	protected $table = 'terceros';
-	protected $primaryKey = 'id_terc';
+	protected $primaryKey = 'idtercero';
 	public $timestamps = false;
 
 	protected $casts = [
-		'id_idntfcion' => 'int',
+		'id_tp_dcmnto' => 'int',
+		'id_tp_persona' => 'int',
 		'id_mcipio' => 'int',
-		'id_linea_cli' => 'int',
-		'id_terc_vend_ppal' => 'int',
-		'id_terc_vend_secd' => 'int',
 		'es_cliente' => 'bool',
-		'es_proveedor' => 'bool',
-		'es_empleado' => 'bool',
-		'es_vendedor' => 'bool',
-		'vend_free' => 'bool',
-		'vend_listados' => 'bool',
-		'usuario' => 'bool',
-		'inactivo' => 'bool'
+		'es_proveedor' => 'bool'
 	];
 
 	protected $fillable = [
-		'nro_identif',
-		'dv',
-		'id_idntfcion',
+		'id_tp_dcmnto',
+		'id_tp_persona',
 		'id_mcipio',
-		'id_linea_cli',
-		'id_terc_vend_ppal',
-		'id_terc_vend_secd',
-		'nom_full',
-		'nom_ccial',
-		'nom_suc',
-		'nom_fact',
-		'email',
-		'direcc',
-		'nro_tel',
-		'nro_cel',
+		'nro_dcmnto',
+		'dv',
+		'p_nombre',
+		's_nombre',
+		'p_apellido',
+		's_apellido',
+		'razon_social',
+		'nro_telefono',
+		'direccion',
+		'complemento',
 		'es_cliente',
 		'es_proveedor',
-		'es_empleado',
-		'es_vendedor',
-		'vend_free',
-		'vend_cod',
-		'vend_listados',
-		'vend_nom_fact',
-		'usuario',
 		'inactivo',
-		'cod_vendedor',
-		'nom_vendedor'
+		'email'
 	];
 
-	public function terceros_notas()
+   protected $attributes = [
+        'p_nombre' => '',
+        's_nombre' => '',
+				'p_apellido' => '',
+				's_apellido' => '',
+				'razon_social'=> '',
+				'complemento' => '', 
+				'nro_telefono' => '', 
+				'email' => '', 
+				'inactivo' => 0, 
+				'es_cliente' => 0, 
+				'es_proveedor' =>0, 
+				'dv' => '', 
+    ];
+
+
+protected $appends  = ['nom_tercero'];
+
+	public function getnomTerceroAttribute() {  
+			$NomTercero = '';
+			if ( $this->attributes['id_tp_dcmnto'] != 3 ) {
+				$NomTercero .=  Strings::UpperTrim( $this->attributes['p_nombre']) . ' ';
+				$NomTercero .=  Strings::UpperTrim( $this->attributes['s_nombre']) . ' ';
+				$NomTercero .=  Strings::UpperTrim( $this->attributes['p_apellido']) . ' ';
+				$NomTercero .=  Strings::UpperTrim( $this->attributes['s_apellido']) . ' ';
+			}else {
+      	$NomTercero .=  Strings::UpperTrim( $this->attributes['razon_social']) . ' ';
+			}
+      return  trim($NomTercero);
+  }
+
+//-------------//
+// MUTATORS //
+//-------------//
+	public function setpNombreAttribute($value)			{ $this->attributes['p_nombre'] 		= Strings::UpperTrim( $value); 		}
+	public function setsNombreAttribute($value)			{ $this->attributes['s_nombre'] 		= Strings::UpperTrim( $value); 		}
+	public function setpApellidoAttribute($value)		{ $this->attributes['p_apellido'] 	= Strings::UpperTrim( $value); 		}
+	public function setsApellidoAttribute($value)		{ $this->attributes['s_apellido'] 	= Strings::UpperTrim( $value); 		}
+	public function setrazonSocialAttribute($value)	{ $this->attributes['razon_social'] = Strings::UpperTrim( $value); 		}
+	public function setdireccionAttribute($value)		{ $this->attributes['direccion'] 		= Strings::UpperTrim( $value); 		}
+	public function setcomplementoAttribute($value)	{	$this->attributes['complemento'] 		= Strings::UpperTrim( $value); 		}
+	public function setnroTelefonoAttribute($value)	{	$this->attributes['nro_telefono'] = Strings::UpperTrim( $value); 		}
+ 
+
+	public function TiposDocumento()
 	{
-		return $this->hasMany(TercerosNota::class, 'id_terc_usua');
+		return $this->belongsTo(TiposDcmnto::class, 'id_tp_dcmnto');
 	}
-   /*---------------------------------------------------
-        SCOPES
-   ---------------------------------------------------*/
-	        public function scopeclientesActivosPorVendedor($query, $idTercVendedor){
-            return $query->Where('es_cliente','1')
-                  ->Where('inactivo','0')
-									->Where('id_terc_vend_ppal',$idTercVendedor);
-        }
 
-        public function scopeclientesBuscarNomSucNitNomCcial ( $query, $Filtro){
-           return $query
-                    ->Where('nom_full'         ,'LIKE'   , "%$Filtro%")
-                    ->orWhere('nom_suc'       ,'LIKE'   , "%$Filtro%")
-                    ->orWhere('nro_identif'   ,'LIKE'   , "%$Filtro%")
-                    ->orWhere('nom_ccial'     ,'LIKE'   , "%$Filtro%");
+	public function Municipios()
+	{
+		return $this->belongsTo(Municipio::class, 'id_mcipio');
+	}
 
-        }
-
-				public function getNomFullAttribute( $value){
-					 return  trim( $value );
-				}
-			  public function getNomSucAttribute( $value){
-					 return  trim( $value );
-				}
-			  public function getNomCcialAttribute( $value){
-					 return  trim( $value );
-				}	
-			  public function getNroIdentifAttribute( $value){
-					 return  trim( $value );
-				}								
+	public function TiposPersonas()
+	{
+		return $this->belongsTo(TiposPersona::class, 'id_tp_persona');
+	}
 }
