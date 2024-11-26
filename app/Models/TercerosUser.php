@@ -1,19 +1,17 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
+ 
 namespace App\Models;
 
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
-use App\Helpers\StringHelper as Strings;
+ 
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Strings;
 
 class TercerosUser extends Authenticatable
 {

@@ -10,8 +10,8 @@ use App\Http\Controllers\MunicipiosController;
  
 Route::controller( TiposDcmntosController::class )->group ( function () {  Route::get('catalogos/tipos/documentos' , 'ListarTodos') ; });
 Route::controller( TiposPersonasController::class )->group ( function () {  Route::get('catalogos/tipos/personas' , 'ListarTodas') ; });
-Route::controller( TiposPersonasController::class )->group ( function () {  Route::get('catalogos/departamentos' , 'ListarTodos') ; });
-Route::controller( TiposPersonasController::class )->group ( function () {  Route::get('catalogos/municipios/por/departamento' , 'MunicipiosPorDepartamento') ; });
+Route::controller( DepartamentosController::class )->group ( function () {  Route::get('catalogos/departamentos' , 'ListarTodos') ; });
+Route::controller( MunicipiosController::class )->group ( function () {  Route::post('catalogos/municipios/por/departamento' , 'MunicipiosPorDepartamento') ; });
 
 ?>
 

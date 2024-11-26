@@ -11,6 +11,7 @@ class TercerosClientesController extends Controller
     var $EsNuevoRegistro = false;
 
     public function NuevoRegistro ( request $FormData ) {
+        
         $Cliente                = $this->BuscarNitEmail ($FormData->nro_dcmnto, $FormData->email );
         $Cliente->id_tp_dcmnto  = $FormData->id_tp_dcmnto ;
         $Cliente->id_tp_persona = $FormData->id_tp_persona;
@@ -23,12 +24,13 @@ class TercerosClientesController extends Controller
         $Cliente->email         = $FormData->email ;
         $Cliente->complemento   = $FormData->complemento ;
         $Cliente->es_cliente    = true ;
-       
+        
         $Cliente->save();
+    
         if ( $this->EsNuevoRegistro === true ){
             $Usuario            = new Usuario;
             $Usuario->email     = $FormData->email ;
-            $Usuario->idtercero = $Cliente->idtercero ;
+            $Usuario->id_terc  = $Cliente->idtercero ;
             $Usuario->password  = $FormData->password ;
             $Usuario->save();
         }

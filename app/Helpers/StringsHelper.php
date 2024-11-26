@@ -14,7 +14,8 @@ class StringsHelper {
             }
       }
 
-    public static function UpperTrim( $String, $Long ) {
+    public static function UpperTrim( $String, $Long=0 ) {
+        if ( $Long== 0 ) $Long = strlen( trim($String));
         $String = trim( $String );
         $String = preg_replace('/\s\s+/', ' ', $String  );
         $String = substr($String, 0, $Long  );
