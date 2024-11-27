@@ -16,6 +16,10 @@ class ProductosVentaOnlineController extends Controller
     public function ProductoPresentaciones (Request $FormData) {
         return Productos::ProductoPresentaciones($FormData->idproducto_ppal );
     }
+    
+    public function ProductoPresentacionesTodos ( ) {
+        return Productos::ProductoPresentacionesTodos( );
+    }
 
     
 }

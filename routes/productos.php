@@ -9,6 +9,7 @@ Route::controller( ProductosVentaOnlineController::class )
 ->group ( function () {
         Route::get('productos'                                       , 'Productos') ;
         Route::post('producto/presentaciones'                         , 'ProductoPresentaciones') ;
+        Route::get('producto/presentaciones/todas'                   , 'ProductoPresentacionesTodos') ;
  
 });
 
