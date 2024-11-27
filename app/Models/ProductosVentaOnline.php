@@ -9,7 +9,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
- 
+use Folders;
+
 class ProductosVentaOnline extends Model
 {
 	protected $table = 'productos_venta_online';
@@ -37,13 +38,15 @@ class ProductosVentaOnline extends Model
 		'peso_kg',
 		'ficha_tecnica',
 		'inactivo',
-		'detalles'
+		'detalles',
+		'image'
 	];
 
+	protected $appends  = [  'url'  ];
 	 
 	public static function Productos (  ) {
 		return 
-			self::select('idproducto_ppal' , 'nomproducto' )
+			self::select('idproducto_ppal' , 'nomproducto', 'image' )
 				->distinct()
 				->inRandomOrder()
 				->get();  
@@ -56,6 +59,10 @@ class ProductosVentaOnline extends Model
 			->get();
 	}
 
+
+	public function getUrlAttribute() {  
+		return Folders::ProductosVenta($this->image );  
+	}
 
 	public function Imagenes()	{
 		return $this->hasMany(ProductosVentaOnlineImagene::class, 'idproducto');
