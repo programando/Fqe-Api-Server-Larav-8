@@ -208,17 +208,21 @@ class FctrasElctrncasInvoicesController
             $Documentos = FctrasElctrnca::InvoicesToSend()->get(); 
              
             foreach ($Documentos as $Documento ) {
-                $this->invoicesToSend ( $Documento) ;   
-                if  ( $Documento->is_export == false) {
-                    $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
-                }else {
-                    $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
-                }
-                $this->traitUpdateJsonObject ( $Documento );
-                $this->documentsProcessReponse( $Documento, $response ) ;
-                // return $this->jsonObject;
+                try {
+                    $this->invoicesToSend ( $Documento) ;   
+                    if  ( $Documento->is_export == false) {
+                        $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
+                        }else {
+                        $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
+                        }
+                            $this->traitUpdateJsonObject ( $Documento );
+                            $this->documentsProcessReponse( $Documento, $response ) ;
+                    } catch (\Exception $e) {
+                            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ".$e->getMessage());
+                        }
             }  
         }
+
 
 
         private function invoicesToSend ($Facturas)  {
