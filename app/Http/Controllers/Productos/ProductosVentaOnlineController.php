@@ -9,7 +9,7 @@ use App\Models\ProductosVentaOnline as Productos;
 class ProductosVentaOnlineController extends Controller
 {
     
-    public function Productos (Request $FormData) {
+    public function Productos () {
         return Productos::Productos();
     }
 
