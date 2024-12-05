@@ -37,16 +37,20 @@ class DcmntosSprteController extends Controller {
         $URL        = 'note-document-support' ;
         $Documentos = FctrasElctrnca::DocumentosSoporteNotasToSend();  /// Notas crédito o documentos de anulación
         
+        try {
+            foreach ($Documentos as $Documento ) {
+                $this->reportingInformation ( $Documento, $isCreditNote  );  
+                //return $this->jsonObject;     
+                $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;            
+                $this->traitUpdateJsonObject ( $Documento );
+                $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
+                $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
+                //return $response;
+            }    
+        }  catch (\Exception $e) {
+            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ".$e->getMessage());
+        }
 
-        foreach ($Documentos as $Documento ) {
-            $this->reportingInformation ( $Documento, $isCreditNote  );  
-            //return $this->jsonObject;     
-            $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;            
-            $this->traitUpdateJsonObject ( $Documento );
-            $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
-            $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
-            //return $response;
-        }    
         
     }
 
