@@ -258,10 +258,10 @@ return [
         'Log'          => Illuminate\Support\Facades\Log::class,
         'Mail'         => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
-        'Numbers'       => App\Helpers\NumbersHelper::class,
+        'Numbers'      => App\Helpers\NumbersHelper::class,
         'Password'     => Illuminate\Support\Facades\Password::class,
         'PDF'          => Barryvdh\DomPDF\Facade::class,
-        'QrCode'        => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
+        'QrCode'       => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         'Queue'        => Illuminate\Support\Facades\Queue::class,
         'Redirect'     => Illuminate\Support\Facades\Redirect::class,
         'Redis'        => Illuminate\Support\Facades\Redis::class,
@@ -275,7 +275,8 @@ return [
         'URL'          => Illuminate\Support\Facades\URL::class,
         'Validator'    => Illuminate\Support\Facades\Validator::class,
         'View'         => Illuminate\Support\Facades\View::class,
-        'Strings'           => App\Helpers\StringsHelper::class,
+        'Strings'      => App\Helpers\StringsHelper::class,
+        'Files'        => App\Helpers\FilesHelper::class,
     ],
 
 ];

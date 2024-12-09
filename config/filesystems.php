@@ -67,6 +67,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'Productos' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/images/productos_ventas_online'),
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

@@ -10,6 +10,10 @@ Route::controller( ProductosVentaOnlineController::class )
         Route::get('productos'                                       , 'Productos') ;
         Route::post('producto/presentaciones'                         , 'ProductoPresentaciones') ;
         Route::get('producto/presentaciones/todas'                   , 'ProductoPresentacionesTodos') ;
+
+        Route::post('producto/actualizar'                         , 'ProductoActualizar') ;
+        Route::post('productos/crear/combos'                         , 'ProductosCrearCombos') ;
  
 });
+
 

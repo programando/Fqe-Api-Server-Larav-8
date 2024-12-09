@@ -1,8 +1,5 @@
 <?php
-
-/**
- * Created by Reliese Model.
- */
+ 
 
 namespace App\Models;
 
@@ -24,7 +21,9 @@ class ProductosVentaOnline extends Model
 		'precio_venta' => 'float',
 		'prcntje_iva' => 'float',
 		'peso_kg' => 'float',
-		'inactivo' => 'bool'
+		'es_combo' => 'bool',
+		'inactivo' => 'bool',
+		'publicado' => 'bool'
 	];
 
 	protected $fillable = [
@@ -32,16 +31,22 @@ class ProductosVentaOnline extends Model
 		'uuid',
 		'nomproducto',
 		'nom_prsntacion',
+		'detalles',
 		'costo_venta',
 		'precio_venta',
 		'prcntje_iva',
 		'peso_kg',
 		'ficha_tecnica',
+		'image',
+		'es_combo',
 		'inactivo',
-		'detalles',
-		'image'
+		'publicado'
 	];
 
+
+	protected $attributes = [
+		'detalles'                         => '',
+	];
 	protected $appends  = [  'url'  ];
 	 
 	public static function Productos (  ) {
@@ -92,4 +97,5 @@ class ProductosVentaOnline extends Model
 	public function getDetallesAttribute ( $value ){
 		return trim( $value) ;
 	}
+
 }

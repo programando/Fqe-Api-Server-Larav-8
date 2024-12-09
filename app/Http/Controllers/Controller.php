@@ -10,4 +10,17 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    protected function getText( $value ){
+        return $value  ?? '';
+      }
+  
+      protected function getNumber( $value ){
+        return $value  ?? 0;
+      }
+  
+      protected function getBit( $value ){
+        return (bool)( $value  ?? false );
+      }
+      
 }
