@@ -84,6 +84,10 @@ class ProductosVentaOnline extends Model
 	public function Relacionados()	{
 		return $this->hasMany(ProductosVentaOnlineRelacionado::class, 'idproducto');
 	}
+
+	public function Combos()	{
+		return $this->hasMany(ProductosVentaOnlineCombo::class, 'idproducto');
+	}
  
 
 	public function getNomproductoAttribute ( $value ){

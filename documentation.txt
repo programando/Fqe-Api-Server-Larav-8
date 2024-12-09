@@ -5,7 +5,7 @@ php artisan queue:work
 
  Crear Modelos ( https://github.com/reliese/laravel )
  --------------
-    php artisan code:models --table=productos_venta_online
+    php artisan code:models --table=productos_venta_online_combos
 
 Consultas mas eficientes
    https://programacionymas.com/blog/consultas-laravel-eficientes-usando-eloquent
