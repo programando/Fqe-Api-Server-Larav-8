@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Productos;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductosVentaOnline as Productos;
+use App\Models\ProductosVentaOnlineImagene as Imagenes;
+use App\Models\ProductosVentaOnlineRelacionado as PrdRelacionados;
 
 use Str;
 use Files;
@@ -21,10 +23,11 @@ class ProductosVentaOnlineController extends Controller
             $Producto->ficha_tecnica = $this->getText($FormData->ficha_tecnica);     
             $Producto->es_combo      = 0;
             $Producto->inactivo      = $this->getBit($FormData->inactivo);
+            $Producto->publicado     = $this->getBit($FormData->publicado);
             $Producto->save();
-            $this->ImagenPrincipalUpdate( $FormData, $Producto->idproducto);           //  main_image
-            $this->ImagenesProductoUpdate( $FormData);          //  images
-            $this->ProductoRelacionadosUpdate( $FormData);      //  productos_relacionados 
+            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           //  main_image
+            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);          //  images
+            $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idproducto);      //  Relacionados
             return $Producto;
         } catch(\Exception $e ) {
             Log::error("Error actualizando producto : ".$e->getMessage());
@@ -55,15 +58,48 @@ class ProductosVentaOnlineController extends Controller
     }
 
 
-    private function ImagenesProductoUpdate( $FormData) {//  images
-        if ( !$FormData->main_image) return ;
+    private function ImagenesProductoUpdate( $FormData, $IdProducto ) {//  images
+        if ( !$FormData->has('imagenes')) return ;
+        
+        $this->ImagenesProductoBorrar ( $FormData, $IdProducto  );
+        $Imagenes = $FormData->file('imagenes');
+        
+        foreach( $Imagenes  as $file) {
+            $archivo         = $file;
+            $FileName        = Files::MakeFileName($archivo ) ;
+            $FilePath        = $archivo->storeAs("", $FileName , 'Productos');
+            Imagenes::create([
+                'idproducto' => $IdProducto,
+                'image'      => $FileName ,         
+                'inactivo'   => 0,              
+            ]);
+        }
+    }
 
+    private function ImagenesProductoBorrar( $FormData, $IdProducto ) {//  images
+        if ( !$FormData->has('imagenes')) return ;
+        $Imagenes = Imagenes::where('idproducto', $IdProducto)->get();
+        foreach (  $Imagenes as $Image) {
+            Files::DestroyFile( $Image['image']);
+        }
+        // Borrar los registros relacionados con el producto en la tabla de imágenes
+        Imagenes::where('idproducto', $IdProducto)->delete();
+        
     }
 
 
-    private function ProductoRelacionadosUpdate( $FormData) {//  productos_relacionados
-        if ( !$FormData->main_image) return ;
 
+    private function ProductoRelacionadosUpdate( $FormData, $IdProducto) {//  relacionados
+        if ( !$FormData->has('relacionados')) return ;
+
+        PrdRelacionados::where('idproducto', $IdProducto)->delete();
+        $Relacionados = $FormData->relacionados;
+        foreach ( $Relacionados as $Producto ) {
+            PrdRelacionados::create([
+                'idproducto'        => $IdProducto,
+                'idproducto_rlcndo' => $Producto['idproducto'],
+            ]);          
+        }
     }
 
     public function ProductosCrearCombos (Request $FormData) {

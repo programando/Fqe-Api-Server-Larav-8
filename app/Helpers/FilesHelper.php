@@ -4,6 +4,7 @@ namespace App\Helpers;
 use Cache;
 use File;
 use Str;
+use Storage;
 
 class FilesHelper {
 
