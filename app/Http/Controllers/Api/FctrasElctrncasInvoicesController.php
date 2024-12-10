@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\FctrasElctrncasEventsController;
 use App\Models\FctrasElctrnca   ;
 use App\Models\FctrasElctrncasDataResponse as DataResponse ;   ;
 use App\Models\FctrasElctrncasMcipio;
+ 
 
 use App\Traits\ApiSoenac;
 use App\Traits\FctrasElctrncasEventsTrait;
@@ -36,6 +37,33 @@ class FctrasElctrncasInvoicesController
 
    private $jsonObject = [] , $jsonResponse = [];
   
+
+    public function ReenviarDocumentos() {
+        $DocsIncompletos = DataResponse::whereNull('qr_data')
+                                         ->where('id_fact_elctrnca', '>', 12588)
+                                         ->get();
+
+        if ($DocsIncompletos->isEmpty())  return;
+            
+        // Actualizar los documentos correspondientes
+        foreach ($DocsIncompletos as $Incompleto) {
+            // Buscar el documento correspondiente en la otra tabla
+            $Documento = FctrasElctrnca::where('id_fact_elctrnca', $Incompleto->id_fact_elctrnca)->first();
+            
+            // Verificar si el documento existe antes de intentar modificarlo
+            if ($Documento) {
+                $Documento->rspnse_dian = 0;
+                $Documento->save(); // Guardar el cambio
+            }
+        }
+
+        // Eliminar los documentos incompletos después de procesarlos
+        DataResponse::whereNull('qr_data')
+            ->where('id_fact_elctrnca', '>', 12588)
+            ->delete();
+    }
+
+
 
    public function  ultimas100FacturasGeneradas () {
         return FctrasElctrnca::InvoicesUltimas100Generadas() ;

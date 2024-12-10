@@ -108,12 +108,11 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
 
  
 
-Route::resource('facturas-electronicas', 'Api\FctrasElctrncaController', ['only'=> ['index', 'show', '']] );
+ 
 
-
-Route::group(['prefix'=>'productos', 'namespace'=>'Api'], function() {
-        Route::get('/precios'           , 'PrdctoController@listaPrecios')->name('precios');
- });
+    Route::group(['prefix'=>'productos', 'namespace'=>'Api'], function() {
+            Route::get('/precios'           , 'PrdctoController@listaPrecios')->name('precios');
+    });
 
 // NOTES
     Route::group(['prefix'=>'notes', 'namespace'=>'Api'], function() {
@@ -121,4 +120,8 @@ Route::group(['prefix'=>'productos', 'namespace'=>'Api'], function() {
         Route::get('pdf/{id}'             , $localController.'noteSendToCustomer');
         Route::get('{tpNote}'             , $localController.'notes');
         Route::post('logs'                       , $localController.'sentNotesLogs');
+    });
+
+    Route::group(['prefix'=>'documentos/electronicos', 'namespace'=>'Api'], function() {
+        Route::get('/reenviar'           , 'FctrasElctrncasInvoicesController@ReenviarDocumentos');
     });
