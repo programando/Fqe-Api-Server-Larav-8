@@ -32,6 +32,7 @@ class FilesHelper {
 
 
       public static function MakeFileName ( $archivo ){
+      
         return strtolower(Str::slug( uniqid()).'.'. self::Extension($archivo)) ;
       }
 

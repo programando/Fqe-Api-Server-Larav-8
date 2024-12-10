@@ -26,7 +26,7 @@ class ProductosVentaOnlineController extends Controller
             $Producto->publicado     = $this->getBit($FormData->publicado);
             $Producto->save();
             $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           //  main_image
-            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);          //  images
+            return $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);          //  images
             $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idproducto);      //  Relacionados
             return $Producto;
         } catch(\Exception $e ) {
@@ -39,8 +39,7 @@ class ProductosVentaOnlineController extends Controller
         $Producto      = Productos::find($IdProducto );    
         try{
             if ( $FormData->file('main_image')) {
-
-                $archivo         = $FormData->file('main_image');
+                $archivo         = $archivo = $FormData->file('main_image')[0]['file'];;
                 $FileName        = Files::MakeFileName($archivo ) ;
                 $FilePath        = $archivo->storeAs("", $FileName , 'Productos');
                 $Producto->image = $FileName;
@@ -59,14 +58,13 @@ class ProductosVentaOnlineController extends Controller
 
 
     private function ImagenesProductoUpdate( $FormData, $IdProducto ) {//  images
-        if ( !$FormData->has('imagenes')) return ;
+        if ( !$FormData->has('images')) return ;
         
         $this->ImagenesProductoBorrar ( $FormData, $IdProducto  );
-        $Imagenes = $FormData->file('imagenes');
-        
+        $Imagenes = $FormData->file('images');
         foreach( $Imagenes  as $file) {
-            $archivo         = $file;
-            $FileName        = Files::MakeFileName($archivo ) ;
+            $archivo = $file['file'];
+            $FileName        = Files::MakeFileName( $archivo) ;
             $FilePath        = $archivo->storeAs("", $FileName , 'Productos');
             Imagenes::create([
                 'idproducto' => $IdProducto,

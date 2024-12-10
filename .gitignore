@@ -12,6 +12,7 @@ npm-debug.log
 supervisor.config
 yarn-error.log
 /storage/app/public/images/productos
+/storage/app/public/images/productos_ventas_online
 supervisor.conf
 /endpoinds.txt
 /documentation.txt
