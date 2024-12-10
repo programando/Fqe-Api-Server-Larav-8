@@ -44,23 +44,28 @@ class FctrasElctrncasInvoicesController
                                          ->get();
 
         if ($DocsIncompletos->isEmpty())  return;
-            
-        // Actualizar los documentos correspondientes
-        foreach ($DocsIncompletos as $Incompleto) {
-            // Buscar el documento correspondiente en la otra tabla
-            $Documento = FctrasElctrnca::where('id_fact_elctrnca', $Incompleto->id_fact_elctrnca)->first();
-            
-            // Verificar si el documento existe antes de intentar modificarlo
-            if ($Documento) {
-                $Documento->rspnse_dian = 0;
-                $Documento->save(); // Guardar el cambio
+        
+        try{
+            // Actualizar los documentos correspondientes
+            foreach ($DocsIncompletos as $Incompleto) {
+                // Buscar el documento correspondiente en la otra tabla
+                $Documento = FctrasElctrnca::where('id_fact_elctrnca', $Incompleto->id_fact_elctrnca)->first();
+                
+                // Verificar si el documento existe antes de intentar modificarlo
+                if ($Documento) {
+                    $Documento->rspnse_dian = 0;
+                    $Documento->save(); // Guardar el cambio
+                }
             }
+
+            // Eliminar los documentos incompletos después de procesarlos
+            DataResponse::whereNull('qr_data')
+                ->where('id_fact_elctrnca', '>', 12588)
+                ->delete();
+        }catch( \Exception $e){
+            Log::error("Error reenviado documento electrónico {$Documento->id_fact_elctrnca}: ".$e->getMessage());
         }
 
-        // Eliminar los documentos incompletos después de procesarlos
-        DataResponse::whereNull('qr_data')
-            ->where('id_fact_elctrnca', '>', 12588)
-            ->delete();
     }
 
 
