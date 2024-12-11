@@ -17,3 +17,4 @@ supervisor.conf
 endpoinds.txt
 documentation.txt
 *.bat
+.vscode
