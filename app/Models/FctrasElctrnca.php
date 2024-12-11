@@ -10,7 +10,8 @@ use Carbon\Carbon;
 //use App\Events\NewInvoice;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
- 
+
+use DB;
 class FctrasElctrnca extends Model
 {
 	protected $primaryKey   = 'id_fact_elctrnca';
@@ -160,14 +161,31 @@ class FctrasElctrnca extends Model
 							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto','fcha_acptcion_exprsa','response_code_030','response_code_031','response_code_032','response_code_033']); // Facturas ->take(10)->
 			}
 
-			public function scopeInvoicesUltimas100Generadas ( $query ){
-				return $query->with('customer')
-							->where('type_document_id', '1')
-							->whereNotNull('uuid')
-							->orderBy('id_fact_elctrnca','DESC')
-							->take(100)
-							->get(['id_fact_elctrnca','uuid', 'prfjo_dcmnto','nro_dcmnto','fcha_dcmnto', 'is_valid', 'number']);  
+			public function scopeInvoicesUltimas100Generadas($query)
+			{
+				
+
+				 $numbers = [4552, 4511, 4261, 3942, 3896, 4750,5340,5884];
+				
+				// // Obtener los últimos 15 registros
+				$ultimosRegistros = $query->with('customer')
+										  ->where('type_document_id', '1')
+										  ->whereNotNull('uuid')
+										  ->orderBy('id_fact_elctrnca', 'DESC')
+										  ->take(15)
+										  ->get();
+				
+				// // Obtener los documentos adicionales que no estén ya en los últimos registros
+				$documentosAdicionales = $query->with('customer')
+											   ->where('type_document_id', '1')
+											   ->whereIn('number', $numbers)
+											   ->get();
+				
+				// // Combinar y devolver
+				 
+				return $ultimosRegistros->merge($documentosAdicionales);
 			}
+			
 
 		// ACCESORS
 		//=========
