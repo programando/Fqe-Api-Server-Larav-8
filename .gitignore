@@ -16,3 +16,4 @@ yarn-error.log
 supervisor.conf
 endpoinds.txt
 documentation.txt
+*.bat
