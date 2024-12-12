@@ -30,7 +30,7 @@ use Illuminate\Http\Request;
 Use Storage;
 Use Carbon;
 use config;
-
+use Log;
 class FctrasElctrncasInvoicesController  
 {
    use FctrasElctrncasTrait, ApiSoenac, QrCodeTrait, PdfsTrait, FctrasElctrncasEventsTrait;
