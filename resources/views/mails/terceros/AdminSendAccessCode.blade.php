@@ -24,7 +24,7 @@
 
         </header>
         <aside style="margin: 0 40px; margin-top: 50px;">
-            <div>
+            <div style="max-width: 50%; width:20%; margin: 0 auto; ">
                 <h4 style="font-weight: 500;"></h4>
                 <br><br><br>
                 <h4 style="font-weight: 500;">
@@ -33,11 +33,14 @@
                         Hemos generado el siguiente código de acceso para ingreso al administrador de productos FQE
                         S.A.S.
                         <br><br>
-                    <div style="text-align: center; margin: 0 auto;font-size: 24px;">
-                        <p>
-                            {{ $AccessCode }}
+                    <div style="text-align: center; margin: 0 auto;font-size: 36px; ">
+                        <p style="letter-spacing: 10px;">
+                                {{ implode(' ', str_split($AccessCode)) }}
                         </p>
 
+                    </div>
+                    <div>
+                        <p style="text-align: center; font-size: 14px;"> Este código es temporal con una vigencia de 2 horas. <br>Luego de ese tiempo deberá solicitar un nuevo código</p>
                     </div>
 
                     </p>

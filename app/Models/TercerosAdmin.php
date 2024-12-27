@@ -17,6 +17,7 @@ class TercerosAdmin extends Model
 
 	protected $fillable = [
 		'email',
-		'access_code'
+		'access_code',
+		'expira',
 	];
 }

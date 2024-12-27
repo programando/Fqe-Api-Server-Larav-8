@@ -13,7 +13,6 @@ class UserAdminSendEmailCodeAccessListener
     
     public function handle(UserAdminSendEmailCodeAccessEvent $event)
     {
-         
              Mail::to($event->Email)
               ->queue(   new UserAdminSendEmailCodeAccessMail ($event->AccessCode));
         

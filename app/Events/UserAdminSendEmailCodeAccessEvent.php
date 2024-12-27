@@ -17,8 +17,8 @@ class UserAdminSendEmailCodeAccessEvent
     public $Email, $AccessCode;
 
     public function __construct( $Email, $AccessCode )   {
-        $this->$Email = $Email;
-        $this->$AccessCode = $AccessCode;
+        $this->Email = $Email;
+        $this->AccessCode = $AccessCode;
 
     }
 
