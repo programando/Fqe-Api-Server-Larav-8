@@ -7,6 +7,8 @@ use Carbon\Carbon;
 class DatesHelper {
 
  
+
+    
    public static function YMD( $value ) {
         $date = Carbon::parse($value);
         if ($date && $date->isValid()) {
