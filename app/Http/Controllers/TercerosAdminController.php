@@ -30,7 +30,7 @@ class TercerosAdminController extends Controller
         if ($EmailExiste->access_code != $FormData->access_code)    return ['message' =>'AccessCodeIncorrecto'];
         if ($EmailExiste->expira < date('Y-m-d H:i:s'))             return ['message' =>'AccessCodeExpirado'];
 
-        return ['message' =>'AccessCodeAndEmailOk'];
+        return ['message' =>'AccessCodeAndEmailOk', 'email' => $EmailExiste->email];
      }
 
 }
