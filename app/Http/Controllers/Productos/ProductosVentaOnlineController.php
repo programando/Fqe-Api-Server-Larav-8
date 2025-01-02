@@ -104,15 +104,17 @@ class ProductosVentaOnlineController extends Controller
  
 
     public function ProductoComboCrearActualizar (Request $FormData) {
-        $Producto             = Productos::where('id', $FormData->idkeyproducto)->first();
+        $Producto             = Productos::where('idkeyproducto', $FormData->idkeyproducto)->first();
         if (!$Producto)       $Producto = new Productos();
   
         try{
-            $Producto->detalles      = $this->getText($FormData->detalles);
-            $Producto->ficha_tecnica = '' ;    
-            $Producto->es_combo      = 1;
-            $Producto->inactivo      = $this->getBit($FormData->inactivo);
-            $Producto->publicado     = $this->getBit($FormData->publicado);
+            $Producto->nomproducto    = $this->getText($FormData->nomproducto);
+            $Producto->nom_prsntacion = 'Unidad';
+            $Producto->detalles       = $this->getText($FormData->detalles);
+            $Producto->ficha_tecnica  = '' ;
+            $Producto->es_combo       = 1;
+            $Producto->inactivo       = $this->getBit($FormData->inactivo);
+            $Producto->publicado      = $this->getBit($FormData->publicado);
             $Producto->save();
             $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idkeyproducto);           
             $this->ImagenesProductoUpdate       ( $FormData, $Producto->idkeyproducto);            
@@ -127,7 +129,7 @@ class ProductosVentaOnlineController extends Controller
     private function ProductosComponenCombo( $FormData, $IdKeyProducto) {//  relacionados
         if ( !$FormData->has('ProductosComponenCombo')) return ;
 
-        PrdComponenCombo::where('idproducto', $IdKeyProducto)->delete();
+        PrdComponenCombo::where('idkeyproducto', $IdKeyProducto)->delete();
         $Relacionados = $FormData->ProductosComponenCombo;
         foreach ( $Relacionados as $Producto ) {
             PrdComponenCombo::create([

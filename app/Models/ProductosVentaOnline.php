@@ -65,6 +65,7 @@ class ProductosVentaOnline extends Model
 	public static function ProductoPresentacionesTodos() {
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('inactivo', "0")
+			->where('es_combo', "0")
 			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
 			->get();
 	}
