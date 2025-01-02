@@ -21,7 +21,7 @@ class ProductosVentaOnlineController extends Controller
         try{
             $Producto                = Productos::where('idkeyproducto', $FormData->idkeyproducto)->first();
             $Producto->detalles      = $this->getText($FormData->detalles);
-            $Producto->ficha_tecnica = '' ; //$this->getText($FormData->ficha_tecnica);     
+            $Producto->ficha_tecnica = '' ;      
             $Producto->es_combo      = 0;
             $Producto->inactivo      = $this->getBit($FormData->inactivo);
             $Producto->publicado     = $this->getBit($FormData->publicado);
