@@ -1,9 +1,11 @@
 <?php
+
  
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+
  
 class ProductosVentaOnlineRelacionado extends Model
 {
@@ -12,18 +14,16 @@ class ProductosVentaOnlineRelacionado extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'idproducto' => 'int',
-		'idproducto_rlcndo' => 'int'
+		'idkeyproducto' => 'int',
+		'idproducto' => 'int'
 	];
 
 	protected $fillable = [
-		'idproducto',
-		'idproducto_rlcndo'
+		'idkeyproducto',
+		'idproducto'
 	];
 
-	public function Productos() {
-		return $this->belongsTo(ProductosVentaOnline::class, 'idproducto_rlcndo', 'idproducto')
-			->select('idproducto','idproducto_ppal', 'nomproducto');
+	public function Productos()	{
+		return $this->belongsTo(ProductosVentaOnline::class, 'idkeyproducto');
 	}
-	
 }

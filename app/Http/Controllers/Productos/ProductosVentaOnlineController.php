@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ProductosVentaOnline as Productos;
 use App\Models\ProductosVentaOnlineImagene as Imagenes;
 use App\Models\ProductosVentaOnlineRelacionado as PrdRelacionados;
+use App\Models\ProductosVentaOnlineCombo as PrdComponenCombo;
 
 use Str;
 use Files;
@@ -18,25 +19,25 @@ class ProductosVentaOnlineController extends Controller
     
     public function ProductoActualizar (Request $FormData) {
         try{
-            $Producto                = Productos::where('idproducto', $FormData->idproducto)->first();
+            $Producto                = Productos::where('idkeyproducto', $FormData->idkeyproducto)->first();
             $Producto->detalles      = $this->getText($FormData->detalles);
             $Producto->ficha_tecnica = '' ; //$this->getText($FormData->ficha_tecnica);     
             $Producto->es_combo      = 0;
             $Producto->inactivo      = $this->getBit($FormData->inactivo);
             $Producto->publicado     = $this->getBit($FormData->publicado);
             $Producto->save();
-            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           
-            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);         
-            $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idproducto);     
+            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idkeyproducto);           
+            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idkeyproducto);         
+            $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idkeyproducto);     
             return $Producto;
         } catch(\Exception $e ) {
             Log::error("Error actualizando producto : ".$e->getMessage());
         }
     }
 
-    private function ImagenPrincipalUpdate( $FormData, $IdProducto ) {//  main_image
-        $this->ImagenPrincipalBorrar($IdProducto  );
-        $Producto      = Productos::find($IdProducto );    
+    private function ImagenPrincipalUpdate( $FormData, $IdKeyProducto ) {//  main_image
+        $this->ImagenPrincipalBorrar($IdKeyProducto  );
+        $Producto      = Productos::find($IdKeyProducto );    
         try{
             if ( $FormData->file('main_image')) {
                 $archivo         = $archivo = $FormData->file('main_image')[0]['file'];;
@@ -50,69 +51,72 @@ class ProductosVentaOnlineController extends Controller
         }
     }
 
-    private function ImagenPrincipalBorrar ( $IdProducto ){
-        $producto      = Productos::find($IdProducto );
+    private function ImagenPrincipalBorrar ( $IdKeyProducto){
+        $producto      = Productos::find($IdKeyProducto);
         $existingImage = $producto->image;
         Files::DestroyFile( $producto->image);         // Eliminar la imagen antigua si existe
     }
 
 
-    private function ImagenesProductoUpdate( $FormData, $IdProducto ) {//  images
+    private function ImagenesProductoUpdate( $FormData, $IdKeyProducto ) {//  images
         if ( !$FormData->has('images')) return ;
         
-        $this->ImagenesProductoBorrar ( $FormData, $IdProducto  );
+        $this->ImagenesProductoBorrar ( $FormData, $IdKeyProducto  );
         $Imagenes = $FormData->file('images');
         foreach( $Imagenes  as $file) {
             $archivo = $file['file'];
             $FileName        = Files::MakeFileName( $archivo) ;
             $FilePath        = $archivo->storeAs("", $FileName , 'Productos');
             Imagenes::create([
-                'idproducto' => $IdProducto,
-                'image'      => $FileName ,         
-                'inactivo'   => 0,              
+                'idkeyproducto' => $IdKeyProducto,
+                'image'         => $FileName,
+                'inactivo'      => 0,
             ]);
         }
     }
 
-    private function ImagenesProductoBorrar( $FormData, $IdProducto ) {//  images
+    private function ImagenesProductoBorrar( $FormData, $IdKeyProducto ) {//  images
         if ( !$FormData->has('imagenes')) return ;
-        $Imagenes = Imagenes::where('idproducto', $IdProducto)->get();
+        $Imagenes = Imagenes::where('idkeyproducto', $IdKeyProducto)->get();
         foreach (  $Imagenes as $Image) {
             Files::DestroyFile( $Image['image']);
         }
         // Borrar los registros relacionados con el producto en la tabla de imágenes
-        Imagenes::where('idproducto', $IdProducto)->delete();
+        Imagenes::where('idkeyproducto', $IdKeyProducto)->delete();
         
     }
 
 
 
-    private function ProductoRelacionadosUpdate( $FormData, $IdProducto) {//  relacionados
+    private function ProductoRelacionadosUpdate( $FormData, $IdKeyProducto) {//  relacionados
         if ( !$FormData->has('relacionados')) return ;
 
-        PrdRelacionados::where('idproducto', $IdProducto)->delete();
+        PrdRelacionados::where('idproducto', $IdKeyProducto)->delete();
         $Relacionados = $FormData->relacionados;
         foreach ( $Relacionados as $Producto ) {
             PrdRelacionados::create([
-                'idproducto'        => $IdProducto,
-                'idproducto_rlcndo' => $Producto['idproducto'],
+                'idkeyproducto'        => $IdKeyProducto,
+                'idproducto' => $Producto['idproducto'],
             ]);          
         }
     }
 
+ 
+
     public function ProductoComboCrearActualizar (Request $FormData) {
-        $Producto             = Productos::where('id', $FormData->id)->first();
+        $Producto             = Productos::where('id', $FormData->idkeyproducto)->first();
         if (!$Producto)       $Producto = new Productos();
   
         try{
             $Producto->detalles      = $this->getText($FormData->detalles);
-            $Producto->ficha_tecnica = '' ; //$this->getText($FormData->ficha_tecnica);     
+            $Producto->ficha_tecnica = '' ;    
             $Producto->es_combo      = 1;
             $Producto->inactivo      = $this->getBit($FormData->inactivo);
             $Producto->publicado     = $this->getBit($FormData->publicado);
             $Producto->save();
-            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           
-            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);            
+            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idkeyproducto);           
+            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idkeyproducto);            
+            $this->ProductosComponenCombo       ( $FormData, $Producto->idkeyproducto);            
             return $Producto;
         } catch(\Exception $e ) {
             Log::error("Error actualizando producto : ".$e->getMessage());
@@ -120,13 +124,28 @@ class ProductosVentaOnlineController extends Controller
     }
 
 
+    private function ProductosComponenCombo( $FormData, $IdKeyProducto) {//  relacionados
+        if ( !$FormData->has('ProductosComponenCombo')) return ;
+
+        PrdComponenCombo::where('idproducto', $IdKeyProducto)->delete();
+        $Relacionados = $FormData->ProductosComponenCombo;
+        foreach ( $Relacionados as $Producto ) {
+            PrdComponenCombo::create([
+                'idkeyproducto' => $IdKeyProducto,
+                'idproducto'    => $Producto ['idproducto'],
+                'cantidad'      => $Producto ['cantidad'],
+                'es_obsequio'   => $Producto ['es_obsequio'],
+            ]);          
+        }
+    }
+ 
 
     public function Productos () {
         return Productos::Productos();
     }
 
     public function ProductoBuscarId ( request $FormData) {
-        return Productos::ProductoBuscarId($FormData->idproducto);
+        return Productos::ProductoBuscarId($FormData->idkeyproducto);
     }
 
     public function ProductoPresentaciones (Request $FormData) {
@@ -139,6 +158,10 @@ class ProductosVentaOnlineController extends Controller
 
     public function ProductoCombosTodos ( ) {
         return Productos::ProductoCombosTodos( );
+    }
+
+    public function ProductoComboPorIdKeyProducto ( Request $FormData ) {
+        return Productos::ProductoComboPorIdKeyProducto( $FormData->idkeyproducto );
     }
     
 }

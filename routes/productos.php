@@ -22,10 +22,11 @@ Route::controller( ProductosVentaOnlineController::class )
         ->group ( function () {
                 Route::get('todos'                                      , 'ProductoCombosTodos') ;
                 Route::post('crear/actualizar'                          , 'ProductoComboCrearActualizar') ;
+                Route::post('buscar/id'                                 , 'ProductoComboPorIdKeyProducto') ;
 });
 
 
 /*
-       
+     ventas/online/productos/combos/buscar/id
 */
 

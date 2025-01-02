@@ -13,22 +13,23 @@ class ProductosVentaOnlineImagene extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'idproducto' => 'int',
+		'idkeyproducto' => 'int',
 		'inactivo' => 'bool'
 	];
 
 	protected $fillable = [
-		'idproducto',
+		'idkeyproducto',
 		'image',
 		'inactivo'
 	];
 	protected $appends  = [  'url'  ];
 
 	public function Productos()	{
-		return $this->belongsTo(ProductosVentaOnline::class, 'idproducto');
+		return $this->belongsTo(ProductosVentaOnline::class, 'idkeyproducto');
 	}
 
 	public function getUrlAttribute() {  
 		return Folders::ProductosVenta($this->image );  
 	}
+	
 }

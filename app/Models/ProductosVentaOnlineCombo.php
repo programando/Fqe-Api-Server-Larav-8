@@ -13,21 +13,20 @@ class ProductosVentaOnlineCombo extends Model
 	public $timestamps = false;
 
 	protected $casts = [
+		'idkeyproducto' => 'int',
 		'idproducto' => 'int',
-		'idproducto_combo' => 'int',
 		'cantidad' => 'int',
 		'es_obsequio' => 'bool'
 	];
 
 	protected $fillable = [
+		'idkeyproducto',
 		'idproducto',
-		'idproducto_combo',
 		'cantidad',
 		'es_obsequio'
 	];
 
-	public function ProdcuctoOnline() {
-		return $this->belongsTo(ProductosVentaOnline::class, 'idproducto_combo');
+	public function Productos()	{
+		return $this->belongsTo(ProductosVentaOnline::class, 'idkeyproducto');
 	}
-	
 }
