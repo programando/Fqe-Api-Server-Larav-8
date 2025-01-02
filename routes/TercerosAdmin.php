@@ -11,6 +11,7 @@ Route::controller( TercerosAdminController::class )
             ->group ( function () {
                     Route::post('validar/email'                         , 'ValidarEmail'              );
                     Route::post('validar/email/access/code'              , 'ValidarEmailAndAccessCode'              );
+                    
 
     });
 

@@ -25,9 +25,9 @@ class ProductosVentaOnlineController extends Controller
             $Producto->inactivo      = $this->getBit($FormData->inactivo);
             $Producto->publicado     = $this->getBit($FormData->publicado);
             $Producto->save();
-            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           //  main_image
-            return $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);          //  images
-            $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idproducto);      //  Relacionados
+            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           
+            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);         
+            $this->ProductoRelacionadosUpdate   ( $FormData, $Producto->idproducto);     
             return $Producto;
         } catch(\Exception $e ) {
             Log::error("Error actualizando producto : ".$e->getMessage());
@@ -100,14 +100,33 @@ class ProductosVentaOnlineController extends Controller
         }
     }
 
-    public function ProductosCrearCombos (Request $FormData) {
-        return 0;
+    public function ProductoComboCrearActualizar (Request $FormData) {
+        $Producto             = Productos::where('id', $FormData->id)->first();
+        if (!$Producto)       $Producto = new Productos();
+  
+        try{
+            $Producto->detalles      = $this->getText($FormData->detalles);
+            $Producto->ficha_tecnica = '' ; //$this->getText($FormData->ficha_tecnica);     
+            $Producto->es_combo      = 1;
+            $Producto->inactivo      = $this->getBit($FormData->inactivo);
+            $Producto->publicado     = $this->getBit($FormData->publicado);
+            $Producto->save();
+            $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idproducto);           
+            $this->ImagenesProductoUpdate       ( $FormData, $Producto->idproducto);            
+            return $Producto;
+        } catch(\Exception $e ) {
+            Log::error("Error actualizando producto : ".$e->getMessage());
+        }
     }
 
 
 
     public function Productos () {
         return Productos::Productos();
+    }
+
+    public function ProductoBuscarId ( request $FormData) {
+        return Productos::ProductoBuscarId($FormData->idproducto);
     }
 
     public function ProductoPresentaciones (Request $FormData) {
@@ -118,5 +137,8 @@ class ProductosVentaOnlineController extends Controller
         return Productos::ProductoPresentacionesTodos( );
     }
 
+    public function ProductoCombosTodos ( ) {
+        return Productos::ProductoCombosTodos( );
+    }
     
 }

@@ -11,11 +11,11 @@ use Folders;
 class ProductosVentaOnline extends Model
 {
 	protected $table = 'productos_venta_online';
-	protected $primaryKey = 'idproducto';
-	public $incrementing = false;
+	protected $primaryKey = 'id';
 	public $timestamps = false;
 
 	protected $casts = [
+		'id' => 'int',
 		'idproducto' => 'int',
 		'costo_venta' => 'float',
 		'precio_venta' => 'float',
@@ -44,10 +44,8 @@ class ProductosVentaOnline extends Model
 	];
 
 
-	protected $attributes = [
-		'detalles'                         => '',
-	];
-	protected $appends  = [  'url'  ];
+	protected $attributes = ['detalles' => ''];
+	protected $appends  = [  'image_url'  ];
 	 
 	public static function Productos (  ) {
 		return 
@@ -61,19 +59,34 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('idproducto_ppal', "$IdProductoPpal")
 			->where('inactivo', "0")
-			->select('idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
+			->select('id','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
 			->get();
 	}
 
 	public static function ProductoPresentacionesTodos() {
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('inactivo', "0")
-			->select('idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
+			->select('id','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
+			->get();
+	}
+
+	public static function ProductoBuscarId( $IdProducto) {
+		return self::with(['Imagenes', 'Relacionados.Productos'])
+			->where('inactivo', "0")
+			->where('idproducto', $IdProducto)
+			->select('id','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado')
+			->get();
+	}
+
+	public static function ProductoCombosTodos() {
+		return self::where('es_combo', "1")
+			->select('id','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado')
 			->get();
 	}
 
 
-	public function getUrlAttribute() {  
+
+	public function getImageUrlAttribute() {  
 		return Folders::ProductosVenta($this->image );  
 	}
 
