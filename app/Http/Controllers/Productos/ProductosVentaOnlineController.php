@@ -104,7 +104,7 @@ class ProductosVentaOnlineController extends Controller
  
 
     public function ProductoComboCrearActualizar (Request $FormData) {
-        return  $FormData ;
+       
         $Producto             = Productos::where('idkeyproducto', $FormData->idkeyproducto)->first();
         if (!$Producto)       $Producto = new Productos();
   
@@ -119,7 +119,7 @@ class ProductosVentaOnlineController extends Controller
             $Producto->save();
             $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idkeyproducto);           
             $this->ImagenesProductoUpdate       ( $FormData, $Producto->idkeyproducto);            
-            $this->ProductosComponenCombo       ( $FormData, $Producto->idkeyproducto);            
+             $this->ProductosComponenCombo       ( $FormData, $Producto->idkeyproducto);            
             return $Producto;
         } catch(\Exception $e ) {
             Log::error("Error actualizando producto : ".$e->getMessage());
@@ -127,19 +127,22 @@ class ProductosVentaOnlineController extends Controller
     }
 
 
-    private function ProductosComponenCombo( $FormData, $IdKeyProducto) {//  relacionados
+    private function ProductosComponenCombo( $FormData, $IdKeyProducto) { 
         if ( !$FormData->has('ProductosComponenCombo')) return ;
 
         PrdComponenCombo::where('idkeyproducto', $IdKeyProducto)->delete();
-        $Relacionados = $FormData->ProductosComponenCombo;
-        foreach ( $Relacionados as $Producto ) {
-            PrdComponenCombo::create([
+        $ProductosComponenCombo = $FormData->ProductosComponenCombo;
+        $ProductosCombo = [];
+        foreach ( $ProductosComponenCombo as $Producto ) {
+            $ProductosCombo[]=[
                 'idkeyproducto' => $IdKeyProducto,
-                'idproducto'    => $Producto ['idproducto'],
-                'cantidad'      => $Producto ['cantidad'],
-                'es_obsequio'   => $Producto ['es_obsequio'],
-            ]);          
+                'cantidad'      => $Producto['cantidad'],
+                'idproducto'    => $Producto['idproducto'],
+                'es_obsequio'   => $this->getBit( $Producto['es_obsequio']  ),
+            ];         
         }
+      
+        if ( $ProductosCombo ) PrdComponenCombo::insert($ProductosCombo  );
     }
  
 

@@ -20,7 +20,7 @@ class Controller extends BaseController
       }
   
       protected function getBit( $value ){
-        return (bool)( $value  ?? false );
+        return isset($value) ? (bool)$value : false;
       }
       
 }
