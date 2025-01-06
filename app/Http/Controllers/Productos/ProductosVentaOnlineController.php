@@ -104,6 +104,7 @@ class ProductosVentaOnlineController extends Controller
  
 
     public function ProductoComboCrearActualizar (Request $FormData) {
+        return  $FormData ;
         $Producto             = Productos::where('idkeyproducto', $FormData->idkeyproducto)->first();
         if (!$Producto)       $Producto = new Productos();
   
