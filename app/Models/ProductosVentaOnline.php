@@ -46,9 +46,14 @@ class ProductosVentaOnline extends Model
 	protected $attributes = ['detalles' => ''];
 	protected $appends  = [  'image_url'  ];
 	 
-	public static function Productos (  ) {
+	public static function ShopProductos (  ) {
 		return 
 			self::select('idproducto_ppal' , 'nomproducto', 'image' )
+				->where('inactivo', '0')
+				->where('publicado', '1')
+				->where('precio_venta', '>', '0')
+				->where('idproducto_ppal', '!=', '')
+				->whereNotNull('idproducto_ppal')
 				->distinct()
 				->inRandomOrder()
 				->get();  
@@ -58,7 +63,7 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('idproducto_ppal', "$IdProductoPpal")
 			->where('inactivo', "0")
-			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
+			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica', 'image', 'detalles', 'es_combo')
 			->get();
 	}
 

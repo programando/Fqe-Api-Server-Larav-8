@@ -146,8 +146,8 @@ class ProductosVentaOnlineController extends Controller
     }
  
 
-    public function Productos () {
-        return Productos::Productos();
+    public function ShopProductos () {
+        return Productos::ShopProductos();
     }
 
     public function ProductoBuscarId ( request $FormData) {
