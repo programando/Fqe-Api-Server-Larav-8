@@ -73,7 +73,7 @@ trait FctrasElctrncasEventsTrait {
     $CustomerName = $FacturaCliente['name'];
     $CustomerNit  = $FacturaCliente['identification_number'];
 
-    $notes[] = ['text'=> 'Manifiesto bajo la gravedad de juramento que transcurridos 3 días hábiles contados desde la creación del Recibo de bienes y servicios ' . $InvoceNumer. ' con CUDE '."$UUID".', el adquirente ' . $CustomerName . ' identificado con NIT ' . $CustomerNit .' no manifestó expresamente la aceptación o rechazo de la referida factura, ni reclamó en contra de su contenido.']  ;
+    $notes[] = ['text'=> 'Manifiesto bajo la gravedad de juramento que transcurridos 3 días hábiles contados desde la creación del recibo de bienes y servicios ' . $InvoceNumer. ' con CUDE '."$UUID".', el adquirente ' . $CustomerName . ' identificado con NIT ' . $CustomerNit .' no manifestó expresamente la aceptación o rechazo de la referida factura, ni reclamó en contra de su contenido.']  ;
     $this->jsonObject['notes']  = $notes;
   }
 
