@@ -41,6 +41,7 @@ class TercerosClientesController extends Controller
 
     private function BuscarNitEmail ( $Nit, $Email ) {
         $RegistroCliente = Clientes::where('nro_dcmnto','=',$Nit  )->orWhere('email','=',$Email)->first();
+       
         if (  $RegistroCliente ) {
             $this->EsNuevoRegistro = false ;
             return $RegistroCliente;
@@ -54,6 +55,7 @@ class TercerosClientesController extends Controller
 
     public function BuscarEmail ( request $FormData ) {
         $RegistroCliente = Clientes::Where('email','=',$FormData->email)->first();
+        
         if (  $RegistroCliente ) {
             return Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
         }  

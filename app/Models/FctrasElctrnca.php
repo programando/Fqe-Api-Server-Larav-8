@@ -165,14 +165,14 @@ class FctrasElctrnca extends Model
 			{
 				
 
-				 $numbers = [4552, 4511, 4261, 3942, 3896, 4750,5340,5884];
+				 $numbers = [];
 				
 				// // Obtener los últimos 15 registros
 				$ultimosRegistros = $query->with('customer')
 										  ->where('type_document_id', '1')
 										  ->whereNotNull('uuid')
 										  ->orderBy('id_fact_elctrnca', 'DESC')
-										  ->take(15)
+										  ->take(100)
 										  ->get();
 				
 				// // Obtener los documentos adicionales que no estén ya en los últimos registros
