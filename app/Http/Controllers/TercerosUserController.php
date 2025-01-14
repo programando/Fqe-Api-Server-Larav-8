@@ -8,6 +8,7 @@ use Cache;
 use Session;
 use Carbon\Carbon;
 use App\Models\TercerosUser;
+use App\Models\Tercero as Clientes;
 
 use Illuminate\Http\Request;
 
@@ -26,8 +27,13 @@ class TercerosUserController extends Controller
                   'email'    => $FormData->email,
                   'password' => $FormData->password,
                   'autorizado' => 1 ],
-                   true ) ) {                               // true al final es para recordar sessión               
-            return response()->json( Auth::user(), 200);
+                   true ) ) {                               // true al final es para recordar sessión  
+               
+                return [
+                    'cliente' => Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first(),
+                    'user' => Auth::user()
+                ];
+            
         }    
         $this->ErrorMessage ( Lang::get("validation.custom.UserLogin.credencials-error") );
     }
