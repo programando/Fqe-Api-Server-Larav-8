@@ -28,10 +28,10 @@ class TercerosUserController extends Controller
                   'password' => $FormData->password,
                   'autorizado' => 1 ],
                    true ) ) {                               // true al final es para recordar sessión  
-               
+                $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
                 return [
-                    'cliente' => Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first(),
-                    'user' => Auth::user()
+                    'cliente' => $Cliente,
+                    'user'    => Auth::user()
                 ];
             
         }    
