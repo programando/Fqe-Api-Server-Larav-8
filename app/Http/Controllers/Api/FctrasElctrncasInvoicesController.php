@@ -241,21 +241,36 @@ class FctrasElctrncasInvoicesController
             $Documentos = FctrasElctrnca::InvoicesToSend()->get(); 
              
             foreach ($Documentos as $Documento ) {
-                try {
+                 
                     $this->invoicesToSend ( $Documento) ;   
-                    if  ( $Documento->is_export == false) {
-                        $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
-                        }else {
-                        $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
-                        }
-                            $this->traitUpdateJsonObject ( $Documento );
-                            $this->documentsProcessReponse( $Documento, $response ) ;
-                    } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ");
-                        }
-            }  
-        }
+                    $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ; 
+                    $this->traitUpdateJsonObject ( $Documento );
+                    $this->documentsProcessReponse( $Documento, $response ) ;
+  
+                }
+            }
+
+        // public function invoices() {
+        //     $URL = 'invoice'  ;
+           
+        //     $Documentos = FctrasElctrnca::InvoicesToSend()->get(); 
+             
+        //     foreach ($Documentos as $Documento ) {
+        //         try {
+        //             $this->invoicesToSend ( $Documento) ;   
+        //             if  ( $Documento->is_export == false) {
+        //                 $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;    
+        //                 }else {
+        //                 $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
+        //                 }
+        //                     $this->traitUpdateJsonObject ( $Documento );
+        //                     $this->documentsProcessReponse( $Documento, $response ) ;
+        //             } catch (\Exception $e) {
+        //                     Log::error($e->getMessage());
+        //                     Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ");
+        //                 }
+        //     }  
+        // }
 
 
 
