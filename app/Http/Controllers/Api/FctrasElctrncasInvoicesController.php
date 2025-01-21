@@ -251,7 +251,9 @@ class FctrasElctrncasInvoicesController
                             $this->traitUpdateJsonObject ( $Documento );
                             $this->documentsProcessReponse( $Documento, $response ) ;
                     } catch (\Exception $e) {
-                            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ".$e->getMessage());
+                            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ");
+                            Log::error($e->getMessage());
+
                         }
             }  
         }
