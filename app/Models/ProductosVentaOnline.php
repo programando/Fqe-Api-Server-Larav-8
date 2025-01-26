@@ -44,7 +44,7 @@ class ProductosVentaOnline extends Model
 	];
 
 	protected $attributes = ['detalles' => ''];
-	protected $appends  = [  'image_url'  ];
+	protected $appends  = [  'image_url', 'url_producto'  ];
 	 
 	public static function ShopProductos (  ) {
 		return 
@@ -100,6 +100,10 @@ class ProductosVentaOnline extends Model
 
 	public function getImageUrlAttribute() {  
 		return Folders::ProductosVenta($this->image );  
+	}
+
+	public function getUrlProductoAttribute() {  
+		return config('company.APP_URL')."/productos/$this->idproducto_ppal";  
 	}
 
 	 

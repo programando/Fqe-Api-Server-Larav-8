@@ -128,23 +128,39 @@ class ProductosVentaOnlineController extends Controller
 
 
     private function ProductosComponenCombo( $FormData, $IdKeyProducto) { 
+        $Combo_PesoKg = 0; $Combo_PrecioVenta = 0;
         if ( !$FormData->has('ProductosComponenCombo')) return ;
 
         PrdComponenCombo::where('idkeyproducto', $IdKeyProducto)->delete();
         $ProductosComponenCombo = $FormData->ProductosComponenCombo;
         $ProductosCombo = [];
+
         foreach ( $ProductosComponenCombo as $Producto ) {
-            $ProductosCombo[]=[
+            $ProductoComponeCombo = Productos::where('idproducto', $Producto['idproducto'])->first();
+            $EsObequio = $this->getBit( $Producto['es_obsequio']  );
+            $ProductosCombo[]     = [
                 'idkeyproducto' => $IdKeyProducto,
                 'cantidad'      => $Producto['cantidad'],
                 'idproducto'    => $Producto['idproducto'],
-                'es_obsequio'   => $this->getBit( $Producto['es_obsequio']  ),
-            ];         
+                'es_obsequio'   => $EsObequio ,
+            ]; 
+            $Combo_PesoKg      += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
+            if ( !$EsObequio ) $Combo_PrecioVenta += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
         }
       
-        if ( $ProductosCombo ) PrdComponenCombo::insert($ProductosCombo  );
+        if ( $ProductosCombo ) {
+            PrdComponenCombo::insert($ProductosCombo  );
+            $this->ComboActualizarPesoPrecio( $IdKeyProducto, $Combo_PesoKg, $Combo_PrecioVenta );
+        }
     }
  
+    private function ComboActualizarPesoPrecio( $IdKeyProducto,$Combo_PesoKg, $Combo_PrecioVenta ) {
+        $ComboCreadoActualizado               = Productos::where('idkeyproducto', $IdKeyProducto)->first();
+        $ComboCreadoActualizado->peso_kg      = $Combo_PesoKg;
+        $ComboCreadoActualizado->precio_venta = $Combo_PrecioVenta;
+        $ComboCreadoActualizado->save();
+    }
+
 
     public function ShopProductos () {
         return Productos::ShopProductos();
