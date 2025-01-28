@@ -59,12 +59,15 @@ class DcmntosSprteController extends Controller {
         $Documentos = FctrasElctrnca::DocumentosSoporteToSend();
          
         foreach ($Documentos as $Documento ) {
-            $this->reportingInformation ( $Documento );
-            $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
-            $this->traitUpdateJsonObject ( $Documento );
-            $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
-            $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
-
+            try {
+                $this->reportingInformation ( $Documento );
+                $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject) ;  
+                $this->traitUpdateJsonObject ( $Documento );
+                $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
+                $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
+            }   catch (\Exception $e) {
+                \Log::error("Error procesando nota crédito documento soporte {$Documento->id_fact_elctrnca}: ".$e->getMessage()); 
+            } 
         }
     }
 
