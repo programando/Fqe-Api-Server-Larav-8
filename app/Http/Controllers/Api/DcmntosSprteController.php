@@ -66,7 +66,7 @@ class DcmntosSprteController extends Controller {
                 $this->errorResponse  ( $response , $Documento['id_fact_elctrnca']  );
                 $this->successReponse ( $response , $Documento['id_fact_elctrnca']  );
             }   catch (\Exception $e) {
-                \Log::error("Error procesando nota crédito documento soporte {$Documento->id_fact_elctrnca}: ".$e->getMessage()); 
+                \Log::error("Error procesando documento soporte {$Documento->id_fact_elctrnca}: ".$e->getMessage()); 
             } 
         }
     }
