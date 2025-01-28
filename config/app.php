@@ -248,7 +248,7 @@ return [
         'DB'           => Illuminate\Support\Facades\DB::class,
         'Eloquent'     => Illuminate\Database\Eloquent\Model::class,
         'Event'        => Illuminate\Support\Facades\Event::class,
-        'Fechas '      => App\Helpers\DatesHelper::class,
+        'Fechas'      => App\Helpers\DatesHelper::class,
         'File'         => Illuminate\Support\Facades\File::class,
         'Folders'      => App\Helpers\FoldersHelper::class,
         'Gate'         => Illuminate\Support\Facades\Gate::class,

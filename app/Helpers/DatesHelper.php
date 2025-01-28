@@ -46,6 +46,10 @@ class DatesHelper {
         }
     }
 
+    public static function getHoy() {
+        return Carbon::now();
+    }
+    
 /* $fecha = "2018-03-29 15:20:40";
 
 $dt = new DateTime($fecha);
