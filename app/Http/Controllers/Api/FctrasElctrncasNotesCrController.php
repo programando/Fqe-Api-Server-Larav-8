@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
+ 
+
 use Storage;
 use App\Traits\ApiSoenac;
 
@@ -44,10 +47,14 @@ class FctrasElctrncasNotesCrController
             $Documentos = FctrasElctrnca::CreditNotesToSend()->get();  
              
             foreach ($Documentos as $Documento ) {
+                try{
                $this->notesToSend ( $Documento, $TipoNota) ;
                $response   = $this->ApiSoenac->postRequest( $URL, $this->jsonObject ) ;  
                $this->traitUpdateJsonObject ( $Documento );
                $this->documentsProcessReponse( $Documento, $response ) ;  
+                } catch (\Exception $e) {
+                    $this->HandleErrorDocuments($Documento, $e);
+                }
             }  
       }
 

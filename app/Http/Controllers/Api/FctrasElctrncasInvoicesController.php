@@ -1,9 +1,11 @@
 <?php
 
+
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\ApiController;
 
+use App\Http\Controllers\ApiController;
+use App\Http\Controllers\Controller;
 
 use App\Events\InvoiceEventAcptcionTctaCstmerSndEmaiEvent;
 use App\Events\InvoiceEventsReportEvent;
@@ -31,7 +33,7 @@ Use Storage;
 Use Carbon;
 use config;
 use Log;
-class FctrasElctrncasInvoicesController  
+class FctrasElctrncasInvoicesController  extends Controller
 {
    use FctrasElctrncasTrait, ApiSoenac, QrCodeTrait, PdfsTrait, FctrasElctrncasEventsTrait;
 
@@ -266,8 +268,7 @@ class FctrasElctrncasInvoicesController
                             $this->traitUpdateJsonObject ( $Documento );
                             $this->documentsProcessReponse( $Documento, $response ) ;
                     } catch (\Exception $e) {
-                            Log::error($e->getMessage());
-                            Log::error("Error procesando factura electrónica {$Documento->id_fact_elctrnca}: ");
+                            $this->HandleErrorDocuments($Documento, $e);
                         }
             }  
         }
