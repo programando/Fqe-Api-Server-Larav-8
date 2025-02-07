@@ -128,7 +128,7 @@ class ProductosVentaOnlineController extends Controller
 
 
     private function ProductosComponenCombo( $FormData, $IdKeyProducto) { 
-        $Combo_PesoKg = 0; $Combo_PrecioVenta = 0;
+        $Combo_PesoKg = 0; $Combo_PrecioVenta = 0; $Combo_PrecioVentaObsequios = 0;
         if ( !$FormData->has('ProductosComponenCombo')) return ;
 
         PrdComponenCombo::where('idkeyproducto', $IdKeyProducto)->delete();
@@ -146,18 +146,20 @@ class ProductosVentaOnlineController extends Controller
             ]; 
             $Combo_PesoKg      += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
             if ( !$EsObequio ) $Combo_PrecioVenta += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
+            if ( $EsObequio ) $Combo_PrecioVentaObsequios += ($Combo_PrecioVentaObsequios->precio_venta   * $Producto['cantidad']);
         }
       
         if ( $ProductosCombo ) {
             PrdComponenCombo::insert($ProductosCombo  );
-            $this->ComboActualizarPesoPrecio( $IdKeyProducto, $Combo_PesoKg, $Combo_PrecioVenta );
+            $this->ComboActualizarPesoPrecio( $IdKeyProducto, $Combo_PesoKg, $Combo_PrecioVenta, $Combo_PrecioVentaObsequios );
         }
     }
  
     private function ComboActualizarPesoPrecio( $IdKeyProducto,$Combo_PesoKg, $Combo_PrecioVenta ) {
-        $ComboCreadoActualizado               = Productos::where('idkeyproducto', $IdKeyProducto)->first();
-        $ComboCreadoActualizado->peso_kg      = $Combo_PesoKg;
-        $ComboCreadoActualizado->precio_venta = $Combo_PrecioVenta;
+        $ComboCreadoActualizado                         = Productos::where('idkeyproducto', $IdKeyProducto)->first();
+        $ComboCreadoActualizado->peso_kg                = $Combo_PesoKg;
+        $ComboCreadoActualizado->precio_venta           = $Combo_PrecioVenta;
+        $ComboCreadoActualizado->precio_venta_obsequios = $Combo_PrecioVenta;
         $ComboCreadoActualizado->save();
     }
 

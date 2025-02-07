@@ -15,14 +15,15 @@ class ProductosVentaOnline extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'idproducto' => 'int',
-		'costo_venta' => 'float',
-		'precio_venta' => 'float',
-		'prcntje_iva' => 'float',
-		'peso_kg' => 'float',
-		'es_combo' => 'bool',
-		'inactivo' => 'bool',
-		'publicado' => 'bool'
+		'idproducto'             => 'int',
+		'costo_venta'            => 'float',
+		'precio_venta'           => 'float',
+		'prcntje_iva'            => 'float',
+		'peso_kg'                => 'float',
+		'es_combo'               => 'bool',
+		'inactivo'               => 'bool',
+		'publicado'              => 'bool',
+		'precio_venta_obsequios' => 'float',
 	];
 
 	protected $fillable = [
@@ -40,7 +41,8 @@ class ProductosVentaOnline extends Model
 		'image',
 		'es_combo',
 		'inactivo',
-		'publicado'
+		'publicado',
+		'precio_venta_obsequios',
 	];
 
 	protected $attributes = ['detalles' => ''];
@@ -63,7 +65,7 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('idproducto_ppal', "$IdProductoPpal")
 			->where('inactivo', "0")
-			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica', 'image', 'detalles', 'es_combo')
+			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica', 'image', 'detalles', 'es_combo', 'precio_venta_obsequios')
 			->get();
 	}
 
@@ -79,22 +81,31 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('inactivo', "0")
 			->where('idkeyproducto', $IdKeyProducto)
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado')
+			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
 			->get();
 	}
 
 	public static function ProductoCombosTodos() {
 		return self::where('es_combo', "1")
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado')
+			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
 			->get();
 	}
-
+//->where('es_combo', "1")
 	public static function ProductoComboPorIdKeyProducto ($IdKeyProducto) {
 		return self::with(['Imagenes', 'ProductosComponenCombo'])
 			->where('idkeyproducto', $IdKeyProducto)
-			->where('es_combo', "1")
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado')
+			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
 			->get();
+	}
+	
+	 
+	
+
+	
+
+	public function ProductosComponenCombo()
+	{
+		return $this->hasMany(ProductosVentaOnlineCombo::class, 'idkeyproducto');
 	}
 
 
@@ -119,11 +130,7 @@ class ProductosVentaOnline extends Model
 		return trim( $value) ;
 	}
 
-	public function ProductosComponenCombo()
-	{
-		return $this->hasMany(ProductosVentaOnlineCombo::class, 'idkeyproducto');
-	}
-
+ 
 	public function Imagenes()
 	{
 		return $this->hasMany(ProductosVentaOnlineImagene::class, 'idkeyproducto');

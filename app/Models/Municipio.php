@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
+ 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -24,7 +21,8 @@ class Municipio extends Model
 		'id_dpto',
 		'cod_dane',
 		'nom_mcipio',
-		'inactivo'
+		'inactivo',
+		'es_urbano',
 	];
 
 	public function Departamentos()
