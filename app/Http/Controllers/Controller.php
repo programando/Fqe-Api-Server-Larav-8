@@ -38,5 +38,15 @@ class Controller extends BaseController
           );
       }
 
+      protected function HandleError($Proceso, \Exception $exception)
+      {
+          Log::error("Error en $Proceso :" . PHP_EOL .
+              "Mensaje de Error: " . $exception->getMessage() . PHP_EOL .
+              "Archivo: " . $exception->getFile() . PHP_EOL .
+              "Línea: " . $exception->getLine() . PHP_EOL .
+              "Traza: " . $exception->getTraceAsString()
+          );
+      }
+
       
 }
