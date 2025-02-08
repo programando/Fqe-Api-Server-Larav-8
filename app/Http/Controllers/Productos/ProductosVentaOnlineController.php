@@ -187,5 +187,11 @@ class ProductosVentaOnlineController extends Controller
     public function ProductoComboPorIdKeyProducto ( Request $FormData ) {
         return Productos::ProductoComboPorIdKeyProducto( $FormData->idkeyproducto );
     }
+
+    public function ProductoActualizarCampo (Request $FormData) {
+        
+        Productos::ProductosActualizarCampo ( $FormData->idkeyproducto, $FormData->nombre_campo, $FormData->new_value );
+        return 'Ok';
+    }
     
 }

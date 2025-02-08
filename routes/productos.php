@@ -5,13 +5,14 @@ use App\Http\Controllers\Productos\ProductosVentaOnlineController;
  
 
 Route::controller( ProductosVentaOnlineController::class )
-        ->prefix('ventas/online/')
+        ->prefix('ventas/online/productos/')
         ->group ( function () {
-                Route::get('productos/shop'                                   , 'ShopProductos') ;
-                Route::post('producto/presentaciones'                         , 'ProductoPresentaciones') ;
-                Route::get('producto/presentaciones/todas'                    , 'ProductoPresentacionesTodos') ;
-                Route::post('producto/buscar/id/producto'                     , 'ProductoBuscarId') ;
-                Route::post('producto/actualizar'                             , 'ProductoActualizar') ;
+                Route::get('shop'                                    , 'ShopProductos') ;
+                Route::post('presentaciones'                        , 'ProductoPresentaciones') ;
+                Route::get('presentaciones/todas'                   , 'ProductoPresentacionesTodos') ;
+                Route::post('buscar/id/producto'                    , 'ProductoBuscarId') ;
+                Route::post('actualizar'                             , 'ProductoActualizar') ;
+                Route::post('actualizar/campo'                       , 'ProductoActualizarCampo') ;
 });
 
 
@@ -24,7 +25,4 @@ Route::controller( ProductosVentaOnlineController::class )
 });
 
 
-/*
-      
-*/
-
+ 

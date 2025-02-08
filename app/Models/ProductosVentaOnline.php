@@ -65,15 +65,16 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('idproducto_ppal', "$IdProductoPpal")
 			->where('inactivo', "0")
-			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica', 'image', 'detalles', 'es_combo', 'precio_venta_obsequios')
+			->select('*')
 			->get();
 	}
+ 
 
 	public static function ProductoPresentacionesTodos() {
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('inactivo', "0")
 			->where('es_combo', "0")
-			->select('idkeyproducto','idproducto','idproducto_ppal', 'nomproducto', 'nom_prsntacion', 'precio_venta', 'prcntje_iva', 'peso_kg', 'ficha_tecnica')
+			->select('*')
 			->get();
 	}
 
@@ -81,30 +82,32 @@ class ProductosVentaOnline extends Model
 		return self::with(['Imagenes', 'Relacionados.Productos'])
 			->where('inactivo', "0")
 			->where('idkeyproducto', $IdKeyProducto)
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
+			->select('*')
 			->get();
 	}
 
 	public static function ProductoCombosTodos() {
 		return self::where('es_combo', "1")
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
+			->select('*')
 			->get();
 	}
-//->where('es_combo', "1")
+		
 	public static function ProductoComboPorIdKeyProducto ($IdKeyProducto) {
 		return self::with(['Imagenes', 'ProductosComponenCombo'])
 			->where('idkeyproducto', $IdKeyProducto)
-			->select('idkeyproducto','idproducto',	'idproducto_ppal','uuid','nomproducto','nom_prsntacion','detalles','costo_venta','precio_venta','prcntje_iva','peso_kg','ficha_tecnica','image','es_combo','inactivo','publicado', 'precio_venta_obsequios')
+			->select('*')
 			->get();
 	}
 	
 	 
+	public static function ProductosActualizarCampo($IdKeyProducto, $Campo, $NewValue) {
+		return self::where('idkeyproducto', $IdKeyProducto)->update([$Campo => $NewValue]); 
+	}
 	
+	 
 
-	
 
-	public function ProductosComponenCombo()
-	{
+	public function ProductosComponenCombo(){
 		return $this->hasMany(ProductosVentaOnlineCombo::class, 'idkeyproducto');
 	}
 
@@ -131,13 +134,13 @@ class ProductosVentaOnline extends Model
 	}
 
  
-	public function Imagenes()
-	{
+	public function Imagenes()	{
 		return $this->hasMany(ProductosVentaOnlineImagene::class, 'idkeyproducto');
 	}
 
-	public function Relacionados()
-	{
+	public function Relacionados()	{
 		return $this->hasMany(ProductosVentaOnlineRelacionado::class, 'idkeyproducto');
 	}
+
+	
 }
