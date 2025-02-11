@@ -18,5 +18,6 @@ Route::controller( ParametrosVentasOnlineController::class )
         ->prefix('parametros/')
         ->group ( function () {
                 Route::get('consultar'                             , 'ParametrosConsultar') ;
+                Route::post('actualizar'                             , 'ParametrosActualizar') ;
 });
 

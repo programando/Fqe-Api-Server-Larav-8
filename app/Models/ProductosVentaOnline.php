@@ -104,8 +104,7 @@ class ProductosVentaOnline extends Model
 		return self::where('idkeyproducto', $IdKeyProducto)->update([$Campo => $NewValue]); 
 	}
 	
-	 
-
+ 
 
 	public function ProductosComponenCombo(){
 		return $this->hasMany(ProductosVentaOnlineCombo::class, 'idkeyproducto');
