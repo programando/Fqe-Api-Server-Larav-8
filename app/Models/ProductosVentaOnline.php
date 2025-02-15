@@ -75,6 +75,7 @@ class ProductosVentaOnline extends Model
 			->where('inactivo', "0")
 			->where('es_combo', "0")
 			->select('*')
+			->orderBy('nomproducto')
 			->get();
 	}
 
