@@ -94,6 +94,8 @@ trait FctrasElctrncasTrait {
                 unset($jsonObject );
             }  ;
 
+            $type_liability_id = $Customer["type_liability_id"];
+
             $jsonObject['customer'] =[
                 'identification_number'           => $Customer['identification_number'],
                 'type_document_identification_id' => $Customer['type_document_identification_id'],
@@ -101,7 +103,7 @@ trait FctrasElctrncasTrait {
                 'language_id'                     => $Customer['language_id'],
                 'country_id'                      => $Customer['country_id'],
                 'type_regime_id'                  => $Customer['type_regime_id'],
-                'type_liability_id'               => $Customer['type_liability_id'],
+                 'type_liability_id' =>   "$type_liability_id"  ,
                 'tax_detail_id'                   => $Customer['tax_detail_id'],
                 'name'                            => $Customer['name'],
                 'phone'                           => $Customer['phone'],
