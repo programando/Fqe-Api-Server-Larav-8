@@ -18,7 +18,7 @@ use App\Events\NoteWasCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Traits\FctrasElctrncasTrait;
 
-class FctrasElctrncasNotesCrController  
+class FctrasElctrncasNotesCrController  extends Controller
 {
     use FctrasElctrncasTrait,  ApiSoenac, QrCodeTrait, PdfsTrait;
 
