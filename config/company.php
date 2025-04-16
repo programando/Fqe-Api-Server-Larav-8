@@ -18,5 +18,17 @@
       'EMAIL_LOGISTICA'              => env('EMAIL_LOGISTICA'),
       'URL_USER_PASSWORD_RESET'     => env('URL_USER_PASSWORD_RESET'),
       'DOCUMENTO_URL_CONSULTA_CUFE' => env('DOCUMENTO_URL_CONSULTA_CUFE'),
+
+
+      'PAYU_API_KEY'          => env('PAYU_API_KEY'),
+      'PAYU_MERCHANT_ID'      => env('PAYU_MERCHANT_ID'),
+      'PAYU_ACCOUNT_ID'       => env('PAYU_ACCOUNT_ID'),
+      'PAYU_CONFIRMATION_URL' => env('PAYU_CONFIRMATION_URL'),
+      'PAYU_RESPONSE_URL'     => env('PAYU_RESPONSE_URL'),
+      
+
     ];
+
+    //  'base_uri'   => config('company.FACTURA_ELECT_URL_BASE'),
+
 ?>
