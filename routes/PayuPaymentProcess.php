@@ -1,7 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Productos\PaymentPayuConfirmationController;
+use App\Http\Controllers\PaymentPayuConfirmationController;
  
 
 Route::controller( PaymentPayuConfirmationController::class )
