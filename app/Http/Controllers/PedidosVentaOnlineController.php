@@ -17,11 +17,13 @@ class PedidosVentaOnlineController extends Controller
    
     public function PedidoCrearNuevo (Request $FormData) {
         
-        $Pedido                       = new PedidosVentaOnline();
-        $Pedido->idtercero            = $FormData->idtercero;
-        $Pedido->fcha_pddo            = Fechas::getHoy();
-        $Pedido->fecha_vence          = Fechas::AddHoras(8);
-        $Pedido->vr_flete             = $FormData->vr_flete;
+        $Pedido                 = new PedidosVentaOnline();
+        $Pedido->idtercero      = $FormData->idtercero;
+        $Pedido->fcha_pddo      = Fechas::getHoy();
+        $Pedido->fecha_vence    = Fechas::AddHoras(8);
+        $Pedido->vr_flete       = $FormData->vr_flete;
+        $Pedido->payu_reference = $FormData->payu_reference;
+        $Pedido->payu_signature = $FormData->payu_signature;
         $Pedido->save();
         $this->PedidoDtCrearNuevo( $Pedido, $FormData );
         return $Pedido;

@@ -48,7 +48,9 @@ class PedidosVentaOnline extends Model
 		'facturado',
 		'email_pddo_pgdo',
 		'fqe_idpedido',
-		'fqe_idcontrolfactura'
+		'fqe_idcontrolfactura',
+		'payu_reference',
+		'payu_signature',
 	];
 
 	public function PedidoDtProductos()	{
