@@ -21,22 +21,26 @@ class PedidosVentaOnlineController extends Controller
         $Pedido->idtercero      = $FormData->idtercero;
         $Pedido->fcha_pddo      = Fechas::getHoy();
         $Pedido->fecha_vence    = Fechas::AddHoras(8);
+        $Pedido->vr_productos   = $FormData->vr_productos;
         $Pedido->vr_flete       = $FormData->vr_flete;
+        $Pedido->vr_obsequios   = $FormData->vr_obsequios;
+        $Pedido->vr_total       = $FormData->vr_total;
         $Pedido->payu_reference = $FormData->payu_reference;
         $Pedido->payu_signature = $FormData->payu_signature;
+
         $Pedido->save();
         $this->PedidoDtCrearNuevo( $Pedido, $FormData );
         return $Pedido;
     }
 
     private function PedidoDtCrearNuevo ( $Pedido, $FormData ) {
-        $DetallePedido   = [] ; $peso_kg = 0; $vr_pddo = 0; $vr_flete = 0; $vr_total = 0;
+        $DetallePedido   = [] ; $peso_kg = 0; $vr_productos = 0; $vr_flete = 0; $vr_total = 0;
         $ProductosPedido = $FormData['ProductosPedido'];
         
         foreach ($ProductosPedido as $Producto) {
             $ProductoBase  = Productos::where('idproducto_ppal', $Producto['url_key'])->first();
             $peso_kg      += $ProductoBase['peso_kg'] * $Producto['cantidad'];
-            $vr_pddo      += $Producto['precio_venta'] * $Producto['cantidad'];
+            $vr_productos      += $Producto['precio_venta'] * $Producto['cantidad'];
             $DetallePedido[] = [
                 'idpddo'     => $Pedido->idpddo,
                 'idproducto' => $Producto['idproducto'],
@@ -47,14 +51,12 @@ class PedidosVentaOnlineController extends Controller
         }
         if (count($DetallePedido) > 0)  {
             PedidosDtVentaOnline::insert($DetallePedido);
-            $this->PedidoActualizarDatos( $Pedido, $peso_kg ,$vr_pddo  );
+            $this->PedidoActualizarDatos( $Pedido, $peso_kg   );
         }
     }
 
-    private function PedidoActualizarDatos ( $Pedido, $peso_kg, $vr_pddo  ) {
+    private function PedidoActualizarDatos ( $Pedido, $peso_kg  ) {
         $Pedido->peso_kg              = $peso_kg ; 
-        $Pedido->vr_pddo              = $vr_pddo;
-        $Pedido->vr_total             = $Pedido->vr_flete + $vr_pddo;
         $Pedido->save();
     }
 
