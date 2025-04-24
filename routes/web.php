@@ -24,16 +24,16 @@ Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
 
-Route::get('/mail', function () {
-  $details = [
-      'subject' => 'Correo de prueba',
-      'body' => 'Este es un correo de prueba enviado desde Laravel en local.'
-  ];
+// Route::get('/mail', function () {
+//   $details = [
+//       'subject' => 'Correo de prueba',
+//       'body' => 'Este es un correo de prueba enviado desde Laravel en local.'
+//   ];
 
-  Mail::raw($details['body'], function ($message) use ($details) {
-      $message->to('jhonjamesmg@hotmail.com')
-              ->subject($details['subject']);
-  });
+//   Mail::raw($details['body'], function ($message) use ($details) {
+//       $message->to('jhonjamesmg@hotmail.com')
+//               ->subject($details['subject']);
+//   });
 
-  return 'Correo enviado.';
-});
+//   return 'Correo enviado.';
+// });
