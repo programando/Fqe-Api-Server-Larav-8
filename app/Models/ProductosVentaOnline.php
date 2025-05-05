@@ -117,7 +117,7 @@ class ProductosVentaOnline extends Model
 	}
 
 	public function getUrlProductoAttribute() {  
-		return config('company.APP_URL')."/productos/$this->idproducto_ppal";  
+		return config('company.APP_URL')."/productos_ventas_online/$this->idproducto_ppal";  
 	}
 
 	 
