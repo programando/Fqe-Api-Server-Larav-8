@@ -10,17 +10,19 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PedidoConfirmacionPagoRecibidoEvent
+class PedidosConfirmationPagoRecibidoEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $Pedido, $PedidoDt;
-
-    public function __construct( $Pedido )    {
-        $this->Pedido   = $Pedido;
-        $this->PedidoDt = $Pedido->PedidoDt;
+    /**
+     * Create a new event instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
     }
- 
 
     /**
      * Get the channels the event should broadcast on.
@@ -31,5 +33,4 @@ class PedidoConfirmacionPagoRecibidoEvent
     {
         return new PrivateChannel('channel-name');
     }
-
 }

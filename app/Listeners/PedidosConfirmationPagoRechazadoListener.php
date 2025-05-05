@@ -2,11 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\PedidoConfirmacionPagoRecibidoEvent;
+use App\Events\PedidosConfirmationPagoRechazadoEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class PedidoConfirmacionPagoRecibidoListener
+class PedidosConfirmationPagoRechazadoListener
 {
     /**
      * Create the event listener.
@@ -21,10 +21,10 @@ class PedidoConfirmacionPagoRecibidoListener
     /**
      * Handle the event.
      *
-     * @param  \App\Events\PedidoConfirmacionPagoRecibidoEvent  $event
+     * @param  \App\Events\PedidosConfirmationPagoRechazadoEvent  $event
      * @return void
      */
-    public function handle(PedidoConfirmacionPagoRecibidoEvent $event)
+    public function handle(PedidosConfirmationPagoRechazadoEvent $event)
     {
         //
     }

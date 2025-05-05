@@ -28,7 +28,8 @@ class EventServiceProvider extends ServiceProvider
        'App\Events\UserPasswordResetEvent'                     => ['App\Listeners\UserPasswordReset',],
        'App\Events\UserContactEvent'                           => ['App\Listeners\UserContactListener',],
        'App\Events\UserAdminSendEmailCodeAccessEvent'          => ['App\Listeners\UserAdminSendEmailCodeAccessListener',],
-       'App\Events\PedidoConfirmacionPagoRecibidoEvent'        => ['App\Listeners\PedidoConfirmacionPagoRecibidoListener',],
+       'App\Events\PedidosConfirmationPagoRecibidoEvent'       => ['App\Listeners\PedidosConfirmationPagoRecibidoListener',      ],
+       'App\Events\PedidosConfirmationPagoRechazadoEvent'      => ['App\Listeners\PedidosConfirmationPagoRechazadoListener',      ],
     ];
 
     /**

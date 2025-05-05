@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use App\Models\PedidosVentaOnline as Pedidos;;
+use App\Models\PedidosVentaOnline as Pedidos;
+use App\Models\Tercero;
+use App\Events\PedidosConfirmationPagoRecibidoEvent;
+use App\Events\PedidosConfirmationPagoRechazadoEvent;
 
 class PaymentPayuConfirmationController extends Controller
 {
@@ -27,10 +30,10 @@ class PaymentPayuConfirmationController extends Controller
         $generatedSignature = md5($stringSignature);                                            // O el algoritmo que PayU esté utilizando
 
         if (strtoupper($signature) === strtoupper($generatedSignature)) {
-            
-            if ($statePol == 4)  $this->PaymentStateUpdatePedido( $request , 1);         // 4 significa "Transacción aprobada"
-            if ($statePol == 6)   $this->PaymentStateUpdatePedido( $request, 0 );        // 6 significa "Transacción rechazada"
-
+             // 4 significa "Transacción aprobada"
+            if ($statePol == 4)   $this->PaymentStateUpdatePedido( $request , 1);
+             // 6 significa "Transacción rechazada"
+            if ($statePol == 6) $this->PaymentStateUpdatePedido( $request, 0 );  
         } else {
             $this->PaymentSingError( $request); // Manejar error de firma
         }
@@ -38,9 +41,6 @@ class PaymentPayuConfirmationController extends Controller
 
 
  
-
- 
-
     private function PaymentStateUpdatePedido ($PayuResponse , $SatePol ) {
         $PayReference = $PayuResponse->input('reference_sale');
         $Pedido       = Pedidos::where('payu_reference', $PayReference )->first();
@@ -56,9 +56,13 @@ class PaymentPayuConfirmationController extends Controller
         $Pedido->payu_cus                  = $PayuResponse->input('cus');
         $Pedido->payu_response_message_pol = $PayuResponse->input('response_message_pol');
         $Pedido->pago_recibido             = $SatePol ;
-
         $Pedido->save();
 
+        $EmailComprador = $PayuResponse->input('email_buyer');
+         
+        if ($SatePol == 1) PedidosConfirmationPagoRecibidoEvent::dispatch($Pedido, $EmailComprador );
+        if ($SatePol == 0) PedidosConfirmationPagoRechazadoEvent::dispatch($Pedido, $EmailComprador );  ;
+        
     }
 
 }

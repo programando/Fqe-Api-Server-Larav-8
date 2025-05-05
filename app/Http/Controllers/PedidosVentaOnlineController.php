@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 
 use App\Models\PedidosVentaOnline;
 use App\Models\PedidosDtVentaOnline;
-use App\Events\PedidoConfirmacionPagoRecibidoEvent;
 use App\Models\ProductosVentaOnline as Productos;
 
 
@@ -65,7 +64,7 @@ class PedidosVentaOnlineController extends Controller
         $Pedido->pago_recibido = true;                                                           /*  OTROS DATOS DEL PAGO RECIEN RECIBIDO */
         $Pedido->save();
         return $Pedido;
-        PedidoConfirmacionPagoRecibidoEvent::dispatch($Pedido );
+         
     }
 
 
