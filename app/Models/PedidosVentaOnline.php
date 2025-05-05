@@ -53,6 +53,13 @@ class PedidosVentaOnline extends Model
 		'fqe_idcontrolfactura',
 		'payu_reference',
 		'payu_signature',
+		'payu_transaction_id',
+		'payu_state_pol',
+		'payu_transaction_date',
+		'payu_cus',
+		'payu_response_message_pol',
+
+
 	];
 
 	public function PedidoDtProductos()	{
