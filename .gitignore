@@ -17,6 +17,7 @@ supervisor.conf
 endpoinds.txt
 documentation.txt
 payuresponse.txt
+payuresponse.json
 *.bat
 .vscode
 public/storage/images/productos_ventas_online/
