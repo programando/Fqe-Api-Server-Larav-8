@@ -16,6 +16,7 @@ yarn-error.log
 supervisor.conf
 endpoinds.txt
 documentation.txt
+payuresponse.txt
 *.bat
 .vscode
 public/storage/images/productos_ventas_online/
