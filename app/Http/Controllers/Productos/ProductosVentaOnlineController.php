@@ -149,7 +149,8 @@ class ProductosVentaOnlineController extends Controller
             if ( !$EsObequio ) $Combo_PrecioVenta            += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
             if ( $EsObequio  ) {
                 $Combo_PrecioVentaObsequios += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
-                $Combo_CostoVenta           += ($ProductoComponeCombo->costo_venta   * $Producto['cantidad']);      // Sumo costo del obsequio
+                $Combo_CostoVenta           += ($ProductoComponeCombo->costo_venta    * $Producto['cantidad']);   // Sumo costo del obsequio
+                $Combo_PesoKg               += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
             }
         }
       
