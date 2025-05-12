@@ -23,8 +23,17 @@ class ProductosVentaOnlineCombo extends Model
 		'idkeyproducto',
 		'idproducto',
 		'cantidad',
-		'es_obsequio'
+		'es_obsequio',
+		'precio_venta',
+		'costo_venta',
 	];
+
+
+	 
+	public static function ProductosComponentes ( $IdKeyProducto ) {
+		return self::where('idkeyproducto',$IdKeyProducto )->get();
+	}
+	 
 
 	public function Productos()	{
 		return $this->belongsTo(ProductosVentaOnline::class, 'idkeyproducto');

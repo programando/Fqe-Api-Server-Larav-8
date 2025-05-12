@@ -43,6 +43,8 @@ class ProductosVentaOnline extends Model
 		'inactivo',
 		'publicado',
 		'precio_venta_obsequios',
+		'precio_venta',
+		'costo_venta',
 	];
 
 	protected $attributes = ['detalles' => ''];

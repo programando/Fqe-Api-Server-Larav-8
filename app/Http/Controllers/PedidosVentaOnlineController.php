@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\PedidosVentaOnline;
 use App\Models\PedidosDtVentaOnline;
 use App\Models\ProductosVentaOnline as Productos;
+use App\Models\ProductosVentaOnlineCombo as ProductosVentaOnlineCombos;
 
 
 use Fechas;
@@ -34,20 +35,25 @@ class PedidosVentaOnlineController extends Controller
 
     private function PedidoDtCrearNuevo ( $Pedido, $FormData ) {
         $DetallePedido   = [] ; $peso_kg = 0; $vr_productos = 0; $vr_flete = 0; $vr_total = 0;
-        $ProductosPedido = $FormData['ProductosPedido'];
-        
-        foreach ($ProductosPedido as $Producto) {
-            $ProductoBase  = Productos::where('idproducto_ppal', $Producto['url_key'])->first();
-            $peso_kg      += $ProductoBase['peso_kg'] * $Producto['cantidad'];
-            $vr_productos      += $Producto['precio_venta'] * $Producto['cantidad'];
-            $DetallePedido[] = [
-                'idpddo'     => $Pedido->idpddo,
-                'idproducto' => $Producto['idproducto'],
-                'cantidad'   => $Producto['cantidad'],
-                'vr_unitario'=> $Producto['precio_venta'],
-                'vr_total'   => $Producto['precio_venta'] * $Producto['cantidad']
-            ];
+        $CombosPedido = $FormData['ProductosPedido']; // ES EL COMBO QUE VIENE DEL CLIENTE
+        // Recorremos los productos del pedido ( combos )
+        foreach ($CombosPedido as $Combo) {
+            // por cada combo, recorremos los productos que lo componen
+            
+            $ProductosComponentesCombo = ProductosVentaOnlineCombos::ProductosComponentes( $Combo['idkeyproducto'] );
+            foreach ($ProductosComponentesCombo as $ProductoCombo ){
+                    // $peso_kg            += $ProductoCombo['peso_kg'] * $Producto['cantidad'];
+                    // $vr_productos       += $Producto['precio_venta'] * $Producto['cantidad'];  Necesarios para el pedido
+                    $DetallePedido[] = [
+                        'idpddo'     => $Pedido->idpddo,
+                        'idproducto' => $ProductoCombo['idproducto'],
+                        'cantidad'   => $ProductoCombo['cantidad'],
+                        'vr_unitario'=> $ProductoCombo['precio_venta'],
+                        'vr_total'   => $ProductoCombo['precio_venta'] * $ProductoCombo['cantidad']
+                    ];
+            }
         }
+
         if (count($DetallePedido) > 0)  {
             PedidosDtVentaOnline::insert($DetallePedido);
             $this->PedidoActualizarDatos( $Pedido, $peso_kg   );

@@ -136,13 +136,15 @@ class ProductosVentaOnlineController extends Controller
         $ProductosCombo = [];
 
         foreach ( $ProductosComponenCombo as $Producto ) {
-            $ProductoComponeCombo = Productos::where('idproducto', $Producto['idproducto'])->first();
-            $EsObequio = $this->getBit( $Producto['es_obsequio']  );
+            $ProductoComponeCombo = Productos::where('idproducto', $Producto['idproducto'])->first(); //
+            $EsObequio            = $this->getBit( $Producto['es_obsequio']  );
             $ProductosCombo[]     = [
                 'idkeyproducto' => $IdKeyProducto,
                 'cantidad'      => $Producto['cantidad'],
                 'idproducto'    => $Producto['idproducto'],
-                'es_obsequio'   => $EsObequio ,
+                'precio_venta'  => $ProductoComponeCombo['precio_venta'],
+                'costo_venta'   => $ProductoComponeCombo['costo_venta'],
+                'es_obsequio'   => $EsObequio,
             ]; 
             $Combo_PesoKg                                    += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
             $Combo_CostoVenta                                += ($ProductoComponeCombo->costo_venta    * $Producto['cantidad']);
