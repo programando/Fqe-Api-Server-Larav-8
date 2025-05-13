@@ -16,7 +16,7 @@ class PedidosVentaOnlineController extends Controller
 {
    
     public function PedidoCrearNuevo (Request $FormData) {
-        
+       
         $Pedido                 = new PedidosVentaOnline();
         $Pedido->idtercero      = $FormData->idtercero;
         $Pedido->fcha_pddo      = Fechas::getHoy();
