@@ -8,6 +8,8 @@ use App\Models\ProductosVentaOnline as Productos;
 use App\Models\ProductosVentaOnlineImagene as Imagenes;
 use App\Models\ProductosVentaOnlineRelacionado as PrdRelacionados;
 use App\Models\ProductosVentaOnlineCombo as PrdComponenCombo;
+use App\Helpers\StringsHelper;
+
 
 use Str;
 use Files;
@@ -109,13 +111,17 @@ class ProductosVentaOnlineController extends Controller
         if (!$Producto)       $Producto = new Productos();
   
         try{
-            $Producto->nomproducto    = $this->getText($FormData->nomproducto);
-            $Producto->nom_prsntacion = 'Unidad';
-            $Producto->detalles       = $this->getText($FormData->detalles);
-            $Producto->ficha_tecnica  = '' ;
-            $Producto->es_combo       = 1;
-            $Producto->inactivo       = $this->getBit($FormData->inactivo);
-            $Producto->publicado      = $this->getBit($FormData->publicado);
+            $Producto->nomproducto     = $this->getText($FormData->nomproducto);
+            $Producto->nom_prsntacion  = 'Unidad';
+            $Producto->detalles        = $this->getText($FormData->detalles);
+            $Producto->ficha_tecnica   = '' ;
+            $Producto->es_combo        = 1;
+            $Producto->inactivo        = $this->getBit($FormData->inactivo);
+            $Producto->publicado       = $this->getBit($FormData->publicado);
+            $Producto->idproducto      = random_int(30000, 31500);
+            $Producto->idproducto_ppal = StringsHelper::UUID();
+            $Producto->uuid            = StringsHelper::UUID();
+
             $Producto->save();
             $this->ImagenPrincipalUpdate        ( $FormData, $Producto->idkeyproducto);           
             $this->ImagenesProductoUpdate       ( $FormData, $Producto->idkeyproducto);            
@@ -135,6 +141,7 @@ class ProductosVentaOnlineController extends Controller
         $ProductosComponenCombo = $FormData->ProductosComponenCombo;
         $ProductosCombo = [];
 
+         \Log::info('ProductosComponenCombo: '.json_encode($ProductosComponenCombo));
         foreach ( $ProductosComponenCombo as $Producto ) {
             $ProductoComponeCombo = Productos::where('idproducto', $Producto['idproducto'])->first(); //
             $EsObequio            = $this->getBit( $Producto['es_obsequio']  );

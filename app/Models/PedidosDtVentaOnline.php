@@ -26,7 +26,8 @@ class PedidosDtVentaOnline extends Model
 		'idproducto',
 		'cantidad',
 		'vr_unitario',
-		'vr_total'
+		'vr_total',
+		'es_obsequio',
 	];
 
 	public function Pedido()	{

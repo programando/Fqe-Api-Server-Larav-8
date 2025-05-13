@@ -37,19 +37,22 @@ class PedidosVentaOnlineController extends Controller
         $DetallePedido   = [] ; $peso_kg = 0; $vr_productos = 0; $vr_flete = 0; $vr_total = 0;
         $CombosPedido = $FormData['ProductosPedido']; // ES EL COMBO QUE VIENE DEL CLIENTE
         // Recorremos los productos del pedido ( combos )
+        
         foreach ($CombosPedido as $Combo) {
             // por cada combo, recorremos los productos que lo componen
             
             $ProductosComponentesCombo = ProductosVentaOnlineCombos::ProductosComponentes( $Combo['idkeyproducto'] );
+            
             foreach ($ProductosComponentesCombo as $ProductoCombo ){
-                    // $peso_kg            += $ProductoCombo['peso_kg'] * $Producto['cantidad'];
-                    // $vr_productos       += $Producto['precio_venta'] * $Producto['cantidad'];  Necesarios para el pedido
+                    $peso_kg            += $ProductoCombo['productos']['peso_kg']      * $ProductoCombo['cantidad'];
+                    $vr_productos       += $ProductoCombo['productos']['precio_venta'] * $ProductoCombo['cantidad'];   
                     $DetallePedido[] = [
-                        'idpddo'     => $Pedido->idpddo,
-                        'idproducto' => $ProductoCombo['idproducto'],
-                        'cantidad'   => $ProductoCombo['cantidad'],
-                        'vr_unitario'=> $ProductoCombo['precio_venta'],
-                        'vr_total'   => $ProductoCombo['precio_venta'] * $ProductoCombo['cantidad']
+                        'idpddo'      => $Pedido->idpddo,
+                        'idproducto'  => $ProductoCombo['idproducto'],
+                        'cantidad'    => $ProductoCombo['cantidad'],
+                        'vr_unitario' => $ProductoCombo['precio_venta'],
+                        'vr_total'    => $ProductoCombo['precio_venta'] * $ProductoCombo['cantidad'],
+                        'es_obsequio' => $ProductoCombo['es_obsequio']
                     ];
             }
         }

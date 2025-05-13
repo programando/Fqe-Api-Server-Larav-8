@@ -31,7 +31,8 @@ class ProductosVentaOnlineCombo extends Model
 
 	 
 	public static function ProductosComponentes ( $IdKeyProducto ) {
-		return self::where('idkeyproducto',$IdKeyProducto )->get();
+		return self::with('Productos')
+					->where('idkeyproducto',$IdKeyProducto )->get();
 	}
 	 
 
