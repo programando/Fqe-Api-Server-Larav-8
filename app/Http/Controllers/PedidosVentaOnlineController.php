@@ -44,20 +44,41 @@ class PedidosVentaOnlineController extends Controller
             $ProductosComponentesCombo = ProductosVentaOnlineCombos::ProductosComponentes( $Combo['idkeyproducto'] );
             
             foreach ($ProductosComponentesCombo as $ProductoCombo ){
-                    $peso_kg            += $ProductoCombo['productos']['peso_kg']      * $ProductoCombo['cantidad'];
-                    $vr_productos       += $ProductoCombo['productos']['precio_venta'] * $ProductoCombo['cantidad'];   
+                    $peso_kg      += $ProductoCombo['productos']['peso_kg']      * $ProductoCombo['cantidad'];
+                    $vr_productos += $ProductoCombo['productos']['precio_venta'] * $ProductoCombo['cantidad'];
+                    $vr_unitario   = $ProductoCombo['precio_venta'];
+                    $vr_total      = $ProductoCombo['precio_venta'] * $ProductoCombo['cantidad'];
+                    $es_obseqio    = $this->getBit($ProductoCombo['es_obsequio']);
+ 
+                    if (  $es_obseqio === true ) {
+                        $vr_unitario = 0;
+                        $vr_total    = 0;
+                    }
+
                     $DetallePedido[] = [
                         'idpddo'      => $Pedido->idpddo,
                         'idproducto'  => $ProductoCombo['idproducto'],
                         'cantidad'    => $ProductoCombo['cantidad'],
-                        'vr_unitario' => $ProductoCombo['precio_venta'],
-                        'vr_total'    => $ProductoCombo['precio_venta'] * $ProductoCombo['cantidad'],
-                        'es_obsequio' => $ProductoCombo['es_obsequio']
+                        'vr_unitario' => $vr_unitario,
+                        'vr_total'    => $vr_total,
+                        'es_obsequio' => $es_obseqio
                     ];
             }
         }
 
         if (count($DetallePedido) > 0)  {
+
+            if ( $Pedido->vr_flete > 0) {           // Si tiene flete, lo agregamos al pedido
+                $DetallePedido[] = [
+                    'idpddo'      => $Pedido->idpddo,
+                    'idproducto'  => 5128, // ID DEL PRODUCTO FLETE
+                    'cantidad'    => 1,
+                    'vr_unitario' => $Pedido->vr_flete,
+                    'vr_total'    => $Pedido->vr_flete,
+                    'es_obsequio' => 0
+                ];         
+            }
+            
             PedidosDtVentaOnline::insert($DetallePedido);
             $this->PedidoActualizarDatos( $Pedido, $peso_kg   );
         }

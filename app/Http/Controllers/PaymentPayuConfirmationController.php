@@ -13,7 +13,7 @@ class PaymentPayuConfirmationController extends Controller
 {
     public function  PaymentConfirmation (Request $request)
     {
-        Log::info('PayU Payment Confirmation Received:', $request->all());
+        //Log::info('PayU Payment Confirmation Received:', $request->all());
       
         $merchantId     = config('company.PAYU_MERCHANT_ID');
         $apiKey         = config('company.PAYU_API_KEY');
@@ -29,13 +29,11 @@ class PaymentPayuConfirmationController extends Controller
         $stringSignature    = "$apiKey~$merchantId~$referenceSale~$value~$currency~$statePol";
         $generatedSignature = md5($stringSignature);                                            // O el algoritmo que PayU esté utilizando
 
-        if (strtoupper($signature) === strtoupper($generatedSignature)) {
-             // 4 significa "Transacción aprobada"
-            if ($statePol == 4)   $this->PaymentStateUpdatePedido( $request , 1);
-             // 6 significa "Transacción rechazada"
-            if ($statePol == 6) $this->PaymentStateUpdatePedido( $request, 0 );  
+        if (strtoupper($signature) === strtoupper($generatedSignature)) {       
+            if ($statePol == 4)   $this->PaymentStateUpdatePedido( $request , 1);       // 4 significa "Transacción aprobada"            
+            if ($statePol == 6)   $this->PaymentStateUpdatePedido( $request, 0 );       // 6 significa "Transacción rechazada"
         } else {
-            $this->PaymentSingError( $request); // Manejar error de firma
+            Log::info('Eror PaymentConfirmation :', $request);
         }
     }
 
