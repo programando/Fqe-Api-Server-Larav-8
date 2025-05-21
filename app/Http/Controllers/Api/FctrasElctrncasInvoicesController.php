@@ -265,7 +265,7 @@ class FctrasElctrncasInvoicesController  extends Controller
                         }else {
                         $response   = $this->ApiSoenac->postRequest( 'export-invoice', $this->jsonObject ) ;  
                         }
-                        dd($response);
+            
                         $this->traitUpdateJsonObject ( $Documento );
                          $this->documentsProcessReponse( $Documento, $response ) ;
                     } catch (\Exception $e) {
