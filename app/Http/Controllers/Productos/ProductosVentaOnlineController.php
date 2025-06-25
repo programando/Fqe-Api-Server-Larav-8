@@ -141,7 +141,7 @@ class ProductosVentaOnlineController extends Controller
         $ProductosComponenCombo = $FormData->ProductosComponenCombo;
         $ProductosCombo = [];
 
-         \Log::info('ProductosComponenCombo: '.json_encode($ProductosComponenCombo));
+         
         foreach ( $ProductosComponenCombo as $Producto ) {
             $ProductoComponeCombo = Productos::where('idproducto', $Producto['idproducto'])->first(); //
             $EsObequio            = $this->getBit( $Producto['es_obsequio']  );

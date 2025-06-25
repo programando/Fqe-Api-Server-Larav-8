@@ -13,7 +13,7 @@ class PaymentPayuConfirmationController extends Controller
 {
     public function  PaymentConfirmation (Request $request)
     {
-        //Log::info('PayU Payment Confirmation Received:', $request->all());
+        
       
         $merchantId     = config('company.PAYU_MERCHANT_ID');
         $apiKey         = config('company.PAYU_API_KEY');
