@@ -158,8 +158,8 @@ class ProductosVentaOnlineController extends Controller
             if ( !$EsObequio ) $Combo_PrecioVenta            += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
             if ( $EsObequio  ) {
                 $Combo_PrecioVentaObsequios += ($ProductoComponeCombo->precio_venta   * $Producto['cantidad']);
-                $Combo_CostoVenta           += ($ProductoComponeCombo->costo_venta    * $Producto['cantidad']);   // Sumo costo del obsequio
-                $Combo_PesoKg               += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
+                //$Combo_CostoVenta           += ($ProductoComponeCombo->costo_venta    * $Producto['cantidad']);   // Sumo costo del obsequio
+                //$Combo_PesoKg               += ($ProductoComponeCombo->peso_kg        * $Producto['cantidad']);
             }
         }
       
@@ -172,7 +172,7 @@ class ProductosVentaOnlineController extends Controller
     private function ComboActualizarPesoPrecio( $IdKeyProducto,$Combo_PesoKg, $Combo_PrecioVenta, $Combo_PrecioVentaObsequios,$Combo_CostoVenta  ) {
         $ComboCreadoActualizado                         = Productos::where('idkeyproducto', $IdKeyProducto)->first();
         $ComboCreadoActualizado->peso_kg                = $Combo_PesoKg;
-        $ComboCreadoActualizado->precio_venta           = $Combo_PrecioVenta + ( $Combo_PrecioVentaObsequios * 2 );
+        $ComboCreadoActualizado->precio_venta           = $Combo_PrecioVenta + ( $Combo_PrecioVentaObsequios  );
         $ComboCreadoActualizado->precio_venta_obsequios = $Combo_PrecioVentaObsequios;
         $ComboCreadoActualizado->costo_venta            = $Combo_CostoVenta ;
         $ComboCreadoActualizado->save();
