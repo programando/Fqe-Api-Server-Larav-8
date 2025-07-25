@@ -9,6 +9,7 @@ use Session;
 use Carbon\Carbon;
 use App\Models\TercerosUser;
 use App\Models\Tercero as Clientes;
+    use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Http\Request;
 
@@ -20,29 +21,61 @@ use App\Http\Requests\TercerosUserLoginRequest;
 
 class TercerosUserController extends Controller
 {
+
     
-    public function login ( Request $FormData ){
+
+    public function login(Request $FormData)
+        {
+            $Cliente = Clientes::with([
+                'TiposDocumento',
+                'Municipios',
+                'TiposPersonas',
+                'Municipios.Departamentos'
+            ])->where('email', $FormData->email)->first();
+
+            if (!$Cliente) {
+                return response()->json([
+                    'error' => 'Email no registrado.'
+                ], 404);
+            }
+
+            // Validar contraseña manualmente
+            if (!Hash::check($FormData->password, $Cliente->password)) {
+                return response()->json([
+                    'error' => Lang::get("validation.custom.UserLogin.credencials-error")
+                ], 401);
+            }
+
+            return response()->json([
+                'cliente' => $Cliente
+            ]);
+        }
+
+
+
+
+    // public function login ( Request $FormData ){
        
-                      $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
-                return [
-                    'cliente' => $Cliente,
-                    'user'    => Auth::user()
-                ];
-                   
-         if (Auth::attempt( [
-                  'email'    => $FormData->email,
-                  'password' => $FormData->password,
-                  'autorizado' => 1 ],
-                   true ) ) {                               // true al final es para recordar sessión  
-                $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
-                return [
-                    'cliente' => $Cliente,
-                    'user'    => Auth::user()
-                ];
+    //                   $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
+    //             return [
+    //                 'cliente' => $Cliente,
+    //                 'user'    => Auth::user()
+    //             ];
+
+    //      if (Auth::attempt( [
+    //               'email'    => $FormData->email,
+    //               'password' => $FormData->password,
+    //               'autorizado' => 1 ],
+    //                true ) ) {                               // true al final es para recordar sessión  
+    //             $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
+    //             return [
+    //                 'cliente' => $Cliente,
+    //                 'user'    => Auth::user()
+    //             ];
             
-        }    
-        $this->ErrorMessage ( Lang::get("validation.custom.UserLogin.credencials-error") );
-    }
+    //     }    
+    //     $this->ErrorMessage ( Lang::get("validation.custom.UserLogin.credencials-error") );
+    // }
   
       public function logout(){
          
