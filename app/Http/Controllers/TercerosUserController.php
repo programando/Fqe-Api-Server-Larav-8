@@ -21,29 +21,23 @@ use App\Http\Requests\TercerosUserLoginRequest;
 class TercerosUserController extends Controller
 {
     
-    public function login(Request $FormData)
-        {
-            $credentials = $FormData->only('email', 'password');
-            $credentials['autorizado'] = 1;
-
-            if (Auth::guard('terceros')->attempt($credentials, true)) {
-                $user = Auth::guard('terceros')->user();
-
-                $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')
-                    ->where('email', $FormData->email)
-                    ->first();
-
+    public function login ( Request $FormData ){
+       
+         if (Auth::attempt( [
+                  'email'    => $FormData->email,
+                  'password' => $FormData->password,
+                  'autorizado' => 1 ],
+                   true ) ) {                               // true al final es para recordar sessión  
+                $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
                 return [
                     'cliente' => $Cliente,
-                    'user' => $user
+                    'user'    => Auth::user()
                 ];
-            }
-
-            return response()->json([
-                'error' => __('validation.custom.UserLogin.credencials-error')
-            ], 422);
-        }
-    
+            
+        }    
+        $this->ErrorMessage ( Lang::get("validation.custom.UserLogin.credencials-error") );
+    }
+  
       public function logout(){
          
         Session::flush();

@@ -46,10 +46,7 @@ return [
             'provider' => 'users',
             'hash' => false,
         ],
-       'terceros' => [
-          'driver' => 'session',
-            'provider' => 'terceros_users',
-        ],
+
     ],
 
     /*
@@ -72,26 +69,14 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+            'model' => App\Models\TercerosUser::class,
         ],
 
-        'terceros_users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\TercerosUser::class, // Asegúrate de tener este modelo
-        ],
+        // 'users' => [
+        //     'driver' => 'database',
+        //     'table' => 'users',
+        // ],
     ],
-
-    // 'providers' => [
-    //     'users' => [
-    //         'driver' => 'eloquent',
-    //         'model' => App\Models\TercerosUser::class,
-    //     ],
-
-    //     // 'users' => [
-    //     //     'driver' => 'database',
-    //     //     'table' => 'users',
-    //     // ],
-    // ],
 
     /*
     |--------------------------------------------------------------------------
