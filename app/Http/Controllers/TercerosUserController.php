@@ -23,6 +23,12 @@ class TercerosUserController extends Controller
     
     public function login ( Request $FormData ){
        
+                      $Cliente = Clientes::with('TiposDocumento','Municipios','TiposPersonas', 'Municipios.Departamentos')->Where('email','=',$FormData->email)->first();
+                return [
+                    'cliente' => $Cliente,
+                    'user'    => Auth::user()
+                ];
+                   
          if (Auth::attempt( [
                   'email'    => $FormData->email,
                   'password' => $FormData->password,
