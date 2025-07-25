@@ -35,7 +35,7 @@ class TercerosUserLoginRequest extends FormRequest
      private function loginvalidate(){
           return [
                 'email'       => ['required', 'email','exists:terceros_users'],
-                'password'    => ['required','min:6'],
+                'password'    => ['required','min:4'],
         ];
     }
 
@@ -51,7 +51,7 @@ class TercerosUserLoginRequest extends FormRequest
 
     private function updatePassword() {
           return [
-                  'password'  => ['required','confirmed','min:7'],
+                  'password'  => ['required','confirmed','min:4'],
           ];
     }
 
