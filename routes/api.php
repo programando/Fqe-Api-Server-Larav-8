@@ -18,7 +18,7 @@ Route::group(['prefix'=>'docsoporte', 'namespace'=>'Api'], function() {
 
 
 
-Route::post('/login'            , 'TercerosUserController@login')->name('login');
+Route::post('/login'            , 'TercerosUserController@login')->name('login')->withoutMiddleware(['auth:sanctum']);;
 Route::post('/logout'           , 'TercerosUserController@logout')->name('logout'); 
 Route::post('/reset/password'   , 'TercerosUserController@resetPassword')->name('reset-password'); 
 Route::post('/update/password'  , 'TercerosUserController@updatePassword')->name('update-password'); 
