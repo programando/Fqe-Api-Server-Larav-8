@@ -21,7 +21,7 @@ use App\Http\Requests\TercerosUserLoginRequest;
 class TercerosUserController extends Controller
 {
     
-    public function login ( TercerosUserLoginRequest $FormData ){
+    public function login ( Request $FormData ){
        
          if (Auth::attempt( [
                   'email'    => $FormData->email,
