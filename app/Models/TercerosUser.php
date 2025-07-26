@@ -24,7 +24,7 @@ class TercerosUser extends Authenticatable
 	protected $casts    = [	'id_terc' => 'int',		'inactivo' => 'bool',		'autorizado' => 'bool'	];
 	protected $dates    = [ 'tmp_token_expira'	];
 	protected $fillable = [ 'email',		'password',			'inactivo',			'autorizado',		'avatar',		'remember_token',		'tmp_token',		'tmp_token_expira'	];
-	protected $hidden   = [	'password',	'remember_token',		'tmp_token'	];
+	protected $hidden   = [	 	'remember_token',		'tmp_token'	];
 
 
      //  MUTATORS:

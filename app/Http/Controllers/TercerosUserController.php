@@ -25,31 +25,45 @@ class TercerosUserController extends Controller
     
 
     public function login(Request $FormData)
-        {
-            $Cliente = Clientes::with([
-                'TiposDocumento',
-                'Municipios',
-                'TiposPersonas',
-                'Municipios.Departamentos'
-            ])->where('email', $FormData->email)->first();
+{
+    $Cliente = Clientes::with([
+        'TiposDocumento',
+        'Municipios',
+        'TiposPersonas',
+        'Municipios.Departamentos',
+    ])->where('email', $FormData->email)->first();
 
-            if (!$Cliente) {
-                return response()->json([
-                    'error' => 'Email no registrado.'
-                ], 404);
-            }
+    if (!$Cliente) {
+        return response()->json([
+            'status' => 404,
+            'message' => 'Email no registrado.',
+            'data' => null
+        ], 404);
+    }
 
-            // Validar contraseña manualmente
-            if (!Hash::check($FormData->password, $Cliente->password)) {
-                return response()->json([
-                    'error' => Lang::get("validation.custom.UserLogin.credencials-error")
-                ], 401);
-            }
+    $User = TercerosUser::where('email', $FormData->email)->first();
 
-            return response()->json([
-                'cliente' => $Cliente
-            ]);
-        }
+    if (!$User || !Hash::check($FormData->password, $User['password'])) {
+        return response()->json([
+            'status' => 401,
+            'message' => Lang::get("validation.custom.UserLogin.credencials-error"),
+            'data' => null
+        ], 401);
+    }
+
+    Auth::login($User, true);
+    $User->makeHidden(['password']);
+
+    return response()->json([
+        'status' => 200,
+        'message' => 'Inicio de sesión exitoso.',
+        'data' => [
+            'cliente' => $Cliente,
+            'user' => Auth::user()
+        ]
+    ]);
+}
+
 
 
 

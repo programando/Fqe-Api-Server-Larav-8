@@ -48,5 +48,26 @@ class Controller extends BaseController
           );
       }
 
+        protected function Response($data = null, $message = '', $success = true, $code = 200, $error = null)
+    {
+        return response()->json([
+            'success' => $success,
+            'code' => $code,
+            'message' => $message,
+            'data' => $data,
+            'error' => $error
+        ], $code);
+    }
+
+    protected function ResponseError($message, $code = 400, $error = null)
+    {
+        return response()->json([
+            'success' => false,
+            'code' => $code,
+            'message' => $message,
+            'error' => $error
+        ], $code);
+    }
+
       
 }

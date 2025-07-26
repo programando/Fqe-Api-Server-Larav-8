@@ -23,7 +23,10 @@ Route::post('contactos', 'TercerosContactatosController@saveContacto');
 Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');
 
 
- 
+ Route::post('/login'            , 'TercerosUserController@login')->name('login');
+Route::post('/logout'           , 'TercerosUserController@logout')->name('logout'); 
+Route::post('/reset/password'   , 'TercerosUserController@resetPassword')->name('reset-password'); 
+Route::post('/update/password'  , 'TercerosUserController@updatePassword')->name('update-password'); 
 
 
 // Route::get('/mail', function () {
