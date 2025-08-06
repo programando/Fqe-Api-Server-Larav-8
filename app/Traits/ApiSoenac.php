@@ -26,7 +26,8 @@ trait ApiSoenac {
       }
       //Cambio de resoluciones Ultimos cambio
       public function traitSoenacResolutionsInvoice() {
-         //$Resolutions =   $this->traitSoenacResolutions();  
+         //$Resolutions =   $this->traitSoenacResolutions(); 
+          
          $Resolutions =   $this->ApiSoenac->getRequest('config/resolutions' ) ; 
          foreach ($Resolutions as $Resolution) {
             if ( $Resolution['id'] === 19){
