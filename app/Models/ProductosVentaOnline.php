@@ -48,7 +48,7 @@ class ProductosVentaOnline extends Model
 	];
 
 	protected $attributes = ['detalles' => ''];
-	protected $appends  = [  'image_url', 'url_producto'  ];
+	protected $appends  = [  'image_url', 'url_producto', 'precio_venta_final'  ];
 	 
 	public static function ShopProductos (  ) {
 		return 
@@ -120,6 +120,10 @@ class ProductosVentaOnline extends Model
 
 	public function getUrlProductoAttribute() {  
 		return config('company.APP_URL')."/productos/$this->idproducto_ppal";  
+	}
+
+	public function getPrecioVentaFinalAttribute() {
+		return $this->precio_venta - $this->precio_venta_obsequios;
 	}
 
 	 
