@@ -61,8 +61,6 @@ trait FctrasElctrncasTrait {
                 'type_document_id'     => $Document["type_document_id"],
                 'type_operation_id'    => $Document["type_operation_id"],
                 'resolution_id'        => $Document["resolution_id"],
-                // 'date'                 => Fecha::YMD ( $Document["fcha_dcmnto"] ),
-                // 'time'                 => Fecha::HOUR ( $Document["fcha_dcmnto"] ),
                 'due_date'             => Fecha::YMD ( $Document["due_date"] ),
                 'type_currency_id'     => $Document["type_currency_id"],
                 'cc'                   => [],
