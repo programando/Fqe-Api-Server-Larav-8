@@ -165,7 +165,7 @@ class FctrasElctrnca extends Model
 			{
 				
 
-				 $numbers = [];
+				 $numbers = [8227];
 				
 				// // Obtener los últimos 15 registros
 				$ultimosRegistros = $query->with('customer')
