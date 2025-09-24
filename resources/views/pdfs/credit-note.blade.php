@@ -52,7 +52,7 @@
     <div class="pagion">
         <table width="100%" class="mb40">
             <tr>
-                <td width="30%">
+                <td width="40%">
                    <img src="https://api.fqesas.com/storage/images/logo.jpg" alt="">              
                 </td>
               
