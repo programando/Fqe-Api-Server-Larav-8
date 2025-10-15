@@ -34,8 +34,8 @@ class PaymentPayuConfirmationController extends Controller
             $stringSignature    = "$apiKey~$merchantId~$referenceSale~$valueFormatted~$currency~$statePol";
             $generatedSignature = md5($stringSignature);
 
-            Log::info('Generated signature: ' . $generatedSignature);
-            Log::info('Received signature: ' . $signature);
+            // Log::info('Generated signature: ' . $generatedSignature);
+            // Log::info('Received signature: ' . $signature);
 
             if (strtoupper($signature) === strtoupper($generatedSignature)) {
                 if ($statePol == 4) {
