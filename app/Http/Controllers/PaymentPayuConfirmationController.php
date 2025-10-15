@@ -14,29 +14,46 @@ class PaymentPayuConfirmationController extends Controller
     public function  PaymentConfirmation (Request $request)
     {
         
-      
-        $merchantId     = config('company.PAYU_MERCHANT_ID');
-        $apiKey         = config('company.PAYU_API_KEY');
+            
+        try {
+            $merchantId     = config('company.PAYU_MERCHANT_ID');
+            $apiKey         = config('company.PAYU_API_KEY');
 
-        $transactionId  = $request->input('transactionId');
-        $statePol       = $request->input('state_pol');
-        $referenceSale  = $request->input('reference_sale');
-        $value          = $request->input('value');
-        $currency       = $request->input('currency');
-        $signature      = $request->input('signature');
+            $transactionId  = $request->input('transaction_id'); // ojo, es transaction_id (guion bajo)
+            $statePol       = $request->input('state_pol');
+            $referenceSale  = $request->input('reference_sale');
+            $value          = $request->input('value');
+            $currency       = $request->input('currency');
+            $signature      = $request->input('sign'); // PayU envía "sign", no "signature"
 
-        // Generar la firma esperada
-        $stringSignature    = "$apiKey~$merchantId~$referenceSale~$value~$currency~$statePol";
-        $generatedSignature = md5($stringSignature);     
-        \Log::info('Generated signature:', [$generatedSignature]); // O el algoritmo que PayU esté utilizando
-        \Log::info('Received signature:', [$signature]); // O el algoritmo que PayU esté utilizando
+            // ⚠️ PayU a veces envía decimales con o sin ceros: "128300.00" vs "128300"
+            // debes normalizar el valor a dos decimales antes de firmar:
+            $valueFormatted = number_format($value, 1, '.', '');
 
-        if (strtoupper($signature) === strtoupper($generatedSignature)) {       
-            if ($statePol == 4)   $this->PaymentStateUpdatePedido( $request , 1);       // 4 significa "Transacción aprobada"            
-            if ($statePol == 6)   $this->PaymentStateUpdatePedido( $request, 0 );       // 6 significa "Transacción rechazada"
-        } else {
-            Log::info('Eror PaymentConfirmation :', [$request]);
+            // Generar firma esperada
+            $stringSignature    = "$apiKey~$merchantId~$referenceSale~$valueFormatted~$currency~$statePol";
+            $generatedSignature = md5($stringSignature);
+
+            Log::info('Generated signature: ' . $generatedSignature);
+            Log::info('Received signature: ' . $signature);
+
+            if (strtoupper($signature) === strtoupper($generatedSignature)) {
+                if ($statePol == 4) {
+                    $this->PaymentStateUpdatePedido($request, 1); // Aprobada
+                } elseif ($statePol == 6) {
+                    $this->PaymentStateUpdatePedido($request, 0); // Rechazada
+                }
+            } else {
+                Log::error("Firma inválida para referencia $referenceSale. Esperada: $generatedSignature, Recibida: $signature");
+            }
+
+        } catch (\Throwable $e) {
+            Log::error("Error PaymentConfirmation: " . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+                'request' => $request->all(),
+            ]);
         }
+
     }
 
 
