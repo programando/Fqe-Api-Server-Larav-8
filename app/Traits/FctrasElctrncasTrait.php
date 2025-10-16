@@ -154,12 +154,14 @@ trait FctrasElctrncasTrait {
         protected function traitInvoiceLines( $Products, &$jsonObject, $jsonKey  ) {
             $Productos = [];          
             foreach ($Products as $Product) {
+             $reference_price_id = (float)$Product['line_extension_amount'] > 0 ? '1' : '3' ; // 1 Precio de venta 3 Precio de regalo
              $ProductToCreate = [
                  'unit_measure_id'             => $Product['unit_measure_id'],
                  'invoiced_quantity'           => Numbers::jsonFormat ( $Product['invoiced_quantity'], 6),
                  'line_extension_amount'       => Numbers::jsonFormat ($Product['line_extension_amount'], 2),
+                 'reference_price_id'          => $reference_price_id,
                  'free_of_charge_indicator'    => $Product['free_of_charge_indicator'],
-                 'tax_totals'                  =>[],
+                 'tax_totals'                  => [],
                  'description'                 => $Product['description'],
                  'brand_name'                  => $Product['brand_name'],
                  'model_name'                  => $Product['model_name'],
