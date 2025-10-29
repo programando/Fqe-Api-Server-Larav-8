@@ -16,6 +16,8 @@
       'EMAIL_SISTEMAS'              => env('EMAIL_SISTEMAS'),
       'EMAIL_COMERCIAL'              => env('EMAIL_COMERCIAL'),
       'EMAIL_LOGISTICA'              => env('EMAIL_LOGISTICA'),
+      'EMAIL_CARTERA'                => env('EMAIL_CARTERA'),
+      'EMAIL_RECEPCION'              => env('EMAIL_RECEPCION'),
       'URL_USER_PASSWORD_RESET'     => env('URL_USER_PASSWORD_RESET'),
       'DOCUMENTO_URL_CONSULTA_CUFE' => env('DOCUMENTO_URL_CONSULTA_CUFE'),
 

@@ -14,14 +14,20 @@ class PedidosConfirmationPagoRecibidoEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $pedido;
+    public $emailComprador;
+
     /**
      * Create a new event instance.
      *
+     * @param \App\Models\PedidosVentaOnline $pedido
+     * @param string $emailComprador
      * @return void
      */
-    public function __construct()
+    public function __construct($pedido, $emailComprador)
     {
-        //
+        $this->pedido = $pedido;
+        $this->emailComprador = $emailComprador;
     }
 
     /**

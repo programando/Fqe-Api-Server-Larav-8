@@ -122,3 +122,4 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
     Route::group(['prefix'=>'documentos/electronicos', 'namespace'=>'Api'], function() {
         Route::get('/reenviar'           , 'FctrasElctrncasInvoicesController@ReenviarDocumentos');
     });
+
