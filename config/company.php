@@ -6,7 +6,7 @@
       'NOMINA_ELECT_URL_BASE'  => env('NOMINA_ELECT_URL_BASE'),
 
       'EMPRESA'                     => 'F.Q.E. S.A.S.',
-      'NIT'                         => ' 901615644',
+      'NIT'                         => '901615644',
       'DIRECCION'                   => 'CALLE 35 # 4 - 31',
       'APP_URL'                     => env('APP_URL'),
       'APP_URL_CLIENT'              => env('APP_URL_CLIENT'),
