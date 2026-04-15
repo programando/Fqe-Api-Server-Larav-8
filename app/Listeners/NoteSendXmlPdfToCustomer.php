@@ -16,7 +16,7 @@ class NoteSendXmlPdfToCustomer
         
         // $EmailSubject  .= ';91;' => Tipo documento nota crédito según tabla de la DIAN. Juio 24 2020
 
-        $EmailSubject   = config('company.NIT').";".config('company.EMPRESA').";".$event->Note['prfjo_dcmnto'] .$event->Note['nro_dcmnto'] ;
+        $EmailSubject   = "Nota de Crédito Electrónica; ".config('company.NIT').";".config('company.EMPRESA').";".$event->Note['prfjo_dcmnto'] .$event->Note['nro_dcmnto'] ;
         $EmailSubject  .= ';91;'.config('company.EMPRESA');
 
         $Emails =   $event->Note['emails']->unique('email')  ;     
