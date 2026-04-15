@@ -12,7 +12,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class InvoiceSendXmlPdfToCustomer
 {
     public function handle(InvoiceWasCreatedEvent $event) {
-        $EmailSubject   = "Factura Electrónica; ".config('company.NIT').";".config('company.EMPRESA').";".$event->Factura['prfjo_dcmnto'] .$event->Factura['nro_dcmnto'] ;
+        $EmailSubject   = config('company.NIT').";".config('company.EMPRESA').";".$event->Factura['prfjo_dcmnto'] .$event->Factura['nro_dcmnto'] ;
         $EmailSubject  .= ';01;'.config('company.EMPRESA');
         
 
