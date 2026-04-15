@@ -11,7 +11,7 @@ class TestMailController extends Controller
 {
     public function sendTest()
     {
-        $targetEmail = 'test-p7lsbrmh3@srv1.mail-tester.com';
+        $targetEmail = 'test-n11rfy1ek@srv1.mail-tester.com';
         
         // Datos de prueba simulando una factura
         $datosFactura = [
