@@ -17,6 +17,9 @@ class TestMailController extends Controller
         $datosFactura = [
             'prfjo_dcmnto' => 'TEST',
             'nro_dcmnto' => '9999',
+            'document_number' => 'TEST-9999',
+            'uuid' => '0000-TEST-UUID-0000',
+            'customer' => ['name' => 'MAIL TESTER USER'],
             'emails' => collect([ (object)['email' => $targetEmail] ])
         ];
 
