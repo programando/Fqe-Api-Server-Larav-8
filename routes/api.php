@@ -3,8 +3,6 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
 
-Route::get('ping', function() { return 'pong'; });
-Route::get('test-mail-tester', 'TestMailController@sendTest');
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });

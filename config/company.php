@@ -5,7 +5,7 @@
       'FACTURA_ELECT_URL_BASE' => env('FACTURA_ELECT_URL_BASE'),
       'NOMINA_ELECT_URL_BASE'  => env('NOMINA_ELECT_URL_BASE'),
 
-      'EMPRESA'                     => 'F.Q.E. S.A.S.',
+      'EMPRESA'                     => 'Fqe S.A.S.',
       'NIT'                         => '901615644',
       'DIRECCION'                   => 'CALLE 35 # 4 - 31',
       'APP_URL'                     => env('APP_URL'),
