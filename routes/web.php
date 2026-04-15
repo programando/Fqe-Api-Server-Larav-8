@@ -13,6 +13,8 @@ Route::get('/', function (Request $request) {
     return view('welcome');
 });
 
+Route::get('test-mail-tester', 'TestMailController@sendTest');
+
  
 //FRASE DEL DÍA
 Route::get('frase'          , 'FrasesController@sentenceToday');
