@@ -449,12 +449,14 @@ class FctrasElctrncasInvoicesController  extends Controller
             if (!$Factura) return response()->json(['error' => 'Documento no encontrado'], 404);
             $request = new Request(['id_fact_elctrnca' => $Factura->id_fact_elctrnca]);
 
-            switch ($Accion) {
-                case 'EnviarEmail':
-                    return $this->SendDocuments($request);
-                case 'ImprimirPdf':
-                    return $this->invoiceFileDownload('pdf', $Factura->id_fact_elctrnca);
-            }
+            return $this->invoiceFileDownload('pdf', $Factura->id_fact_elctrnca);
+
+            // switch ($Accion) {
+            //     case 'EnviarEmail':
+            //         return $this->SendDocuments($request);
+            //     case 'ImprimirPdf':
+                    
+            // }
         }
 
 
