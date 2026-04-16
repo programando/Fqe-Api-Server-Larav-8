@@ -321,18 +321,28 @@ class FctrasElctrncasInvoicesController  extends Controller
         }
     }
 
-       public function invoiceSendToCustomer ( $id_fact_elctrnca ) {
-          $Factura      = $this->invoiceSendGetData ( $id_fact_elctrnca) ; 
-          InvoiceWasCreatedEvent::dispatch          ( $Factura ) ; 
-       }
+    public function invoiceSendToCustomer($id_fact_elctrnca)
+    {
+        $Factura     = $this->invoiceSendGetData($id_fact_elctrnca);
+        InvoiceWasCreatedEvent::dispatch($Factura);
+
+        return 'ok';
+    }
+
+    public function SendDocuments(Request $FormData)
+    {
+        $this->invoiceSendToCustomer($FormData->id_fact_elctrnca);
+        return response()->json(['message' => 'Documentos enviados correctamente']);
+    }
 
 
-        private function invoiceSendGetData ( $id_fact_elctrnca ) {
-            $Factura = FctrasElctrnca::with('customer','total', 'products', 'emails','additionals', 'serviceResponse','exports')->where('id_fact_elctrnca','=', $id_fact_elctrnca)->get();
+        private function invoiceSendGetData($id_fact_elctrnca)
+        {
+            $Factura = FctrasElctrnca::with('customer', 'total', 'products', 'emails', 'additionals', 'serviceResponse', 'exports')->where('id_fact_elctrnca', '=', $id_fact_elctrnca)->get();
             $Factura = $Factura[0];
             $IsExport = $Factura['is_export'];
-            $this->getNameFilesTrait($Factura );
-            $this->invoiceCreateFilesToSend  ( $id_fact_elctrnca,  $Factura, $IsExport  );
+            $this->getNameFilesTrait($Factura);
+            $this->invoiceCreateFilesToSend($id_fact_elctrnca, $Factura, $IsExport);
             return $Factura;
         }
 
@@ -348,18 +358,14 @@ class FctrasElctrncasInvoicesController  extends Controller
 
         public function invoiceFileDownload ( $fileType, $id_fact_elctrnca ) {
             $this->invoiceSendGetData ( $id_fact_elctrnca) ;
-            if ( strtoupper( $fileType) == 'PDF') {
-                return response()->download( Storage::disk('Files')->path( $this->PdfFile ) )->deleteFileAfterSend();
-            }else {
-                return response()->download( Storage::disk('Files')->path( $this->XmlFile ) )->deleteFileAfterSend();
-            }
+            return response()->json(['url' => Storage::disk('Files')->url($this->PdfFile)]);
         }
 
-        private function invoiceCreateFilesToSend ( $id_fact_elctrnca,  $Factura, $IsExport=0  ){
-            $Resolution   = $this->traitSoenacResolutionsInvoice();  
-            
-            $this->saveInvoicePfdFile   ( $Resolution, $Factura, $IsExport );
-            $this->saveInvoiceXmlFile   ( $Factura              );
+        private function invoiceCreateFilesToSend($id_fact_elctrnca, $Factura, $IsExport = 0)
+        {
+            $Resolution = $this->traitSoenacResolutionsInvoice();
+            $this->saveInvoicePfdFile($Resolution, $Factura, $IsExport);
+            $this->saveInvoiceXmlFile($Factura);
         }
 
         private function saveInvoicePfdFile  ( $Resolution, $Factura, $IsExport = 0   ){           
@@ -425,6 +431,30 @@ class FctrasElctrncasInvoicesController  extends Controller
                 $Factura->cstmer_rspnse_date = now();
                 $Factura->update();
             } 
+        }
+
+        public function FacturasPosUltimos3Dias(Request $FormData)
+        {
+            return FctrasElctrnca::FacturasPosUltimos3Dias();
+        }
+
+        public function AcctionesFacturas(Request $FormData)
+        {
+            $prfjo_dcmnto = $FormData['prfjo_dcmnto'];
+            $nro_dcmnto   = $FormData['number'];
+            $Accion       = $FormData['Accion'];
+            $Factura      = FctrasElctrnca::where('prfjo_dcmnto',  "$prfjo_dcmnto")
+                ->where('number', $nro_dcmnto)
+                ->first();
+            if (!$Factura) return response()->json(['error' => 'Documento no encontrado'], 404);
+            $request = new Request(['id_fact_elctrnca' => $Factura->id_fact_elctrnca]);
+
+            switch ($Accion) {
+                case 'EnviarEmail':
+                    return $this->SendDocuments($request);
+                case 'ImprimirPdf':
+                    return $this->invoiceFileDownload('pdf', $Factura->id_fact_elctrnca);
+            }
         }
 
 

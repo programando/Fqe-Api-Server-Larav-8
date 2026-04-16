@@ -101,6 +101,11 @@ class FctrasElctrnca extends Model
 		public function additionals() {
 			return $this->hasOne(FctrasElctrncasAdditional::class, 'id_fact_elctrnca');
 		}
+
+		public function taxes() {
+			return $this->hasMany(FctrasElctrncasTax::class, 'id_fact_elctrnca');
+		}
+
 		public function serviceResponse() {
 			return $this->hasOne(FctrasElctrncasDataResponse::class, 'id_fact_elctrnca');
 		}
@@ -199,6 +204,15 @@ class FctrasElctrnca extends Model
 			}
 			public function getUuidAttribute( $value ){
 				return trim($value);
+			}
+
+			public static function FacturasPosUltimos3Dias(  )   {
+				return self::with('customer')
+							->where('type_document_id', '1')
+							->whereNotNull('uuid')
+							->where('fcha_dcmnto', '>=', now()->subDays(3))
+							->orderBy('id_fact_elctrnca', 'DESC')
+							->get();
 			}
 
 

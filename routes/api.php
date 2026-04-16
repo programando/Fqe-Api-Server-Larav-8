@@ -100,6 +100,10 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: get('generadas'                     , $localController.'ultimas100FacturasGeneradas');
 
         Route:: get('/get/pdf/{id}'     , $localController.'DownloadPdf');
+
+        Route:: post('list/pos'         , $localController.'FacturasPosUltimos3Dias');
+        Route:: post('acciones/facturas', $localController.'AcctionesFacturas');
+        Route:: post('send/documents'   , $localController.'SendDocuments');
          
     });
 

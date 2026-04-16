@@ -264,5 +264,26 @@ trait FctrasElctrncasTrait {
                  
         }
 
+    protected function traitGetCentroCosto($Document)
+    {
+        return ''; 
+    }
+
+    protected function TituloFactura($Documento)
+    {
+        return [
+            'representante' => config('company.EMPRESA'),
+            'sede'          => config('company.EMPRESA'),
+            'nit'           => config('company.NIT'),
+            'direccion'     => config('company.DIRECCION'),
+            'ciudad'        => '',
+            'telefono'      => '',
+            'logofactura'   => url('storage/images/logo.jpg'),
+            'terminal'      => '',
+            'regimen'       => '',
+            'id'            => '',
+        ];
+    }
+
 
 }
