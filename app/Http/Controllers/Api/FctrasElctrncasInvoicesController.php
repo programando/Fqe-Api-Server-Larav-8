@@ -358,7 +358,7 @@ class FctrasElctrncasInvoicesController  extends Controller
 
         public function invoiceFileDownload ( $fileType, $id_fact_elctrnca ) {
             $this->invoiceSendGetData ( $id_fact_elctrnca) ;
-            return response()->json(['url' => Storage::disk('Files')->url($this->PdfFile)]);
+            return response()->json(['url' => 'https://api.fqesas.com/storage/documents/' . $this->PdfFile]);
         }
 
         private function invoiceCreateFilesToSend($id_fact_elctrnca, $Factura, $IsExport = 0)
