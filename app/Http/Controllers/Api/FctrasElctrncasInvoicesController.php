@@ -438,6 +438,17 @@ class FctrasElctrncasInvoicesController  extends Controller
             return FctrasElctrnca::FacturasPosUltimos3Dias();
         }
 
+        public function SearchInvoiceByNumber(Request $FormData)
+        {
+            $prfjo_dcmnto = $FormData['prfjo_dcmnto'];
+            $nro_dcmnto   = $FormData['number'];
+
+            return FctrasElctrnca::with('customer')
+                ->where('prfjo_dcmnto', "$prfjo_dcmnto")
+                ->where('number', $nro_dcmnto)
+                ->get();
+        }
+
         public function AcctionesFacturas(Request $FormData)
         {
             $prfjo_dcmnto = $FormData['prfjo_dcmnto'];
