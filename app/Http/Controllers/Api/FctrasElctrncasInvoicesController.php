@@ -473,12 +473,6 @@ class FctrasElctrncasInvoicesController  extends Controller
         }
 
 
- 
- 
-        //
-    }
-
-
     /**
      * TAREA 1: Endpoint profesional para el reenvío de documentos.
      * Propósito: Recibir id_fact_elctrnca por POST, regenerar archivos y enviar.
