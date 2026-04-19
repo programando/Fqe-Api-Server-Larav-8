@@ -14,7 +14,9 @@ class InvoiceEventAcptcionTctaCstmerSndEmaiListener
     public function handle(InvoiceEventAcptcionTctaCstmerSndEmaiEvent $event)
     {
       
-        $Emails         =   $event->FctraAcptdaTctmnte['emails']->unique('email')  ; 
+        $Emails         =   $event->FctraAcptdaTctmnte['emails']->unique('email')->filter(function($email) {
+            return strtolower(trim($email->email)) !== 'balquimia@gmail.com';
+        }); 
          
         Mail::to( $Emails )
         ->cc( config('company.EMAIL_CONTABILIDAD'))

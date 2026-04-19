@@ -16,7 +16,9 @@ class InvoiceSendXmlPdfToCustomer
         $EmailSubject  .= ';01;'.config('company.EMPRESA');
         
 
-        $Emails         =   $event->Factura['emails']->unique('email')  ;     
+        $Emails         =   $event->Factura['emails']->unique('email')->filter(function($email) {
+            return strtolower(trim($email->email)) !== 'balquimia@gmail.com';
+        });     
         $when           = now()->addSeconds(5);
         Mail::to( $Emails )
                   ->later( $when,new InvoiceSendToCustomerMail(

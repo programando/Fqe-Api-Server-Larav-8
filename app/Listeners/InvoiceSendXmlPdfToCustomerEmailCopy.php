@@ -14,7 +14,9 @@ class InvoiceSendXmlPdfToCustomerEmailCopy
     public function handle(InvoiceWasCreatedEventEmailCopy $event) {
         $EmailSubject   = config('company.NIT').";".config('company.EMPRESA').";".$event->Factura['prfjo_dcmnto'] .$event->Factura['nro_dcmnto'] ;
         $EmailSubject  .= ';01;'.config('company.EMPRESA');
-        $Emails         =   $event->Factura['emails']->unique('email')  ;     
+        $Emails         =   $event->Factura['emails']->unique('email')->filter(function($email) {
+            return strtolower(trim($email->email)) !== 'balquimia@gmail.com';
+        });     
         $when           = now()->addSeconds(15);
         Mail::to( $Emails )
                   ->later( $when,new InvoiceSendToCustomerMailCopy(

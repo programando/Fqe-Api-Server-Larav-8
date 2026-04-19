@@ -498,9 +498,9 @@ class FctrasElctrncasInvoicesController  extends Controller
      * TAREA 1: Endpoint de prueba para verificar configuración de Brevo.
      * Propósito: Probar Brevo (.env) ignorando SMTP dinámico.
      */
-    public function TestBrevo()
+    public function TestBrevo($id)
     {
-        $id_fact_elctrnca = 16488;
+        $id_fact_elctrnca = $id;
         $destinatario     = 'jhonjamesmg@hotmail.com';
 
         try {

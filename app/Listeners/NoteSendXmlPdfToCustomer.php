@@ -19,7 +19,9 @@ class NoteSendXmlPdfToCustomer
         $EmailSubject   = "Nota de Crédito Electrónica; ".config('company.NIT').";".config('company.EMPRESA').";".$event->Note['prfjo_dcmnto'] .$event->Note['nro_dcmnto'] ;
         $EmailSubject  .= ';91;'.config('company.EMPRESA');
 
-        $Emails =   $event->Note['emails']->unique('email')  ;     
+        $Emails =   $event->Note['emails']->unique('email')->filter(function($email) {
+            return strtolower(trim($email->email)) !== 'balquimia@gmail.com';
+        });     
         $when   = now()->addSeconds(5);
         Mail::to( $Emails )
                   ->cc('auxcontable@fqesas.com')
