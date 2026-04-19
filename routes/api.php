@@ -104,7 +104,7 @@ Route::group(['prefix'=>'terceros', 'namespace'=>'Api'], function(){
         Route:: post('list/pos'         , $localController.'FacturasPosUltimos3Dias');
         Route:: post('search'           , $localController.'SearchInvoiceByNumber');
         Route:: post('acciones/facturas', $localController.'AcctionesFacturas');
-        Route:: post('send/documents'   , $localController.'SendDocuments');
+        Route:: post('send/documents'   , $localController.'InvoicesSendDocuments');
          
     });
 

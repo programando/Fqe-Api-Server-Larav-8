@@ -43,4 +43,5 @@ Route::post('/update/password'  , 'TercerosUserController@updatePassword')->name
 //   });
 
 //   return 'Correo enviado.';
-// });
+// PRUEBA BREVO
+Route::get('/test-brevo', 'Api\FctrasElctrncasInvoicesController@TestBrevo');

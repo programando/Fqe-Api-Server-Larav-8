@@ -33,6 +33,8 @@ Use Storage;
 Use Carbon;
 use config;
 use Log;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\InvoiceSendToCustomerMail;
 class FctrasElctrncasInvoicesController  extends Controller
 {
    use FctrasElctrncasTrait, ApiSoenac, QrCodeTrait, PdfsTrait, FctrasElctrncasEventsTrait;
@@ -473,4 +475,68 @@ class FctrasElctrncasInvoicesController  extends Controller
 
  
  
+        //
+    }
+
+
+    /**
+     * TAREA 1: Endpoint profesional para el reenvío de documentos.
+     * Propósito: Recibir id_fact_elctrnca por POST, regenerar archivos y enviar.
+     */
+    public function InvoicesSendDocuments(Request $FormData)
+    {
+        $id_fact_elctrnca = $FormData->id_fact_elctrnca;
+
+        if (!$id_fact_elctrnca) {
+            return $this->ResponseError('El campo id_fact_elctrnca es requerido.', 400);
+        }
+
+        try {
+            // Llama al método interno que ya regenera y dispara el evento de envío
+            $this->invoiceSendToCustomer($id_fact_elctrnca);
+            return $this->Response(null, 'Los documentos han sido regenerados y enviados al cliente correctamente.');
+        } catch (\Exception $e) {
+            return $this->ResponseError('Error al procesar el reenvío: ' . $e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * TAREA 1: Endpoint de prueba para verificar configuración de Brevo.
+     * Propósito: Probar Brevo (.env) ignorando SMTP dinámico.
+     */
+    public function TestBrevo()
+    {
+        $id_fact_elctrnca = 16488;
+        $destinatario     = 'jhonjamesmg@hotmail.com';
+
+        try {
+            // 1. Generar archivos físicamente
+            $Factura = $this->invoiceSendGetData($id_fact_elctrnca);
+
+            // 2. Construir el asunto DIAN estándar
+            $asunto_dian_estandar = config('company.NIT') . ";" . config('company.EMPRESA') . ";" . $Factura['prfjo_dcmnto'] . $Factura['nro_dcmnto'];
+            $asunto_dian_estandar .= ';01;' . config('company.EMPRESA');
+            
+            $asunto_final = "[TEST BREVO] " . $asunto_dian_estandar;
+
+            // 3. Instanciar el evento manualmente (genera el ZIP y rutas)
+            $event = new InvoiceWasCreatedEvent($Factura);
+
+            // 4. Envío directo usando Mail Facade (usa .env/Brevo)
+            Mail::to($destinatario)->send(new InvoiceSendToCustomerMail(
+                $Factura,
+                $event->FilePdf,
+                $event->FileXml,
+                $event->PathPdf,
+                $event->PathXml,
+                $asunto_final,
+                $event->ZipPathFile,
+                $event->ZipFile
+            ));
+
+            return $this->Response(['destinatario' => $destinatario], 'Prueba de Brevo ejecutada con éxito. Verifique el correo del destinatario.');
+        } catch (\Exception $e) {
+            return $this->ResponseError('Error en la prueba de Brevo: ' . $e->getMessage(), 500);
+        }
+    }
 }
